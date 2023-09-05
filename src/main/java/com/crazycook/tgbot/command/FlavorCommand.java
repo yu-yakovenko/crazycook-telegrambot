@@ -7,32 +7,33 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.crazycook.tgbot.bot.Buttons.startButton;
 import static com.crazycook.tgbot.bot.Buttons.createOrderButton;
+import static com.crazycook.tgbot.bot.Buttons.startButton;
 import static com.crazycook.tgbot.Utils.getChatId;
 
-public class PriceCommand implements CrazyCookTGCommand {
-
+public class FlavorCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
 
-    public PriceCommand(SendBotMessageService sendBotMessageService) {
+    public final static String FLAVOR_MESSAGE = "Зараз в наявності є такі смаки: \n";
+
+    public FlavorCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
     }
-
-    public final static String PRICE_MESSAGE = """
-            Маємо в асортименті три типи боксів:\s
-            Бокс S містить 8 макаронів, 280 грн;\s
-            Бокс M містить 12 макаронів, 420 грн;\s
-            Бокс L містить 18 макаронів, 630 грн;""";
 
     @Override
     public void execute(Update update) {
         Long chatId = getChatId(update);
 
+        //todo get flavors from DB
+        List<String> flavors = List.of("Манго-маракуйя", "Шоколад-банан", "Космополітан", "Полуничне мохіто");
+        String message = flavors
+                .stream()
+                .reduce(FLAVOR_MESSAGE, (partialString, element) -> partialString + "- " + element + "; \n");
+
         List<InlineKeyboardButton> buttonRow = new ArrayList<>();
         buttonRow.add(startButton());
         buttonRow.add(createOrderButton());
 
-        sendBotMessageService.sendMessage(chatId, PRICE_MESSAGE, List.of(buttonRow));
+        sendBotMessageService.sendMessage(chatId, message, List.of(buttonRow));
     }
 }

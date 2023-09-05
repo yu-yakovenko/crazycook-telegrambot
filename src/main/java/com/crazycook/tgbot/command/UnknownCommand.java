@@ -3,7 +3,7 @@ package com.crazycook.tgbot.command;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import static com.crazycook.tgbot.Buttons.mainMenuButtons;
+import static com.crazycook.tgbot.bot.Buttons.mainMenuButtons;
 import static com.crazycook.tgbot.Utils.getChatId;
 
 public class UnknownCommand implements CrazyCookTGCommand {

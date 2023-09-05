@@ -1,6 +1,6 @@
 package com.crazycook.tgbot.service;
 
-import com.crazycook.tgbot.CrazyCookTelegramBot;
+import com.crazycook.tgbot.bot.CrazyCookTelegramBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

@@ -1,4 +1,4 @@
-package com.crazycook.tgbot;
+package com.crazycook.tgbot.bot;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.TelegramBotsApi;

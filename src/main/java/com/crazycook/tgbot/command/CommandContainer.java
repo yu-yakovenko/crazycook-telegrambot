@@ -14,6 +14,9 @@ public class CommandContainer {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService))
+                .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService))
+                .put(FLAVOR.getCommandName(), new FlavorCommand(sendBotMessageService))
+                .put(CHOOSE_BOX.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new StartCommand(sendBotMessageService))
                 .build();
 
@@ -21,8 +24,7 @@ public class CommandContainer {
     }
 
     public CrazyCookTGCommand findCommand(String commandIdentifier, String username) {
-        CrazyCookTGCommand orDefault = commandMap.getOrDefault(commandIdentifier, unknownCommand);
-        return orDefault;
+        return commandMap.getOrDefault(commandIdentifier, unknownCommand);
     }
 
 }
