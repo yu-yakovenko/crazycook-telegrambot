@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.logging.log4j.util.Strings.isBlank;
@@ -28,7 +29,7 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
 
     @Override
     public void sendMessage(Long chatId, String message) {
-        sendMessage(chatId, message, null);
+        sendMessage(chatId, message, Collections.emptyList());
     }
 
     @Override
@@ -46,10 +47,8 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
         sendMessage.enableHtml(true);
         sendMessage.setText(message);
 
-        if (buttons != null && !buttons.isEmpty()) {
-            keyboardMarkup.setKeyboard(buttons);
-            sendMessage.setReplyMarkup(keyboardMarkup);
-        }
+        keyboardMarkup.setKeyboard(buttons);
+        sendMessage.setReplyMarkup(keyboardMarkup);
 
         try {
             crazyCookTelegramBot.execute(sendMessage);

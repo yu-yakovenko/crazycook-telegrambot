@@ -1,6 +1,5 @@
 package com.crazycook.tgbot.bot;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -9,16 +8,16 @@ import java.util.List;
 
 public class Buttons {
 
-    public static final String CALLBACK_DATA_S = "/S";
-    public static final String CALLBACK_DATA_M = "/M";
-    public static final String CALLBACK_DATA_L = "/L";
+    public static final String CALLBACK_DATA_S = "/s";
+    public static final String CALLBACK_DATA_M = "/m";
+    public static final String CALLBACK_DATA_L = "/l";
     public static final String CALLBACK_DATA_PRICE = "/Price";
-    public static final String CALLBACK_DATA_MENU = "/Flavor";
-    public static final String CALLBACK_DATA_ORDER = "/Order";
-    public static final String CALLBACK_DATA_MESSAGE = "/Message";
-    public static final String CALLBACK_DATA_START = "/Start";
+    public static final String CALLBACK_DATA_MENU = "/flavor";
+    public static final String CALLBACK_DATA_ORDER = "/order";
+    public static final String CALLBACK_DATA_MESSAGE = "/message";
+    public static final String CALLBACK_DATA_START = "/start";
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
-    public static final String CALLBACK_DATA_REFRESH = "/Refresh";
+    public static final String CALLBACK_DATA_REFRESH = "/refresh";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
@@ -32,14 +31,14 @@ public class Buttons {
     public static InlineKeyboardButton mButton() {
         InlineKeyboardButton yesButton = new InlineKeyboardButton();
         yesButton.setText("M 12 штук");
-        yesButton.setCallbackData(CALLBACK_DATA_S);
+        yesButton.setCallbackData(CALLBACK_DATA_M);
         return yesButton;
     }
 
     public static InlineKeyboardButton lButton() {
         InlineKeyboardButton yesButton = new InlineKeyboardButton();
         yesButton.setText("L 18 штук");
-        yesButton.setCallbackData(CALLBACK_DATA_S);
+        yesButton.setCallbackData(CALLBACK_DATA_L);
         return yesButton;
     }
 
@@ -69,22 +68,6 @@ public class Buttons {
         yesButton.setText("Замовити бокс");
         yesButton.setCallbackData(CALLBACK_DATA_CHOOSE_BOX);
         return yesButton;
-    }
-
-    public static void respondToOrderButton(SendMessage sendMessage, List<List<InlineKeyboardButton>> buttons) {
-        sendMessage.setText("Вибери розмір боксу: \n");
-        List<InlineKeyboardButton> buttonRow = new ArrayList<>();
-        buttonRow.add(sButton());
-        buttonRow.add(mButton());
-        buttonRow.add(lButton());
-        buttons.add(buttonRow);
-
-        keyboardMarkup.setKeyboard(buttons);
-        sendMessage.setReplyMarkup(keyboardMarkup);
-    }
-
-    public static void respondToSMLButton(SendMessage sendMessage, List<List<InlineKeyboardButton>> buttons) {
-        sendMessage.setText("Напиши цифрою скільки таких боксів ти хочеш? \n");
     }
 
     public static InlineKeyboardButton messageButton() {

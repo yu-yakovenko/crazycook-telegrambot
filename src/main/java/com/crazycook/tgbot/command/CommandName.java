@@ -2,9 +2,9 @@ package com.crazycook.tgbot.command;
 
 public enum CommandName {
 
-    S("/s"),
-    M("/m"),
-    L("/l"),
+    CHOOSE_S("/s"),
+    CHOOSE_M("/m"),
+    CHOOSE_L("/l"),
     PRICE("/price"),
     CHOOSE_BOX("/choose_box"),
     FLAVOR("/flavor"),
