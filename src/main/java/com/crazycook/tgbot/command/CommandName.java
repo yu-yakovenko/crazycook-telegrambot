@@ -12,6 +12,10 @@ public enum CommandName {
     MESSAGE("/message"),
     START("/start"),
     UNKNOWN_COMMAND("/unknown_command"),
+    BOX_NUMBER_COMMAND("BoxNumberCommand"),
+    ADD_MORE_BOXES("/add_more_boxes"),
+    CHOOSE_FLAVORS("/choose_flavors"),
+    SHOW_CART("/show_cart"),
     REFRESH("/refresh");
 
     private final String commandName;

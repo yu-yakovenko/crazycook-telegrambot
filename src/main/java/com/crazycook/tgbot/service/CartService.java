@@ -1,5 +1,6 @@
 package com.crazycook.tgbot.service;
 
+import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.CartStatus;
@@ -7,14 +8,24 @@ import com.crazycook.tgbot.entity.Customer;
 import com.crazycook.tgbot.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class CartService {
 
     private final CartRepository cartRepository;
     private final CustomerService customerService;
+
+    public Cart findCart(Long chatId) {
+        return cartRepository.findByCustomer(customerService.createOrFind(chatId));
+    }
 
     public Cart createOrFind(Long chatId) {
         return createOrFind(customerService.createOrFind(chatId));
@@ -69,5 +80,16 @@ public class CartService {
 
     private boolean checkL(Cart cart) {
         return cart.getMNumber() == cart.getBoxes().stream().filter(box -> BoxSize.L.equals(box.getBoxSize())).count();
+    }
+
+    public List<Box> getBoxesForCart(Long id) {
+        Optional<Cart> optCart = cartRepository.findById(id);
+        if (optCart.isPresent()) {
+            Cart cart = optCart.get();
+            cart.getBoxes().size(); // the only way to avoid LazyInitializationException
+            return cart.getBoxes();
+        } else {
+            return Collections.emptyList();
+        }
     }
 }

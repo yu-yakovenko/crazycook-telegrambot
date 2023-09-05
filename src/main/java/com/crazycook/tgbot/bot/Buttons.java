@@ -15,6 +15,9 @@ public class Buttons {
     public static final String CALLBACK_DATA_MENU = "/flavor";
     public static final String CALLBACK_DATA_ORDER = "/order";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
+    public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
+    public static final String CALLBACK_DATA_CHOOSE_FLAVORS = "/choose_flavors";
+    public static final String CALLBACK_DATA_SHOW_CART = "/show_cart";
     public static final String CALLBACK_DATA_START = "/start";
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
@@ -77,6 +80,27 @@ public class Buttons {
         return yesButton;
     }
 
+    public static InlineKeyboardButton addMoreButton() {
+        InlineKeyboardButton yesButton = new InlineKeyboardButton();
+        yesButton.setText("Додати бокси іншого розміру, або змінити кількість");
+        yesButton.setCallbackData(CALLBACK_DATA_ADD_MORE_BOXES);
+        return yesButton;
+    }
+
+    public static InlineKeyboardButton chooseFlavorsButton() {
+        InlineKeyboardButton yesButton = new InlineKeyboardButton();
+        yesButton.setText("Це всі бокси, переходимо до вибору смаків");
+        yesButton.setCallbackData(CALLBACK_DATA_CHOOSE_FLAVORS);
+        return yesButton;
+    }
+
+    public static InlineKeyboardButton showCartButton() {
+        InlineKeyboardButton yesButton = new InlineKeyboardButton();
+        yesButton.setText("Поркажи, що зараз знаходиться в моїй корзині");
+        yesButton.setCallbackData(CALLBACK_DATA_SHOW_CART);
+        return yesButton;
+    }
+
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
@@ -87,5 +111,11 @@ public class Buttons {
         return List.of(buttonRow1, buttonRow2);
     }
 
+    public static List<List<InlineKeyboardButton>> cartInProgressButtons() {
+        List<InlineKeyboardButton> buttonRow1 = List.of(addMoreButton());
+        List<InlineKeyboardButton> buttonRow2 = List.of(chooseFlavorsButton());
+        List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton());
+        return List.of(buttonRow1, buttonRow2, buttonRow3);
+    }
 
 }
