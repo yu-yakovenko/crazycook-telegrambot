@@ -9,7 +9,7 @@ import static com.crazycook.tgbot.Utils.getChatId;
 public class StartCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
 
-    public final static String START_MESSAGE = "Привіт, раді тебе вітати в нашому чат-боті для замовлення макарон. Ось головне меню, обери, що тебе цікавить";
+    public final static String START_MESSAGE = "Привіт \uD83D\uDC4B, раді тебе вітати в нашому чат-боті для замовлення макарон. Ось головне меню, обери, що тебе цікавить: ";
 
     public StartCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

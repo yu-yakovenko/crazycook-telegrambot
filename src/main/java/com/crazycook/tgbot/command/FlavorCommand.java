@@ -14,7 +14,7 @@ import static com.crazycook.tgbot.Utils.getChatId;
 public class FlavorCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
 
-    public final static String FLAVOR_MESSAGE = "Зараз в наявності є такі смаки: \n";
+    public final static String FLAVOR_MESSAGE = "<b>Зараз в наявності є такі смаки: </b>\n";
 
     public FlavorCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -28,7 +28,7 @@ public class FlavorCommand implements CrazyCookTGCommand {
         List<String> flavors = List.of("Манго-маракуйя", "Шоколад-банан", "Космополітан", "Полуничне мохіто");
         String message = flavors
                 .stream()
-                .reduce(FLAVOR_MESSAGE, (partialString, element) -> partialString + "- " + element + "; \n");
+                .reduce(FLAVOR_MESSAGE, (partialString, element) -> partialString + "\uD83D\uDD38 " + element + "; \n");
 
         List<InlineKeyboardButton> buttonRow = new ArrayList<>();
         buttonRow.add(startButton());

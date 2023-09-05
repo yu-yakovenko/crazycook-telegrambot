@@ -17,6 +17,7 @@ public class UnknownCommand implements CrazyCookTGCommand {
 
     @Override
     public void execute(Update update) {
+        // todo check if user has an order in box_number_waiting status
         sendBotMessageService.sendMessage(getChatId(update), UNKNOWN_MESSAGE, mainMenuButtons());
     }
 }
