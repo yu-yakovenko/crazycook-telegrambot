@@ -6,6 +6,7 @@ import com.crazycook.tgbot.command.CommandContainer;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
+import com.crazycook.tgbot.service.FlavorService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -29,11 +30,12 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
     private final CommandContainer commandContainer;
     private final CartService cartService;
 
-    public CrazyCookTelegramBot(AppProperty property, CartService cartService, CustomerService customerService) {
+    public CrazyCookTelegramBot(AppProperty property, CartService cartService, CustomerService customerService,
+                                FlavorService flavorService) {
         this.property = property;
         this.cartService = cartService;
         sendBotMessageService = new SendBotMessageService(this);
-        commandContainer = new CommandContainer(sendBotMessageService, cartService, customerService);
+        commandContainer = new CommandContainer(sendBotMessageService, cartService, customerService, flavorService);
     }
 
     @Override

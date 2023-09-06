@@ -2,6 +2,7 @@ package com.crazycook.tgbot.command;
 
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
+import com.crazycook.tgbot.service.FlavorService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
@@ -22,12 +23,12 @@ public class CommandContainer {
     private final CrazyCookTGCommand unknownCommand;
 
     public CommandContainer(SendBotMessageService sendBotMessageService, CartService cartService,
-                            CustomerService customerService) {
+                            CustomerService customerService, FlavorService flavorService) {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
                 .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService))
-                .put(FLAVOR.getCommandName(), new FlavorCommand(sendBotMessageService))
+                .put(FLAVOR.getCommandName(), new FlavorCommand(sendBotMessageService, flavorService))
                 .put(CHOOSE_BOX.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
                 .put(ADD_MORE_BOXES.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
                 .put(CHOOSE_S.getCommandName(), new ChooseSCommand(sendBotMessageService, cartService))

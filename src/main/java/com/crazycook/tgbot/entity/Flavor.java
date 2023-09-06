@@ -2,6 +2,7 @@ package com.crazycook.tgbot.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,4 +17,7 @@ public class Flavor {
     private Long id;
 
     private String name;
+
+    @Column(name = "is_in_stock")
+    private Boolean isInStock;
 }
