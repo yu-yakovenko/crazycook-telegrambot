@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableMap;
 import static com.crazycook.tgbot.command.CommandName.ADD_MORE_BOXES;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_BOX;
+import static com.crazycook.tgbot.command.CommandName.CHOOSE_FLAVORS;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_L;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_M;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_S;
@@ -36,6 +37,7 @@ public class CommandContainer {
                 .put(CHOOSE_L.getCommandName(), new ChooseLCommand(sendBotMessageService, cartService))
                 .put(BOX_NUMBER_COMMAND.getCommandName(), new BoxNumberCommand(sendBotMessageService, cartService))
                 .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService))
+                .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 

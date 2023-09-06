@@ -15,8 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -44,11 +44,19 @@ public class Cart {
     private int lNumber = 0;
 
     @OneToOne
+    @JoinColumn(name = "box_in_progress_id", referencedColumnName = "id")
+    private Box boxInProgress;
+
+    @OneToOne
+    @JoinColumn(name = "current_flavor_id", referencedColumnName = "id")
+    private Flavor currentFlavor;
+
+    @OneToOne
     @JoinColumn(name = "customer_chat_id", referencedColumnName = "chatId")
     private Customer customer;
 
     @Builder.Default
     @OneToMany(mappedBy = "cart")
-    private List<Box> boxes = new ArrayList<>();
+    private Set<Box> boxes = new HashSet<>();
 
 }

@@ -12,7 +12,8 @@ public class Buttons {
     public static final String CALLBACK_DATA_M = "/m";
     public static final String CALLBACK_DATA_L = "/l";
     public static final String CALLBACK_DATA_PRICE = "/Price";
-    public static final String CALLBACK_DATA_MENU = "/flavor";
+    public static final String CALLBACK_DATA_FLAVOR = "/flavor";
+    public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
     public static final String CALLBACK_DATA_ORDER = "/order";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
@@ -24,88 +25,66 @@ public class Buttons {
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
+    private static InlineKeyboardButton createButton(String text, String callbackData) {
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText(text);
+        inlineKeyboardButton.setCallbackData(callbackData);
+        return inlineKeyboardButton;
+    }
+
     public static InlineKeyboardButton sButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("S 8 штук");
-        yesButton.setCallbackData(CALLBACK_DATA_S);
-        return yesButton;
+        return createButton("S 8 штук", CALLBACK_DATA_S);
     }
 
     public static InlineKeyboardButton mButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("M 12 штук");
-        yesButton.setCallbackData(CALLBACK_DATA_M);
-        return yesButton;
+        return createButton("M 12 штук", CALLBACK_DATA_M);
     }
 
     public static InlineKeyboardButton lButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("L 18 штук");
-        yesButton.setCallbackData(CALLBACK_DATA_L);
-        return yesButton;
+        return createButton("L 18 штук", CALLBACK_DATA_L);
     }
 
     public static InlineKeyboardButton startButton() {
-        InlineKeyboardButton startButton = new InlineKeyboardButton();
-        startButton.setText("Головне меню");
-        startButton.setCallbackData(CALLBACK_DATA_START);
-        return startButton;
+        return createButton("Головне меню", CALLBACK_DATA_START);
     }
 
     public static InlineKeyboardButton priceButton() {
-        InlineKeyboardButton priceButton = new InlineKeyboardButton();
-        priceButton.setText("Бокси і ціни");
-        priceButton.setCallbackData(CALLBACK_DATA_PRICE);
-        return priceButton;
+        return createButton("Бокси і ціни", CALLBACK_DATA_PRICE);
     }
 
-    public static InlineKeyboardButton menuButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Смаки в наявності");
-        yesButton.setCallbackData(CALLBACK_DATA_MENU);
-        return yesButton;
+    public static InlineKeyboardButton flavorsButton() {
+        return createButton("Смаки в наявності", CALLBACK_DATA_FLAVOR);
     }
 
     public static InlineKeyboardButton createOrderButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Замовити бокс");
-        yesButton.setCallbackData(CALLBACK_DATA_CHOOSE_BOX);
-        return yesButton;
+        return createButton("Замовити бокс", CALLBACK_DATA_CHOOSE_BOX);
     }
 
     public static InlineKeyboardButton messageButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Написати нам повідомлення");
-        yesButton.setCallbackData(CALLBACK_DATA_MESSAGE);
-        return yesButton;
+        return createButton("Написати нам повідомлення", CALLBACK_DATA_MESSAGE);
     }
 
     public static InlineKeyboardButton addMoreButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Додати бокси іншого розміру, або змінити кількість");
-        yesButton.setCallbackData(CALLBACK_DATA_ADD_MORE_BOXES);
-        return yesButton;
+        return createButton("Додати бокси іншого розміру, або змінити кількість", CALLBACK_DATA_ADD_MORE_BOXES);
     }
 
     public static InlineKeyboardButton chooseFlavorsButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Це всі бокси, переходимо до вибору смаків");
-        yesButton.setCallbackData(CALLBACK_DATA_CHOOSE_FLAVORS);
-        return yesButton;
+        return createButton("Це всі бокси, переходимо до вибору смаків", CALLBACK_DATA_CHOOSE_FLAVORS);
     }
 
     public static InlineKeyboardButton showCartButton() {
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Поркажи, що зараз знаходиться в моїй корзині");
-        yesButton.setCallbackData(CALLBACK_DATA_SHOW_CART);
-        return yesButton;
+        return createButton("Поркажи, що зараз знаходиться в моїй корзині", CALLBACK_DATA_SHOW_CART);
+    }
+
+    public static InlineKeyboardButton flavorIdButton(String name, Long id) {
+        return createButton(name, CALLBACK_DATA_FLAVOR_ID + " /" + id);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
         buttonRow2.add(priceButton());
-        buttonRow1.add(menuButton());
+        buttonRow1.add(flavorsButton());
         buttonRow1.add(createOrderButton());
         buttonRow2.add(messageButton());
         return List.of(buttonRow1, buttonRow2);

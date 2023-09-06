@@ -19,4 +19,8 @@ public class FlavorService {
                 .map(Flavor::getName)
                 .collect(Collectors.toSet());
     }
+
+    public Set<Flavor> getAllInStock() {
+        return flavorRepository.getByIsInStock(true);
+    }
 }

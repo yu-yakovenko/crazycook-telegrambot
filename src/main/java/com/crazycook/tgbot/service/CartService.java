@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -82,14 +82,14 @@ public class CartService {
         return cart.getMNumber() == cart.getBoxes().stream().filter(box -> BoxSize.L.equals(box.getBoxSize())).count();
     }
 
-    public List<Box> getBoxesForCart(Long id) {
+    public Set<Box> getBoxesForCart(Long id) {
         Optional<Cart> optCart = cartRepository.findById(id);
         if (optCart.isPresent()) {
             Cart cart = optCart.get();
             cart.getBoxes().size(); // the only way to avoid LazyInitializationException
             return cart.getBoxes();
         } else {
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 }

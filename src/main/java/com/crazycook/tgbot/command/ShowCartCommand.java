@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.List;
+import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.bot.Buttons.cartInProgressButtons;
@@ -27,7 +27,7 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         Cart cart = cartService.findCart(chatId);
 
         String message = MESSAGE;
-        List<Box> boxes = cartService.getBoxesForCart(cart.getId());
+        Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
 
         if (boxes.isEmpty()) {
             if (cart.getSNumber() > 0) {
