@@ -8,6 +8,8 @@ public enum CommandName {
     PRICE("/price"),
     CHOOSE_BOX("/choose_box"),
     FLAVOR("/flavor"),
+    FLAVOR_ID("/flavor_id"),
+    MIX_FLAVOR("/mix_flavor"),
     ORDER("/order"),
     MESSAGE("/message"),
     START("/start"),

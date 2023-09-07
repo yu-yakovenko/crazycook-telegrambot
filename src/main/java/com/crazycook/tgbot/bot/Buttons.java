@@ -14,6 +14,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_PRICE = "/Price";
     public static final String CALLBACK_DATA_FLAVOR = "/flavor";
     public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
+    public static final String CALLBACK_DATA_MIX_FLAVOR = "/mix_flavor";
     public static final String CALLBACK_DATA_ORDER = "/order";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
@@ -77,7 +78,11 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id) {
-        return createButton(name, CALLBACK_DATA_FLAVOR_ID + " /" + id);
+        return createButton(name, CALLBACK_DATA_FLAVOR_ID + " " + id);
+    }
+
+    public static InlineKeyboardButton mixFlavorButton() {
+        return createButton("Зберіть мені мікс.", CALLBACK_DATA_SHOW_CART);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {

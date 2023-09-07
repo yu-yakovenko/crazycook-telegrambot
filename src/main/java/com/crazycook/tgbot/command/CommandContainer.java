@@ -1,5 +1,6 @@
 package com.crazycook.tgbot.command;
 
+import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
 import com.crazycook.tgbot.service.FlavorService;
@@ -14,6 +15,7 @@ import static com.crazycook.tgbot.command.CommandName.CHOOSE_L;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_M;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_S;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.FLAVOR_ID;
 import static com.crazycook.tgbot.command.CommandName.PRICE;
 import static com.crazycook.tgbot.command.CommandName.SHOW_CART;
 import static com.crazycook.tgbot.command.CommandName.START;
@@ -24,7 +26,7 @@ public class CommandContainer {
     private final CrazyCookTGCommand unknownCommand;
 
     public CommandContainer(SendBotMessageService sendBotMessageService, CartService cartService,
-                            CustomerService customerService, FlavorService flavorService) {
+                            CustomerService customerService, FlavorService flavorService, BoxService boxService) {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
@@ -37,7 +39,8 @@ public class CommandContainer {
                 .put(CHOOSE_L.getCommandName(), new ChooseLCommand(sendBotMessageService, cartService))
                 .put(BOX_NUMBER_COMMAND.getCommandName(), new BoxNumberCommand(sendBotMessageService, cartService))
                 .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService))
-                .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService))
+                .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))
+                .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 
