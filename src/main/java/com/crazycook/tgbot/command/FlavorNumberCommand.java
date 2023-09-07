@@ -16,12 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
+import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
+import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_APPROVE;
 
 @AllArgsConstructor
@@ -33,7 +37,10 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
     private final FlavorQuantityService flavorQuantityService;
 
     public final static String BOX_OVERFLOW = "Упс, схоже що в цей бокс ще %s макарончиків не влізе.\n";
-    public static final String MESSAGE = "Ми додали %d макарон зі смаком %s в %d-й %s бокс. Ще можна додати %d макарон. Обери наступний смак:";
+    public static final String MESSAGE = "Ми додали %d макарон зі смаком %s в %d-й %s бокс. ";
+    public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
+    public static final String CART_COMPLETE = "Корзина сформована повністю.";
+    public static final String BOX_COMPLETE = "Бокс заповнено.";
 
     @Override
     @Transactional
@@ -56,12 +63,15 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
 
         int boxIndex = cartService.findCurrentBoxIndex(cart, boxSize);
 
+        boolean moreFlavorsPossible = true;
+        boolean moreBoxesPossible = cartService.isMoreBoxesPossible(cart);
+
         if (vacantNumber < number) {
             message += String.format(BOX_OVERFLOW, number);
             number = vacantNumber;
-            cartService.completeBoxInProgress(cart);
+            moreFlavorsPossible = false;
         } else if (vacantNumber == number) {
-            cartService.completeBoxInProgress(cart);
+            moreFlavorsPossible = false;
         }
 
         addFlavorToFlavorQuantities(flavor, number, flavorQuantities, boxInProgress);
@@ -72,12 +82,29 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
         cart.setBoxInProgress(boxService.save(boxInProgress));
         cartService.save(cart);
 
+        if (!moreFlavorsPossible) {
+            cartService.completeBoxInProgress(cart);
+        }
 
-        message += String.format(MESSAGE, number, flavor.getName(), boxIndex, boxSize.name(), vacantNumber - number);
+        message += String.format(MESSAGE, number, flavor.getName(), boxIndex, boxSize.name());
 
-        List<List<InlineKeyboardButton>> flavorButtons = generateFlavorButtons(flavorService.getAllInStock().stream().toList());
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        if (moreFlavorsPossible) {
+            message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber - number);
+            buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList());
+        } else if (moreBoxesPossible) {
+            //Показати повідомлення що бокс повныстю заповнено
+            message += BOX_COMPLETE;
+            //Показати кнопу "перейти до заповнення нового боксу"
+            buttons = List.of(List.of(nextBoxButton()));
+        } else {
+            //Показати повідомлення про те, що корзина повністю заповнена і очікує на підтвердження
+            message += CART_COMPLETE;
+            //Показати кнопки "показати що в корзині" та "підтвердити замовлення"
+            buttons = List.of(List.of(showCartButton()), List.of(chooseDeliveryButton()));
+        }
 
-        sendBotMessageService.sendMessage(chatId, message, flavorButtons);
+        sendBotMessageService.sendMessage(chatId, message, buttons);
     }
 
     private void addFlavorToFlavorQuantities(Flavor flavor, int number, List<FlavorQuantity> flavorQuantities, Box box) {

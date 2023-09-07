@@ -21,8 +21,10 @@ public class Buttons {
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
     public static final String CALLBACK_DATA_CHOOSE_FLAVORS = "/choose_flavors";
     public static final String CALLBACK_DATA_SHOW_CART = "/show_cart";
+    public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
     public static final String CALLBACK_DATA_START = "/start";
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
+    public static final String CALLBACK_DATA_CHOOSE_DELIVERY = "/choose_delivery";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
@@ -84,6 +86,14 @@ public class Buttons {
 
     public static InlineKeyboardButton mixFlavorButton() {
         return createButton("Зберіть мені мікс.", CALLBACK_DATA_SHOW_CART);
+    }
+
+    public static InlineKeyboardButton nextBoxButton() {
+        return createButton("Перейти до заповнення наступного боксу", CALLBACK_DATA_CHOOSE_FLAVORS);
+    }
+
+    public static InlineKeyboardButton chooseDeliveryButton() {
+        return createButton("Перейти до вибору способу доставки", CALLBACK_DATA_CHOOSE_DELIVERY);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {

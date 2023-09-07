@@ -43,8 +43,8 @@ public class CartService {
         return cart;
     }
 
-    public void save(Cart cart) {
-        cartRepository.save(cart);
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
     }
 
     public boolean checkBoxQuantities(Cart cart) {
@@ -86,10 +86,17 @@ public class CartService {
         return (int) thisSizeBoxesNumber;
     }
 
-    public void completeBoxInProgress(Cart cart) {
+    public boolean isMoreBoxesPossible(Cart cart) {
+        int allBoxesNumber = cart.getSNumber() + cart.getMNumber() + cart.getLNumber();
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        return allBoxesNumber > boxes.size();
+    }
+
+    public Cart completeBoxInProgress(Cart cart) {
         Set<Box> boxes = getBoxesForCart(cart.getId());
         boxes.add(cart.getBoxInProgress());
         cart.setBoxes(boxes);
         cart.setBoxInProgress(null);
+        return save(cart);
     }
 }
