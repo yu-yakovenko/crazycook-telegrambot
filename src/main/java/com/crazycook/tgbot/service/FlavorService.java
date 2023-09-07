@@ -31,4 +31,12 @@ public class FlavorService {
         flavor.getName(); // the only way to avoid could not initialize proxy - no Session
         return flavor;
     }
+
+    public Flavor copy(Flavor f) {
+        return Flavor.builder()
+                .id(f.getId())
+                .name(f.getName())
+                .isInStock(f.getIsInStock())
+                .build();
+    }
 }

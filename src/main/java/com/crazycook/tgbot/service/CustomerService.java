@@ -28,10 +28,6 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer createOrFind(Long chatId) {
-        return createOrFind(chatId, null);
-    }
-
     public Customer createOrFind(Long chatId, String username) {
         Customer customer = getCustomerById(chatId);
         if (customer == null) {

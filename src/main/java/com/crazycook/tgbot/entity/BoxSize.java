@@ -2,13 +2,13 @@ package com.crazycook.tgbot.entity;
 
 public enum BoxSize {
     S(8), M(12), L(18);
-    private Integer flavorNumber;
+    private Integer capacity;
 
-    BoxSize(Integer flavorNumber) {
-        this.flavorNumber = flavorNumber;
+    BoxSize(Integer capacity) {
+        this.capacity = capacity;
     }
 
-    public Integer getFlavorNumber() {
-        return flavorNumber;
+    public Integer getCapacity() {
+        return capacity;
     }
 }

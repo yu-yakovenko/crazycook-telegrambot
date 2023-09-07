@@ -22,13 +22,14 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final CustomerService customerService;
+    private final BoxService boxService;
 
-    public Cart findCart(Long chatId) {
-        return cartRepository.findByCustomer(customerService.createOrFind(chatId));
+    public Cart findCart(Long chatId, String username) {
+        return cartRepository.findByCustomer(customerService.createOrFind(chatId, username));
     }
 
-    public Cart createOrFind(Long chatId) {
-        return createOrFind(customerService.createOrFind(chatId));
+    public Cart createOrFind(Long chatId, String username) {
+        return createOrFind(customerService.createOrFind(chatId, username));
     }
 
     public Cart createOrFind(Customer customer) {
@@ -50,46 +51,45 @@ public class CartService {
         if (cart == null) {
             return false;
         }
-        return checkS(cart) && checkM(cart) && checkL(cart);
+        return checkBoxesQuantities(cart, cart.getSNumber(), BoxSize.S)
+                && checkBoxesQuantities(cart, cart.getSNumber(), BoxSize.M)
+                && checkBoxesQuantities(cart, cart.getSNumber(), BoxSize.L);
     }
 
-    public boolean checkFlavorQuantities(Cart cart) {
-        if (cart == null) {
-            return false;
-        }
-        return checkFlavorSize(cart, BoxSize.S)
-                && checkFlavorSize(cart, BoxSize.M)
-                && checkFlavorSize(cart, BoxSize.L);
+    private boolean checkBoxesQuantities(Cart cart, int sizeNumber, BoxSize boxSize) {
+        return sizeNumber == cart.getBoxes().stream().filter(box -> boxSize.equals(box.getBoxSize())).count();
     }
 
-    private boolean checkFlavorSize(Cart cart, BoxSize boxSize) {
-        return cart.getBoxes()
-                .stream()
-                .filter(box -> boxSize.equals(box.getBoxSize()))
-                .map(box -> box.getFlavors().size())
-                .allMatch(size -> boxSize.getFlavorNumber().equals(size));
-    }
-
-    private boolean checkS(Cart cart) {
-        return cart.getSNumber() == cart.getBoxes().stream().filter(box -> BoxSize.S.equals(box.getBoxSize())).count();
-    }
-
-    private boolean checkM(Cart cart) {
-        return cart.getMNumber() == cart.getBoxes().stream().filter(box -> BoxSize.M.equals(box.getBoxSize())).count();
-    }
-
-    private boolean checkL(Cart cart) {
-        return cart.getMNumber() == cart.getBoxes().stream().filter(box -> BoxSize.L.equals(box.getBoxSize())).count();
-    }
 
     public Set<Box> getBoxesForCart(Long id) {
-        Optional<Cart> optCart = cartRepository.findById(id);
+        Optional<Cart> optCart = cartRepository.findByIdWithBoxes(id);
         if (optCart.isPresent()) {
             Cart cart = optCart.get();
-            cart.getBoxes().size(); // the only way to avoid LazyInitializationException
             return cart.getBoxes();
         } else {
             return Collections.emptySet();
         }
+    }
+
+    public void createNewBoxInProgress(Cart cart, BoxSize nextBoxSize) {
+        Box newBox = Box.builder()
+                .boxSize(nextBoxSize)
+                .cart(cart)
+                .build();
+        cart.setBoxInProgress(boxService.save(newBox));
+        save(cart);
+    }
+
+    public int findCurrentBoxIndex(Cart cart, BoxSize boxSize) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        long thisSizeBoxesNumber = boxes.stream().filter(b -> boxSize.equals(b.getBoxSize())).count();
+        return (int) thisSizeBoxesNumber;
+    }
+
+    public void completeBoxInProgress(Cart cart) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        boxes.add(cart.getBoxInProgress());
+        cart.setBoxes(boxes);
+        cart.setBoxInProgress(null);
     }
 }

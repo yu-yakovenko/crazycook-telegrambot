@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
+import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.cartInProgressButtons;
 
 @AllArgsConstructor
@@ -24,7 +25,8 @@ public class ShowCartCommand implements CrazyCookTGCommand {
     @Transactional
     public void execute(Update update) {
         Long chatId = getChatId(update);
-        Cart cart = cartService.findCart(chatId);
+        String username = getUserName(update);
+        Cart cart = cartService.findCart(chatId, username);
 
         String message = MESSAGE;
         Set<Box> boxes = cartService.getBoxesForCart(cart.getId());

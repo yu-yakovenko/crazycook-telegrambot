@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
+import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_FLAVOR_NUMBER;
 
 @AllArgsConstructor
@@ -25,8 +26,9 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
     @Transactional
     public void execute(Update update) {
         Long chatId = getChatId(update);
+        String username = getUserName(update);
         String message = Utils.getMessage(update);
-        Cart cart = cartService.createOrFind(chatId);
+        Cart cart = cartService.createOrFind(chatId, username);
         String flavorId = message.split(" ")[1].toLowerCase();
 
         Flavor flavor = flavorService.getById(flavorId);

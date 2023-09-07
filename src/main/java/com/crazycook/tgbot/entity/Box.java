@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -29,7 +30,7 @@ public class Box {
 
     @Builder.Default
     @OneToMany
-    private List<Flavor> flavors = new ArrayList<>();
+    private List<FlavorQuantity> flavorQuantities = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private BoxSize boxSize;
@@ -41,4 +42,9 @@ public class Box {
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, flavorQuantities, boxSize);
+    }
 }

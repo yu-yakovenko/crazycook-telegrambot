@@ -1,5 +1,6 @@
 package com.crazycook.tgbot.bot;
 
+import com.crazycook.tgbot.entity.Flavor;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -102,4 +103,28 @@ public class Buttons {
         return List.of(buttonRow1, buttonRow2, buttonRow3);
     }
 
+    public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors) {
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        int rowsNumber = flavors.size() % 3 + 1;
+        int flavorIndex = 0;
+        for (int i = 0; i < rowsNumber; i++) {
+            List<InlineKeyboardButton> buttonRow = new ArrayList<>();
+
+            for (int j = 0; j < 3 && flavorIndex < flavors.size(); j++, flavorIndex++) {
+                Flavor flavor = flavors.get(flavorIndex);
+                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId()));
+            }
+
+            buttons.add(buttonRow);
+        }
+        return buttons;
+    }
+
+    public static void addButton(List<List<InlineKeyboardButton>> buttons, int maxButtonsInRow, InlineKeyboardButton newButton) {
+        if (buttons.get(buttons.size() - 1).size() < maxButtonsInRow) {
+            buttons.get(buttons.size() - 1).add(newButton);
+        } else {
+            buttons.add(List.of(newButton));
+        }
+    }
 }

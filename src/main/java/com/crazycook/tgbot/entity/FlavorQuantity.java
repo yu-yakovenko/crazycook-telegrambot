@@ -5,25 +5,31 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Flavor {
+public class FlavorQuantity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "box_id")
+    private Box box;
 
-    @Column(name = "is_in_stock")
-    private Boolean isInStock;
+    @ManyToOne
+    @JoinColumn(name = "flavor_id")
+    private Flavor flavor;
+
+    private Integer quantity;
 }
