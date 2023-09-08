@@ -15,6 +15,7 @@ import static com.crazycook.tgbot.command.CommandName.CHOOSE_FLAVORS;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_L;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_M;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_S;
+import static com.crazycook.tgbot.command.CommandName.DELIVERY;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_ID;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
@@ -36,6 +37,7 @@ public class CommandContainer {
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
                 .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService))
                 .put(FLAVOR.getCommandName(), new FlavorCommand(sendBotMessageService, flavorService))
+                .put(DELIVERY.getCommandName(), new DeliveryCommand(sendBotMessageService))
                 .put(CHOOSE_BOX.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
                 .put(ADD_MORE_BOXES.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
                 .put(CHOOSE_S.getCommandName(), new ChooseSCommand(sendBotMessageService, cartService))

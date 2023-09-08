@@ -6,6 +6,7 @@ public enum CommandName {
     ORDER("/order"),
     MESSAGE("/message"),
     START("/start"),
+    DELIVERY("/delivery"),
     SHOW_CART("/show_cart"),
     REFRESH("/refresh"),
 

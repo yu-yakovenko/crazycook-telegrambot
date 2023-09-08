@@ -25,6 +25,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
     public static final String CALLBACK_DATA_START = "/start";
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
+    public static final String CALLBACK_DATA_DELIVERY = "/delivery";
     public static final String CALLBACK_DATA_CHOOSE_DELIVERY = "/choose_delivery";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
@@ -66,7 +67,11 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton messageButton() {
-        return createButton("Написати нам повідомлення", CALLBACK_DATA_MESSAGE);
+        return createButton("Написати повідомлення менеджеру", CALLBACK_DATA_MESSAGE);
+    }
+
+    public static InlineKeyboardButton deliveryButton() {
+        return createButton("Способи доставки", CALLBACK_DATA_DELIVERY);
     }
 
     public static InlineKeyboardButton addMoreButton() {
@@ -104,11 +109,14 @@ public class Buttons {
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow3 = new ArrayList<>();
         buttonRow2.add(priceButton());
         buttonRow1.add(flavorsButton());
         buttonRow1.add(createOrderButton());
-        buttonRow2.add(messageButton());
-        return List.of(buttonRow1, buttonRow2);
+        buttonRow2.add(deliveryButton());
+        buttonRow3.add(messageButton());
+
+        return List.of(buttonRow1, buttonRow2, buttonRow3);
     }
 
     public static List<List<InlineKeyboardButton>> cartInProgressButtons() {
