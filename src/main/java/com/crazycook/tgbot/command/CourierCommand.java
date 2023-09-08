@@ -16,7 +16,7 @@ public class CourierCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
 
-    public static final String REQUEST_CONTACT = "Ваш спосіб доставки: курьєром. \n Будь ласка поділіться своїм контактом, щоб ми могли звязатися з вами для уточнення деталей доставки";
+    public static final String REQUEST_CONTACT = "Будь ласка поділіться своїм контактом, щоб ми могли звязатися з вами для уточнення деталей доставки";
 
     @Override
     public void execute(Update update) {

@@ -38,6 +38,8 @@ public class MixCommand implements CrazyCookTGCommand {
         Box box = cart.getBoxInProgress();
         box.setIsMix(true);
         boxService.save(box);
+        cart.setBoxInProgress(null);
+        cartService.save(cart);
         boolean moreBoxesPossible = cartService.isMoreBoxesPossible(cart);
 
         String message = BOX_COMPLETE;
