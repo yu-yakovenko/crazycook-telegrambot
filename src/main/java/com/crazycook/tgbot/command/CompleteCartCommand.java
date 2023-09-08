@@ -3,6 +3,7 @@ package com.crazycook.tgbot.command;
 import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.Customer;
+import com.crazycook.tgbot.service.AdminService;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
@@ -23,41 +24,58 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     private final CustomerService customerService;
     private final CartService cartService;
     private final BoxService boxService;
+    private final AdminService adminService;
 
-    public static final String THANKS_MESSAGE = "Дякуємо за замовлення, наш менеджер скоро звяжеться з вами.";
+    public static final String THANKS_MESSAGE = "\n Дякуємо за замовлення, наш менеджер скоро звяжеться з вами.";
 
     @Override
     public void execute(Update update) {
-        Long chatId = getChatId(update);
-        String username = getUserName(update);
+        Long customerChatId = getChatId(update);
+        String customerUsername = getUserName(update);
         //оновити контакти кастомера
-        updateCustomerContacts(update, chatId, username);
+        Customer customer = customerService.createOrFind(customerChatId, customerUsername);
+        customer = updateCustomerContacts(update, customer);
 
         //Надрукувати що в корзині
-        StringBuilder message = cartSummery(chatId, username);
+        String cartSummery = cartSummery(customerChatId, customerUsername);
 
-        //закрити корзину повідомити адмінів
+        //Надіслати повідомлення замовнику
+        String messageForCustomer = "В твоєму замовленні: \n\n" + cartSummery + THANKS_MESSAGE;
 
-        sendBotMessageService.sendMessage(getChatId(update), message.toString());
+        sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
+
+        //закрити корзину
+
+        // повідомити адмінів
+        sendMessageForAdmin(cartSummery, customer);
     }
 
-    private StringBuilder cartSummery(Long chatId, String username) {
+    private void sendMessageForAdmin(String cartSummery, Customer customer) {
+        String message = customer.getFirstName() + " " +
+                customer.getLastName() + " " +
+                "@" + customer.getUsername() +
+                " щойно оформив замовлення. <b>Телефон: " + customer.getPhoneNumber() + ".</b>\n" +
+                "\n" + cartSummery;
+
+        Set<Long> adminIds = adminService.getAdminChatIds();
+        adminIds.forEach(id -> sendBotMessageService.sendMessage(id, message));
+    }
+
+
+    private String cartSummery(Long chatId, String username) {
         Cart cart = cartService.createOrFind(chatId, username);
         Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
-        StringBuilder message = new StringBuilder();
-        message.append("В твоєму замовленні: \n\n");
+        StringBuilder cartSummery = new StringBuilder();
         List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
-        flavorDescription.forEach(message::append);
-        message.append("\n<b>Cпосіб доставки: </b>").append(cart.getDeliveryMethod().getName()).append("\n\n");
-        message.append(THANKS_MESSAGE);
-        return message;
+        flavorDescription.forEach(cartSummery::append);
+        cartSummery.append("\n<b>Cпосіб доставки: </b>").append(cart.getDeliveryMethod().getName()).append("\n");
+        return cartSummery.toString();
     }
 
-    private void updateCustomerContacts(Update update, Long chatId, String username) {
-        Customer customer = customerService.createOrFind(chatId, username);
+    private Customer updateCustomerContacts(Update update, Customer customer) {
         customer.setPhoneNumber(update.getMessage().getContact().getPhoneNumber().trim());
         customer.setFirstName(update.getMessage().getContact().getFirstName());
         customer.setLastName(update.getMessage().getContact().getLastName());
-        customerService.saveCustomer(customer);
+        return customerService.saveCustomer(customer);
     }
 }

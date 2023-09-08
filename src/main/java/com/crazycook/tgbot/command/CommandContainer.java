@@ -1,5 +1,6 @@
 package com.crazycook.tgbot.command;
 
+import com.crazycook.tgbot.service.AdminService;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
@@ -35,7 +36,7 @@ public class CommandContainer {
 
     public CommandContainer(SendBotMessageService sendBotMessageService, CartService cartService,
                             CustomerService customerService, FlavorService flavorService, BoxService boxService,
-                            FlavorQuantityService flavorQuantityService) {
+                            FlavorQuantityService flavorQuantityService, AdminService adminService) {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
@@ -56,7 +57,7 @@ public class CommandContainer {
                 .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
                 .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
-                .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService))
+                .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 
