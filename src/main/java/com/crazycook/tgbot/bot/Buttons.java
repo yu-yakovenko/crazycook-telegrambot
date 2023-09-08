@@ -17,7 +17,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_FLAVOR = "/flavor";
     public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
     public static final String CALLBACK_DATA_MIX_FLAVOR = "/mix_flavor";
-    public static final String CALLBACK_DATA_MIX_FLAVOR_FOR_ALL = "/mix_flavor_for_all";
+    public static final String CALLBACK_DATA_MIX_FLAVOR_FOR_REST = "/mix_flavor_for_rest";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
     public static final String CALLBACK_DATA_CHOOSE_FLAVORS = "/choose_flavors";
@@ -96,7 +96,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton mixFlavorForAllButton() {
-        return createButton("Для всіх інших боксів зробіть мікс смаків", CALLBACK_DATA_MIX_FLAVOR_FOR_ALL);
+        return createButton("Для всіх інших боксів зробіть мікс смаків", CALLBACK_DATA_MIX_FLAVOR_FOR_REST);
     }
 
     public static InlineKeyboardButton nextBoxButton() {

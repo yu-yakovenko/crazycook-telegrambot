@@ -12,6 +12,7 @@ public enum CommandName {
     FLAVOR("/flavor"),
     FLAVOR_ID("/flavor_id"),
     MIX_FLAVOR("/mix_flavor"),
+    MIX_FLAVOR_FOR_REST("/mix_flavor_for_rest"),
     CHOOSE_FLAVORS("/choose_flavors"),
     FLAVOR_NUMBER_COMMAND("FlavorNumberCommand"),
 

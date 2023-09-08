@@ -6,4 +6,4 @@ CREATE TABLE admin
 
 INSERT INTO admin(chat_id, username)
 VALUES (619269379, 'fairy_freyja'),
-       (399948459, 'andrewyakovenko')
+       (339816885, 'YurikSvit')

@@ -24,6 +24,7 @@ import static com.crazycook.tgbot.command.CommandName.FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_ID;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR_FOR_REST;
 import static com.crazycook.tgbot.command.CommandName.PRICE;
 import static com.crazycook.tgbot.command.CommandName.SELF_PICKUP;
 import static com.crazycook.tgbot.command.CommandName.SHOW_CART;
@@ -56,6 +57,7 @@ public class CommandContainer {
                 .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService, boxService))
                 .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
+                .put(MIX_FLAVOR_FOR_REST.getCommandName(), new MixForRestCommand(sendBotMessageService, cartService, boxService))
                 .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
                 .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
