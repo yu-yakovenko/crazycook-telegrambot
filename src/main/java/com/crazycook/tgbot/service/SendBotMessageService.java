@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Collections;
@@ -20,6 +24,7 @@ public class SendBotMessageService {
     private final CrazyCookTelegramBot crazyCookTelegramBot;
     private SendMessage sendMessage = new SendMessage();
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+    public static final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
 
     @Autowired
@@ -38,13 +43,17 @@ public class SendBotMessageService {
     }
 
     public void sendMessage(Long chatId, String message, List<List<InlineKeyboardButton>> buttons) {
+        keyboardMarkup.setKeyboard(buttons);
+        sendMessage(chatId, message, keyboardMarkup);
+    }
+
+    public void sendMessage(Long chatId, String message, ReplyKeyboard keyboardMarkup) {
         if (isBlank(message)) return;
 
         sendMessage.setChatId(chatId.toString());
         sendMessage.enableHtml(true);
         sendMessage.setText(message);
 
-        keyboardMarkup.setKeyboard(buttons);
         sendMessage.setReplyMarkup(keyboardMarkup);
 
         try {
@@ -53,5 +62,16 @@ public class SendBotMessageService {
             //todo add logging to the project.
             e.printStackTrace();
         }
+    }
+
+    public void requestContact(Long chatId, String message, KeyboardButton keyboardButton) {
+        KeyboardRow keyboardRaw = new KeyboardRow();
+        keyboardRaw.add(keyboardButton);
+
+        replyKeyboardMarkup.setKeyboard(List.of(keyboardRaw));
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+
+        sendMessage(chatId, message, replyKeyboardMarkup);
     }
 }

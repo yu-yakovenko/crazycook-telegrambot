@@ -43,7 +43,8 @@ public class Box {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    private Boolean isMix;
+    @Builder.Default
+    private Boolean isMix = false;
 
     @Override
     public int hashCode() {

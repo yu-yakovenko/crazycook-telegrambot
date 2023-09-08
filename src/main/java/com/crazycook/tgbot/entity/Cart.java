@@ -33,6 +33,9 @@ public class Cart {
     @Enumerated(EnumType.STRING)
     private CartStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private DeliveryMethod deliveryMethod;
+
     @Builder.Default
     @Column(name = "s_number")
     private int sNumber = 0;

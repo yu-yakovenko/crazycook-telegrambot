@@ -3,6 +3,7 @@ package com.crazycook.tgbot.bot;
 import com.crazycook.tgbot.entity.Flavor;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,8 @@ public class Buttons {
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
     public static final String CALLBACK_DATA_DELIVERY = "/delivery";
     public static final String CALLBACK_DATA_CHOOSE_DELIVERY = "/choose_delivery";
+    public static final String CALLBACK_DATA_SELF_PICKUP = "/self_pickup";
+    public static final String CALLBACK_DATA_COURIER = "/courier";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
@@ -104,6 +107,21 @@ public class Buttons {
 
     public static InlineKeyboardButton chooseDeliveryButton() {
         return createButton("Перейти до вибору способу доставки", CALLBACK_DATA_CHOOSE_DELIVERY);
+    }
+
+    public static InlineKeyboardButton selfPickupButton() {
+        return createButton("Самовивіз", CALLBACK_DATA_SELF_PICKUP);
+    }
+
+    public static InlineKeyboardButton courierButton() {
+        return createButton("Доставка кур'єром", CALLBACK_DATA_COURIER);
+    }
+
+    public static KeyboardButton requestContactButton() {
+        KeyboardButton keyboardButton = new KeyboardButton();
+        keyboardButton.setText("Поділитися контактом");
+        keyboardButton.setRequestContact(true);
+        return keyboardButton;
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {

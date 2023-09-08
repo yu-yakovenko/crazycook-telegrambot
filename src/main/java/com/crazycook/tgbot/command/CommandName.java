@@ -6,7 +6,6 @@ public enum CommandName {
     ORDER("/order"),
     MESSAGE("/message"),
     START("/start"),
-    DELIVERY("/delivery"),
     SHOW_CART("/show_cart"),
     REFRESH("/refresh"),
 
@@ -23,6 +22,11 @@ public enum CommandName {
     BOX_NUMBER_COMMAND("BoxNumberCommand"),
     ADD_MORE_BOXES("/add_more_boxes"),
 
+    DELIVERY("/delivery"),
+    CHOOSE_DELIVERY("/choose_delivery"),
+    COURIER("/courier"),
+    SELF_PICKUP("/self_pickup"),
+    COMPLETE_CART("CompleteCart"),
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

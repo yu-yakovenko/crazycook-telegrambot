@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class Utils {
     public static Long getChatId(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
             return update.getMessage().getChatId();
         } else if (update.hasCallbackQuery() && !update.getCallbackQuery().getData().isEmpty()) {
             return update.getCallbackQuery().getMessage().getChatId();

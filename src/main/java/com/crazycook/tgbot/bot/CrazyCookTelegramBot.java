@@ -19,6 +19,7 @@ import java.util.Locale;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
+import static com.crazycook.tgbot.command.CommandName.COMPLETE_CART;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_BOX_NUMBER_STATUSES;
@@ -52,7 +53,9 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
 
         String message = Utils.getMessage(update);
         Cart cart = cartService.createOrFind(chatId, username);
-        if (message.startsWith(COMMAND_PREFIX)) {
+        if (update.getMessage() != null && update.getMessage().hasContact()) {
+            commandContainer.findCommand(COMPLETE_CART.getCommandName()).execute(update);
+        } else if (message.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = message.split(" ")[0].toLowerCase();
             commandContainer.findCommand(commandIdentifier.toLowerCase(Locale.ROOT)).execute(update);
         } else if (message.matches(regExOnlyNumbers) && WAITING_BOX_NUMBER_STATUSES.contains(cart.getStatus())) {

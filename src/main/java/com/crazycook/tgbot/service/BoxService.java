@@ -35,15 +35,18 @@ public class BoxService {
 
 
     public String flavorQuantitiesToString(Box box) {
+        if (box.getIsMix()) {
+            return "<b>Бокс " + box.getBoxSize() + ", що міcтить мікс смаків </b>\n";
+        }
         List<FlavorQuantity> flavorQuantity = getFlavorQuantitiesForBox(box.getId());
         if (flavorQuantity.isEmpty()) {
             return "";
         }
-        String message = "<b>Бокс " + box.getBoxSize() + ", що міcтить: </b>\n";
+        StringBuilder message = new StringBuilder("<b>Бокс " + box.getBoxSize() + ", що міcтить: </b>\n");
         for (FlavorQuantity fq : flavorQuantity) {
-            message += "    " + fq.toString();
+            message.append("    ").append(fq.toString());
         }
-        return message;
+        return message.toString();
     }
 
 }
