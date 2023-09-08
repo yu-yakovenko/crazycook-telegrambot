@@ -2,6 +2,7 @@ package com.crazycook.tgbot.command;
 
 import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.Cart;
+import com.crazycook.tgbot.entity.CartStatus;
 import com.crazycook.tgbot.entity.Customer;
 import com.crazycook.tgbot.service.AdminService;
 import com.crazycook.tgbot.service.BoxService;
@@ -32,19 +33,21 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         Long customerChatId = getChatId(update);
         String customerUsername = getUserName(update);
+        Cart cart = cartService.createOrFind(customerChatId, customerUsername);
+
         //оновити контакти кастомера
         Customer customer = customerService.createOrFind(customerChatId, customerUsername);
         customer = updateCustomerContacts(update, customer);
 
         //Надрукувати що в корзині
-        String cartSummery = cartSummery(customerChatId, customerUsername);
+        String cartSummery = cartSummery(cart);
 
         //Надіслати повідомлення замовнику
         String messageForCustomer = "В твоєму замовленні: \n\n" + cartSummery + THANKS_MESSAGE;
-
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
         //закрити корзину
+        cart.setStatus(CartStatus.DONE);
 
         // повідомити адмінів
         sendMessageForAdmin(cartSummery, customer);
@@ -62,8 +65,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     }
 
 
-    private String cartSummery(Long chatId, String username) {
-        Cart cart = cartService.createOrFind(chatId, username);
+    private String cartSummery(Cart cart) {
         Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
         StringBuilder cartSummery = new StringBuilder();
         List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());

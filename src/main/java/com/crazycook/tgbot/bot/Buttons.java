@@ -18,12 +18,10 @@ public class Buttons {
     public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
     public static final String CALLBACK_DATA_MIX_FLAVOR = "/mix_flavor";
     public static final String CALLBACK_DATA_MIX_FLAVOR_FOR_ALL = "/mix_flavor_for_all";
-    public static final String CALLBACK_DATA_ORDER = "/order";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
     public static final String CALLBACK_DATA_CHOOSE_FLAVORS = "/choose_flavors";
     public static final String CALLBACK_DATA_SHOW_CART = "/show_cart";
-    public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
     public static final String CALLBACK_DATA_START = "/start";
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
     public static final String CALLBACK_DATA_DELIVERY = "/delivery";
@@ -132,7 +130,8 @@ public class Buttons {
         buttonRow1.add(flavorsButton());
         buttonRow1.add(createOrderButton());
         buttonRow2.add(deliveryButton());
-        buttonRow3.add(messageButton());
+//        todo return messageButton when implement functionality
+//         buttonRow3.add(messageButton());
 
         return List.of(buttonRow1, buttonRow2, buttonRow3);
     }
