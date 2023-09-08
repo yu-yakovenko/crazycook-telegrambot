@@ -14,7 +14,9 @@ public class FlavorQuantityService {
     private final FlavorQuantityRepository flavorQuantityRepository;
 
 
-    public FlavorQuantity save(FlavorQuantity fq) {
-        return flavorQuantityRepository.save(fq);
+    public void save(FlavorQuantity fq) {
+        if (fq.getQuantity() > 0) {
+            flavorQuantityRepository.save(fq);
+        }
     }
 }

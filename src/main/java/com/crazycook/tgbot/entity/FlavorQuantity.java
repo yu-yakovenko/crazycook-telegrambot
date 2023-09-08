@@ -32,4 +32,9 @@ public class FlavorQuantity {
     private Flavor flavor;
 
     private Integer quantity;
+
+    @Override
+    public String toString() {
+        return quantity + " макаронів зі смаком " + flavor.getName() + "; \n";
+    }
 }

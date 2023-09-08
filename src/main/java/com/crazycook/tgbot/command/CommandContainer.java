@@ -42,7 +42,7 @@ public class CommandContainer {
                 .put(CHOOSE_L.getCommandName(), new ChooseLCommand(sendBotMessageService, cartService))
                 .put(BOX_NUMBER_COMMAND.getCommandName(), new BoxNumberCommand(sendBotMessageService, cartService))
                 .put(FLAVOR_NUMBER_COMMAND.getCommandName(), new FlavorNumberCommand(sendBotMessageService, flavorService, cartService, boxService, flavorQuantityService))
-                .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService))
+                .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService, boxService))
                 .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))
                 .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))

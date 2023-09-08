@@ -16,6 +16,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_FLAVOR = "/flavor";
     public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
     public static final String CALLBACK_DATA_MIX_FLAVOR = "/mix_flavor";
+    public static final String CALLBACK_DATA_MIX_FLAVOR_FOR_ALL = "/mix_flavor_for_all";
     public static final String CALLBACK_DATA_ORDER = "/order";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
@@ -77,7 +78,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton showCartButton() {
-        return createButton("Поркажи, що зараз знаходиться в моїй корзині", CALLBACK_DATA_SHOW_CART);
+        return createButton("Покажи, що зараз знаходиться в моїй корзині", CALLBACK_DATA_SHOW_CART);
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id) {
@@ -85,7 +86,11 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton mixFlavorButton() {
-        return createButton("Зберіть мені мікс.", CALLBACK_DATA_SHOW_CART);
+        return createButton("Зберіть мені мікс.", CALLBACK_DATA_MIX_FLAVOR);
+    }
+
+    public static InlineKeyboardButton mixFlavorForAllButton() {
+        return createButton("Для всіх інших боксів зробіть мікс смаків", CALLBACK_DATA_MIX_FLAVOR_FOR_ALL);
     }
 
     public static InlineKeyboardButton nextBoxButton() {

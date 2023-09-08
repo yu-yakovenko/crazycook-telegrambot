@@ -33,4 +33,17 @@ public class BoxService {
         }
     }
 
+
+    public String flavorQuantitiesToString(Box box) {
+        List<FlavorQuantity> flavorQuantity = getFlavorQuantitiesForBox(box.getId());
+        if (flavorQuantity.isEmpty()) {
+            return "";
+        }
+        String message = "<b>Бокс " + box.getBoxSize() + ", що міcтить: </b>\n";
+        for (FlavorQuantity fq : flavorQuantity) {
+            message += "    " + fq.toString();
+        }
+        return message;
+    }
+
 }

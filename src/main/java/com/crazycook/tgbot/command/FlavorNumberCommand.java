@@ -22,8 +22,10 @@ import java.util.Optional;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
+import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
 import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_APPROVE;
@@ -93,15 +95,15 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
             message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber - number);
             buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList());
         } else if (moreBoxesPossible) {
-            //Показати повідомлення що бокс повныстю заповнено
+            //Показати повідомлення що бокс повністю заповнено
             message += BOX_COMPLETE;
-            //Показати кнопу "перейти до заповнення нового боксу"
-            buttons = List.of(List.of(nextBoxButton()));
+            //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
+            buttons = List.of(List.of(nextBoxButton()), List.of(mixFlavorForAllButton()), List.of(showCartButton()));
         } else {
-            //Показати повідомлення про те, що корзина повністю заповнена і очікує на підтвердження
+            //Показати повідомлення про те, що корзина повністю заповнена
             message += CART_COMPLETE;
-            //Показати кнопки "показати що в корзині" та "підтвердити замовлення"
-            buttons = List.of(List.of(showCartButton()), List.of(chooseDeliveryButton()));
+            //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
+            buttons = List.of(List.of(showCartButton()), List.of(addMoreButton()), List.of(chooseDeliveryButton()));
         }
 
         sendBotMessageService.sendMessage(chatId, message, buttons);
