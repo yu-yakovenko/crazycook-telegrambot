@@ -74,7 +74,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton chooseFlavorsButton() {
-        return createButton("Це всі бокси, переходимо до вибору смаків", CALLBACK_DATA_CHOOSE_FLAVORS);
+        return createButton("Додати смаки до пустих боксів", CALLBACK_DATA_CHOOSE_FLAVORS);
     }
 
     public static InlineKeyboardButton showCartButton() {

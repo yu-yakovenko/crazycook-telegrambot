@@ -43,6 +43,8 @@ public class Box {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    private Boolean isMix;
+
     @Override
     public int hashCode() {
         return Objects.hash(id, flavorQuantities, boxSize);
