@@ -30,7 +30,8 @@ import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_FLAVOR_NUMBER;
 public class CrazyCookTelegramBot extends TelegramLongPollingBot {
 
     public static String COMMAND_PREFIX = "/";
-    public static String regExOnlyNumbers = "[0-9]+";
+    public static String regExOnlyIntNumbers = "[0-9]+";
+    public static String regExOnlyNumbers = "^[+-]?([0-9]+(([.]|[,])[0-9]*)?|([.]|[,])[0-9]+)$";
 
     public final AppProperty property;
     private final SendBotMessageService sendBotMessageService;
@@ -61,7 +62,7 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
             commandContainer.findCommand(commandIdentifier.toLowerCase(Locale.ROOT)).execute(update);
         } else if (message.matches(regExOnlyNumbers) && WAITING_BOX_NUMBER_STATUSES.contains(cart.getStatus())) {
             commandContainer.findCommand(BOX_NUMBER_COMMAND.getCommandName()).execute(update);
-        } else if (message.matches(regExOnlyNumbers) && WAITING_FOR_FLAVOR_NUMBER.equals(cart.getStatus())) {
+        } else if (message.matches(regExOnlyIntNumbers) && WAITING_FOR_FLAVOR_NUMBER.equals(cart.getStatus())) {
             commandContainer.findCommand(FLAVOR_NUMBER_COMMAND.getCommandName()).execute(update);
         } else {
             commandContainer.findCommand(UNKNOWN_COMMAND.getCommandName()).execute(update);

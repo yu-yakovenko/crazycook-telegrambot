@@ -19,4 +19,7 @@ public class AdminService {
         return adminRepository.findAll().stream().map(Admin::getChatId).collect(Collectors.toSet());
     }
 
+    public Set<String> getAdminUsernames() {
+        return adminRepository.findAll().stream().map(Admin::getUsername).collect(Collectors.toSet());
+    }
 }
