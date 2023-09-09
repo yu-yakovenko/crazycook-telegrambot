@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.crazycook.tgbot.Utils.getChatId;
@@ -43,7 +42,7 @@ public class MixCommand implements CrazyCookTGCommand {
         boolean moreBoxesPossible = cartService.isMoreBoxesPossible(cart);
 
         String message = BOX_COMPLETE;
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        List<List<InlineKeyboardButton>> buttons;
         if (moreBoxesPossible) {
             //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
             buttons = List.of(List.of(nextBoxButton()), List.of(mixFlavorForAllButton()), List.of(showCartButton()));
@@ -51,7 +50,7 @@ public class MixCommand implements CrazyCookTGCommand {
             //Показати повідомлення про те, що корзина повністю заповнена
             message += CART_COMPLETE;
             //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
-            buttons = List.of(List.of(showCartButton()), List.of(addMoreButton()), List.of(chooseDeliveryButton()));
+            buttons = List.of(List.of(showCartButton()), List.of(addMoreButton(), chooseDeliveryButton()));
         }
 
         sendBotMessageService.sendMessage(chatId, message, buttons);

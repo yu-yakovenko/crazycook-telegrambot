@@ -20,7 +20,7 @@ import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
-import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsButton;
+import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
 
 @AllArgsConstructor
 public class ShowCartCommand implements CrazyCookTGCommand {
@@ -70,7 +70,7 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(List.of(addMoreButton()));
         if (emptyBoxes) {
-            buttons.add(List.of(chooseFlavorsButton()));
+            buttons.add(List.of(chooseFlavorsLongButton()));
         } else {
             buttons.add(List.of(chooseDeliveryButton()));
         }

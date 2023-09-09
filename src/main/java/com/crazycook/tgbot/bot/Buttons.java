@@ -56,15 +56,15 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton priceButton() {
-        return createButton("Бокси і ціни", CALLBACK_DATA_PRICE);
+        return createButton("\uD83D\uDCB0 Бокси і ціни", CALLBACK_DATA_PRICE);
     }
 
     public static InlineKeyboardButton flavorsButton() {
-        return createButton("Смаки в наявності", CALLBACK_DATA_FLAVOR);
+        return createButton("\uD83D\uDE0B Смаки в наявності", CALLBACK_DATA_FLAVOR);
     }
 
     public static InlineKeyboardButton createOrderButton() {
-        return createButton("Замовити бокс", CALLBACK_DATA_CHOOSE_BOX);
+        return createButton("\uD83D\uDECD Замовити бокс", CALLBACK_DATA_CHOOSE_BOX);
     }
 
     public static InlineKeyboardButton messageButton() {
@@ -72,19 +72,23 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton deliveryButton() {
-        return createButton("Способи доставки", CALLBACK_DATA_DELIVERY);
+        return createButton("\uD83D\uDE80 Способи доставки", CALLBACK_DATA_DELIVERY);
     }
 
     public static InlineKeyboardButton addMoreButton() {
-        return createButton("Додати бокси іншого розміру, або змінити кількість", CALLBACK_DATA_ADD_MORE_BOXES);
+        return createButton("\uD83C\uDF81 Додати бокси", CALLBACK_DATA_ADD_MORE_BOXES);
     }
 
     public static InlineKeyboardButton chooseFlavorsButton() {
-        return createButton("Додати смаки до пустих боксів", CALLBACK_DATA_CHOOSE_FLAVORS);
+        return createButton("\uD83C\uDF53\uD83C\uDF70\uD83C\uDF78 Додати смаки", CALLBACK_DATA_CHOOSE_FLAVORS);
+    }
+
+    public static InlineKeyboardButton chooseFlavorsLongButton() {
+        return createButton("\uD83C\uDF53\uD83C\uDF70\uD83C\uDF78 Додати смаки до пустих боксів", CALLBACK_DATA_CHOOSE_FLAVORS);
     }
 
     public static InlineKeyboardButton showCartButton() {
-        return createButton("Покажи, що зараз знаходиться в моїй корзині", CALLBACK_DATA_SHOW_CART);
+        return createButton("\uD83D\uDED2 Покажи, що зараз знаходиться в моїй корзині", CALLBACK_DATA_SHOW_CART);
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id) {
@@ -104,7 +108,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton chooseDeliveryButton() {
-        return createButton("Перейти до вибору способу доставки", CALLBACK_DATA_CHOOSE_DELIVERY);
+        return createButton("\uD83D\uDE80 Вибрати спосіб доставки", CALLBACK_DATA_CHOOSE_DELIVERY);
     }
 
     public static InlineKeyboardButton selfPickupButton() {
@@ -137,10 +141,10 @@ public class Buttons {
     }
 
     public static List<List<InlineKeyboardButton>> cartInProgressButtons() {
-        List<InlineKeyboardButton> buttonRow1 = List.of(addMoreButton());
-        List<InlineKeyboardButton> buttonRow2 = List.of(chooseFlavorsButton());
+        List<InlineKeyboardButton> buttonRow1 = List.of(addMoreButton(), chooseFlavorsButton());
+//        List<InlineKeyboardButton> buttonRow2 = List.of(chooseFlavorsButton());
         List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton());
-        return List.of(buttonRow1, buttonRow2, buttonRow3);
+        return List.of(buttonRow1, buttonRow3);
     }
 
     public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors) {
