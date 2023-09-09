@@ -58,11 +58,14 @@ public class ShowCartCommand implements CrazyCookTGCommand {
             emptyBoxes = true;
         }
 
+        message.append(cartService.flavorMixToString(cart));
+
         List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
 
         for (String s : flavorDescription) {
             message.append(s);
         }
+
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(List.of(addMoreButton()));

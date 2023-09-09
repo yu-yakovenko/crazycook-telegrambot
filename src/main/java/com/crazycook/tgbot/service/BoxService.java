@@ -36,7 +36,7 @@ public class BoxService {
 
     public String flavorQuantitiesToString(Box box) {
         if (box.getIsMix()) {
-            return "<b>Бокс " + box.getBoxSize() + ", що міcтить мікс смаків </b>\n";
+            return "";
         }
         List<FlavorQuantity> flavorQuantity = getFlavorQuantitiesForBox(box.getId());
         if (flavorQuantity.isEmpty()) {

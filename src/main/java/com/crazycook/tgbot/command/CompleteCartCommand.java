@@ -68,6 +68,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     private String cartSummery(Cart cart) {
         Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
         StringBuilder cartSummery = new StringBuilder();
+        cartSummery.append(cartService.flavorMixToString(cart));
         List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
         flavorDescription.forEach(cartSummery::append);
         cartSummery.append("\n<b>Cпосіб доставки: </b>").append(cart.getDeliveryMethod().getName()).append("\n");

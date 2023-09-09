@@ -14,6 +14,10 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.crazycook.tgbot.entity.BoxSize.L;
+import static com.crazycook.tgbot.entity.BoxSize.M;
+import static com.crazycook.tgbot.entity.BoxSize.S;
+
 
 @Service
 @AllArgsConstructor
@@ -51,9 +55,9 @@ public class CartService {
         if (cart == null) {
             return false;
         }
-        return checkBoxesQuantities(cart, cart.getSNumber(), BoxSize.S)
-                && checkBoxesQuantities(cart, cart.getSNumber(), BoxSize.M)
-                && checkBoxesQuantities(cart, cart.getSNumber(), BoxSize.L);
+        return checkBoxesQuantities(cart, cart.getSNumber(), S)
+                && checkBoxesQuantities(cart, cart.getSNumber(), M)
+                && checkBoxesQuantities(cart, cart.getSNumber(), L);
     }
 
     private boolean checkBoxesQuantities(Cart cart, int sizeNumber, BoxSize boxSize) {
@@ -98,5 +102,19 @@ public class CartService {
         cart.setBoxes(boxes);
         cart.setBoxInProgress(null);
         return save(cart);
+    }
+
+    public String flavorMixToString(Cart cart) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        return flavorMixToString(boxes, S) + flavorMixToString(boxes, M) + flavorMixToString(boxes, L);
+    }
+
+    private String flavorMixToString(Set<Box> boxes, BoxSize size) {
+        String flavorMixStr = "";
+        long sMix = boxes.stream().filter(b -> size.equals(b.getBoxSize()) && b.getIsMix()).count();
+        if (sMix > 0) {
+            flavorMixStr += "    <b>" + sMix + " " + size + " боксів що містять мікс смаків</b>\n";
+        }
+        return flavorMixStr;
     }
 }
