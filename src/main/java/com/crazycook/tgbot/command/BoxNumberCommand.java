@@ -23,26 +23,26 @@ public class BoxNumberCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         Long chatId = getChatId(update);
         String username = getUserName(update);
-        int message = Integer.parseInt(getMessage(update));
+        int incomeNumber = Integer.parseInt(getMessage(update));
         Cart cart = cartService.createOrFind(chatId, username);
         String boxSize;
         switch (cart.getStatus()) {
             case WAITING_FOR_S_NUMBER -> {
-                cart.setSNumber(message);
+                cart.setSNumber(cart.getSNumber() + incomeNumber);
                 boxSize = "S";
             }
             case WAITING_FOR_M_NUMBER -> {
-                cart.setMNumber(message);
+                cart.setMNumber(cart.getMNumber() + incomeNumber);
                 boxSize = "M";
             }
             case WAITING_FOR_L_NUMBER -> {
-                cart.setLNumber(message);
+                cart.setLNumber(cart.getLNumber() + incomeNumber);
                 boxSize = "L";
             }
             default -> throw new IllegalStateException("Unexpected value: " + cart.getStatus());
         }
         cart.setStatus(WAITING_FOR_APPROVE);
         cartService.save(cart);
-        sendBotMessageService.sendMessage(getChatId(update), String.format(MESSAGE_FORMAT, message, boxSize), cartInProgressButtons());
+        sendBotMessageService.sendMessage(getChatId(update), String.format(MESSAGE_FORMAT, incomeNumber, boxSize), cartInProgressButtons());
     }
 }
