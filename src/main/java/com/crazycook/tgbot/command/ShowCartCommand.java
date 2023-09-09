@@ -23,10 +23,12 @@ import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.FOUR_SPACES;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
 import static com.crazycook.tgbot.bot.Messages.RED_DIAMOND;
+import static com.crazycook.tgbot.bot.Messages.YOUR_CART_IS_EMPTY;
 
 @AllArgsConstructor
 public class ShowCartCommand implements CrazyCookTGCommand {
@@ -68,6 +70,10 @@ public class ShowCartCommand implements CrazyCookTGCommand {
             buttons.add(List.of(chooseFlavorsLongButton()));
         } else {
             buttons.add(List.of(chooseDeliveryButton()));
+        }
+
+        if (IN_YOUR_CART.equals(message.toString())) {
+            message.append(FOUR_SPACES).append(YOUR_CART_IS_EMPTY);
         }
 
         sendBotMessageService.sendMessage(getChatId(update), message.toString(), buttons);

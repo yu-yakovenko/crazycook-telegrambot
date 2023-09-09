@@ -12,4 +12,5 @@ public class Messages {
     public static final String YELLOW_DIAMOND = "\uD83D\uDD38";
 
     public static final String IN_YOUR_CART = "В твоїй корзині зараз: \n";
+    public static final String YOUR_CART_IS_EMPTY = "\uD83D\uDE32 Тут пуст! Жодного макарончика \uD83E\uDD37\u200D♂️";
 }
