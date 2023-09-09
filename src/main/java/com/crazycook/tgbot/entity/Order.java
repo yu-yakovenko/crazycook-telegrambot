@@ -15,8 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -36,7 +36,12 @@ public class Order {
     @JoinColumn(name = "customer_chat_id", nullable = false)
     private Customer customer;
 
+    @Enumerated(EnumType.STRING)
+    private DeliveryMethod deliveryMethod;
+
+    private String comment;
+
     @Builder.Default
     @OneToMany(mappedBy = "order")
-    private List<Box> boxes = new ArrayList<>();
+    private Set<Box> boxes = new HashSet<>();
 }

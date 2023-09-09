@@ -1,5 +1,6 @@
-package com.crazycook.tgbot.command;
+package com.crazycook.tgbot.command.flavor;
 
+import com.crazycook.tgbot.command.CrazyCookTGCommand;
 import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.service.BoxService;

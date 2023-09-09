@@ -1,5 +1,6 @@
-package com.crazycook.tgbot.command;
+package com.crazycook.tgbot.command.delivery;
 
+import com.crazycook.tgbot.command.CrazyCookTGCommand;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.SendBotMessageService;
@@ -9,10 +10,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.requestContactButton;
-import static com.crazycook.tgbot.entity.DeliveryMethod.COURIER;
+import static com.crazycook.tgbot.entity.DeliveryMethod.SELF_PICKUP;
 
 @AllArgsConstructor
-public class CourierCommand implements CrazyCookTGCommand {
+public class SelfPickupCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
 
@@ -24,7 +25,7 @@ public class CourierCommand implements CrazyCookTGCommand {
         String username = getUserName(update);
 
         Cart cart = cartService.createOrFind(chatId, username);
-        cart.setDeliveryMethod(COURIER);
+        cart.setDeliveryMethod(SELF_PICKUP);
         cartService.save(cart);
 
         sendBotMessageService.requestContact(chatId, REQUEST_CONTACT, requestContactButton());

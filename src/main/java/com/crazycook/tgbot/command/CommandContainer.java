@@ -1,11 +1,31 @@
 package com.crazycook.tgbot.command;
 
+import com.crazycook.tgbot.command.box.BoxNumberCommand;
+import com.crazycook.tgbot.command.box.ChooseBoxCommand;
+import com.crazycook.tgbot.command.box.ChooseLCommand;
+import com.crazycook.tgbot.command.box.ChooseMCommand;
+import com.crazycook.tgbot.command.box.ChooseSCommand;
+import com.crazycook.tgbot.command.cart.CompleteCartCommand;
+import com.crazycook.tgbot.command.cart.ShowCartCommand;
+import com.crazycook.tgbot.command.comment.CommentCommand;
+import com.crazycook.tgbot.command.comment.CommentWaitingCommand;
+import com.crazycook.tgbot.command.delivery.ChooseDeliveryCommand;
+import com.crazycook.tgbot.command.delivery.CourierCommand;
+import com.crazycook.tgbot.command.delivery.DeliveryCommand;
+import com.crazycook.tgbot.command.delivery.SelfPickupCommand;
+import com.crazycook.tgbot.command.flavor.ChooseFlavorsCommand;
+import com.crazycook.tgbot.command.flavor.FlavorIdCommand;
+import com.crazycook.tgbot.command.flavor.FlavorInStockCommand;
+import com.crazycook.tgbot.command.flavor.FlavorNumberCommand;
+import com.crazycook.tgbot.command.flavor.MixCommand;
+import com.crazycook.tgbot.command.flavor.MixForRestCommand;
 import com.crazycook.tgbot.service.AdminService;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
 import com.crazycook.tgbot.service.FlavorQuantityService;
 import com.crazycook.tgbot.service.FlavorService;
+import com.crazycook.tgbot.service.OrderService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
@@ -40,12 +60,13 @@ public class CommandContainer {
 
     public CommandContainer(SendBotMessageService sendBotMessageService, CartService cartService,
                             CustomerService customerService, FlavorService flavorService, BoxService boxService,
-                            FlavorQuantityService flavorQuantityService, AdminService adminService) {
+                            FlavorQuantityService flavorQuantityService, AdminService adminService,
+                            OrderService orderService) {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
                 .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService))
-                .put(FLAVOR.getCommandName(), new FlavorCommand(sendBotMessageService, flavorService))
+                .put(FLAVOR.getCommandName(), new FlavorInStockCommand(sendBotMessageService, flavorService))
                 .put(DELIVERY.getCommandName(), new DeliveryCommand(sendBotMessageService))
                 .put(CHOOSE_DELIVERY.getCommandName(), new ChooseDeliveryCommand(sendBotMessageService))
                 .put(COURIER.getCommandName(), new CourierCommand(sendBotMessageService, cartService))
@@ -65,7 +86,7 @@ public class CommandContainer {
                 .put(CONTACT_COMMAND.getCommandName(), new ContactCommand(sendBotMessageService, customerService))
                 .put(WAITING_FOR_COMMENT.getCommandName(), new CommentWaitingCommand(sendBotMessageService, cartService))
                 .put(COMMENT.getCommandName(), new CommentCommand(sendBotMessageService, cartService))
-                .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService))
+                .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService, orderService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 

@@ -1,13 +1,14 @@
-package com.crazycook.tgbot.command;
+package com.crazycook.tgbot.command.cart;
 
+import com.crazycook.tgbot.command.CrazyCookTGCommand;
 import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.Cart;
-import com.crazycook.tgbot.entity.CartStatus;
 import com.crazycook.tgbot.entity.Customer;
 import com.crazycook.tgbot.service.AdminService;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
+import com.crazycook.tgbot.service.OrderService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -19,6 +20,10 @@ import java.util.stream.Collectors;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
+import static com.crazycook.tgbot.bot.Messages.BOLD_END;
+import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.THANKS_MESSAGE;
 
 @AllArgsConstructor
 public class CompleteCartCommand implements CrazyCookTGCommand {
@@ -27,8 +32,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     private final CartService cartService;
     private final BoxService boxService;
     private final AdminService adminService;
-
-    public static final String THANKS_MESSAGE = "\n Дякуємо за замовлення, наш менеджер скоро звяжеться з вами.";
+    private final OrderService orderService;
 
     @Override
     public void execute(Update update) {
@@ -49,11 +53,13 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         }
 
         //Надіслати повідомлення замовнику
-        String messageForCustomer = "В твоєму замовленні: \n\n" + cartSummery + deliveryMethod + comment + THANKS_MESSAGE;
+        String messageForCustomer = "В твоєму замовленні: " + LINE_END + LINE_END
+                + cartSummery + deliveryMethod + comment + LINE_END + THANKS_MESSAGE;
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
         //закрити корзину
-        cart.setStatus(CartStatus.DONE);
+        orderService.createOrder(cart);
+        cartService.delete(cart);
 
         // повідомити адмінів
         sendMessageForAdmin(cartSummery + deliveryMethod + comment, customer);
@@ -61,7 +67,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
     private String comment(Cart cart) {
         if (cart.getComment() != null && !cart.getComment().isBlank()) {
-            return "Коментар: " + cart.getComment();
+            return BOLD_START + "Коментар: " + BOLD_END + cart.getComment();
         }
         return "";
     }

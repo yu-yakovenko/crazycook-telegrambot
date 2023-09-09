@@ -1,22 +1,19 @@
-package com.crazycook.tgbot.command;
+package com.crazycook.tgbot.command.comment;
 
+import com.crazycook.tgbot.command.CrazyCookTGCommand;
 import com.crazycook.tgbot.entity.Cart;
+import com.crazycook.tgbot.entity.CartStatus;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.List;
-
 import static com.crazycook.tgbot.Utils.getChatId;
-import static com.crazycook.tgbot.Utils.getMessage;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.completeCartButton;
-import static com.crazycook.tgbot.bot.Messages.COMMENT_ADDED;
-import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
+import static com.crazycook.tgbot.bot.Messages.WAITING_COMMENT;
 
 @AllArgsConstructor
-public class CommentCommand implements CrazyCookTGCommand {
+public class CommentWaitingCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
 
@@ -24,12 +21,10 @@ public class CommentCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         Long customerChatId = getChatId(update);
         String customerUsername = getUserName(update);
-        String message = getMessage(update);
         Cart cart = cartService.findCart(customerChatId, customerUsername);
-        cart.setComment(message);
-        cart.setStatus(IN_PROGRESS);
+        cart.setStatus(CartStatus.WAITING_FOR_COMMENT);
         cartService.save(cart);
 
-        sendBotMessageService.sendMessage(customerChatId, COMMENT_ADDED, List.of(List.of(completeCartButton())));
+        sendBotMessageService.sendMessage(customerChatId, WAITING_COMMENT);
     }
 }

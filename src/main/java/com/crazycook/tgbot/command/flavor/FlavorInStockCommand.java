@@ -1,5 +1,6 @@
-package com.crazycook.tgbot.command;
+package com.crazycook.tgbot.command.flavor;
 
+import com.crazycook.tgbot.command.CrazyCookTGCommand;
 import com.crazycook.tgbot.service.FlavorService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
@@ -13,13 +14,12 @@ import java.util.Set;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.bot.Buttons.createOrderButton;
 import static com.crazycook.tgbot.bot.Buttons.startButton;
+import static com.crazycook.tgbot.bot.Messages.FLAVOR_MESSAGE;
 
 @AllArgsConstructor
-public class FlavorCommand implements CrazyCookTGCommand {
+public class FlavorInStockCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final FlavorService flavorService;
-
-    public final static String FLAVOR_MESSAGE = "<b>Зараз в наявності є такі смаки: </b>\n";
 
     @Override
     public void execute(Update update) {

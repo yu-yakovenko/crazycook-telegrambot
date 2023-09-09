@@ -122,4 +122,21 @@ public class CartService {
         }
         return flavorMixStr;
     }
+
+    public void delete(Cart cart) {
+        cart.setStatus(CartStatus.IN_PROGRESS);
+        cart.setSNumber(0);
+        cart.setMNumber(0);
+        cart.setLNumber(0);
+        cart.setBoxInProgress(null);
+        cart.setCurrentFlavor(null);
+        cart.setDeliveryMethod(null);
+        cart.setComment(null);
+        cart.setBoxes(null);
+        getBoxesForCart(cart.getId()).forEach(box -> {
+            box.setCart(null);
+            boxService.save(box);
+        });
+        cartRepository.save(cart);
+    }
 }
