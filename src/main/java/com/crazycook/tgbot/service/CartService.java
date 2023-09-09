@@ -14,6 +14,11 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.crazycook.tgbot.bot.Messages.BLUE_DIAMOND;
+import static com.crazycook.tgbot.bot.Messages.BOLD_END;
+import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
 import static com.crazycook.tgbot.entity.BoxSize.L;
 import static com.crazycook.tgbot.entity.BoxSize.M;
 import static com.crazycook.tgbot.entity.BoxSize.S;
@@ -113,7 +118,7 @@ public class CartService {
         String flavorMixStr = "";
         long sMix = boxes.stream().filter(b -> size.equals(b.getBoxSize()) && b.getIsMix()).count();
         if (sMix > 0) {
-            flavorMixStr += "    <b>" + sMix + " " + size + " боксів що містять мікс смаків</b>\n";
+            flavorMixStr += BLUE_DIAMOND + BOLD_START + sMix + ONE_SPACE + size + " боксів, що містять мікс смаків" + BOLD_END + LINE_END;
         }
         return flavorMixStr;
     }

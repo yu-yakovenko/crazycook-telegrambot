@@ -21,10 +21,15 @@ import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
+import static com.crazycook.tgbot.bot.Messages.BOLD_END;
+import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
+import static com.crazycook.tgbot.bot.Messages.RED_DIAMOND;
 
 @AllArgsConstructor
 public class ShowCartCommand implements CrazyCookTGCommand {
-    public static final String MESSAGE = "В твоїй корзині зараз: \n";
 
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
@@ -37,26 +42,16 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         String username = getUserName(update);
         Cart cart = cartService.findCart(chatId, username);
 
-        StringBuilder message = new StringBuilder(MESSAGE);
+        StringBuilder message = new StringBuilder(IN_YOUR_CART);
         Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
 
         int filledSNumber = getBoxNumber(boxes, BoxSize.S);
         int filledMNumber = getBoxNumber(boxes, BoxSize.M);
         int filledLNumber = getBoxNumber(boxes, BoxSize.L);
 
-        boolean emptyBoxes = false;
-        if (cart.getSNumber() > filledSNumber) {
-            message.append("    ").append(cart.getSNumber() - filledSNumber).append(" <b>пустих S</b> боксів \n");
-            emptyBoxes = true;
-        }
-        if (cart.getMNumber() > filledMNumber) {
-            message.append("    ").append(cart.getMNumber() - filledMNumber).append(" <b>пустих</b> M боксів \n");
-            emptyBoxes = true;
-        }
-        if (cart.getLNumber() > filledLNumber) {
-            message.append("    ").append(cart.getLNumber() - filledLNumber).append(" <b>пустих</b> L боксів \n");
-            emptyBoxes = true;
-        }
+        boolean emptyBoxes = addMessageForEmptyBoxes(message, filledSNumber, cart.getSNumber(), BoxSize.S)
+                || addMessageForEmptyBoxes(message, filledMNumber, cart.getMNumber(), BoxSize.M)
+                || addMessageForEmptyBoxes(message, filledLNumber, cart.getLNumber(), BoxSize.L);
 
         message.append(cartService.flavorMixToString(cart));
 
@@ -76,6 +71,17 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         }
 
         sendBotMessageService.sendMessage(getChatId(update), message.toString(), buttons);
+    }
+
+    private boolean addMessageForEmptyBoxes(StringBuilder message, int filledSNumber, int thisSizeNumber, BoxSize size) {
+        boolean emptyBoxes = false;
+        if (thisSizeNumber > filledSNumber) {
+            message.append(RED_DIAMOND).append(ONE_SPACE).append(BOLD_START)
+                    .append(thisSizeNumber - filledSNumber).append(" пустих ").append(size).append(" боксів")
+                    .append(BOLD_END).append(LINE_END);
+            emptyBoxes = true;
+        }
+        return emptyBoxes;
     }
 
     private int getBoxNumber(Set<Box> boxes, BoxSize size) {

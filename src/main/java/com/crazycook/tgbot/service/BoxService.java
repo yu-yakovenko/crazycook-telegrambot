@@ -11,6 +11,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.crazycook.tgbot.bot.Messages.BOLD_END;
+import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.YELLOW_DIAMOND;
+
 @Service
 @AllArgsConstructor
 @Transactional
@@ -42,7 +47,7 @@ public class BoxService {
         if (flavorQuantity.isEmpty()) {
             return "";
         }
-        StringBuilder message = new StringBuilder("<b>Бокс " + box.getBoxSize() + ", що міcтить: </b>\n");
+        StringBuilder message = new StringBuilder(YELLOW_DIAMOND + BOLD_START + "Бокс " + box.getBoxSize() + ", що міcтить:" + BOLD_END + LINE_END);
         for (FlavorQuantity fq : flavorQuantity) {
             message.append("    ").append(fq.toString());
         }
