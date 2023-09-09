@@ -6,6 +6,7 @@ import com.crazycook.tgbot.command.box.ChooseLCommand;
 import com.crazycook.tgbot.command.box.ChooseMCommand;
 import com.crazycook.tgbot.command.box.ChooseSCommand;
 import com.crazycook.tgbot.command.cart.CompleteCartCommand;
+import com.crazycook.tgbot.command.cart.RefreshCartCommand;
 import com.crazycook.tgbot.command.cart.ShowCartCommand;
 import com.crazycook.tgbot.command.comment.CommentCommand;
 import com.crazycook.tgbot.command.comment.CommentWaitingCommand;
@@ -48,6 +49,7 @@ import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR_FOR_REST;
 import static com.crazycook.tgbot.command.CommandName.PRICE;
+import static com.crazycook.tgbot.command.CommandName.REFRESH;
 import static com.crazycook.tgbot.command.CommandName.SELF_PICKUP;
 import static com.crazycook.tgbot.command.CommandName.SHOW_CART;
 import static com.crazycook.tgbot.command.CommandName.START;
@@ -79,6 +81,7 @@ public class CommandContainer {
                 .put(BOX_NUMBER_COMMAND.getCommandName(), new BoxNumberCommand(sendBotMessageService, cartService, adminService))
                 .put(FLAVOR_NUMBER_COMMAND.getCommandName(), new FlavorNumberCommand(sendBotMessageService, flavorService, cartService, boxService, flavorQuantityService))
                 .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService, boxService))
+                .put(REFRESH.getCommandName(), new RefreshCartCommand(sendBotMessageService, cartService))
                 .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
                 .put(MIX_FLAVOR_FOR_REST.getCommandName(), new MixForRestCommand(sendBotMessageService, cartService, boxService))

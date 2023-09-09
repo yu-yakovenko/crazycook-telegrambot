@@ -22,6 +22,7 @@ import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
+import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.FOUR_SPACES;
@@ -75,7 +76,7 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         if (emptyBoxes) {
             buttons.add(List.of(chooseFlavorsLongButton()));
         } else if (!emptyCart) {
-            buttons.add(List.of(chooseDeliveryButton()));
+            buttons.add(List.of(chooseDeliveryButton(), refreshCartButton()));
         }
 
         sendBotMessageService.sendMessage(getChatId(update), message.toString(), buttons);

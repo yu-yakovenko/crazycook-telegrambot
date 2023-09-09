@@ -136,6 +136,10 @@ public class Buttons {
         return createButton("Підтвердити замовлення", CALLBACK_DATA_COMPLETE_CART);
     }
 
+    public static InlineKeyboardButton refreshCartButton() {
+        return createButton("Очистити корзину", CALLBACK_DATA_REFRESH);
+    }
+
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();

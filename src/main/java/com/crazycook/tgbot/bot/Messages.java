@@ -26,4 +26,6 @@ public class Messages {
 
     public final static String FLAVOR_MESSAGE = BOLD_START + "Зараз в наявності є такі смаки: " + BOLD_END + LINE_END;
 
+    public final static String CART_WAS_REFRESH = "Корзину очищено, зараз в ній нічого немає.";
+
 }
