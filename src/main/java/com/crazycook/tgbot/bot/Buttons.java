@@ -28,6 +28,8 @@ public class Buttons {
     public static final String CALLBACK_DATA_CHOOSE_DELIVERY = "/choose_delivery";
     public static final String CALLBACK_DATA_SELF_PICKUP = "/self_pickup";
     public static final String CALLBACK_DATA_COURIER = "/courier";
+    public static final String CALLBACK_DATA_WAITING_FOR_COMMENT = "/waiting_for_comment";
+    public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
@@ -124,6 +126,14 @@ public class Buttons {
         keyboardButton.setText("Поділитися контактом");
         keyboardButton.setRequestContact(true);
         return keyboardButton;
+    }
+
+    public static InlineKeyboardButton commentButton() {
+        return createButton("Залишити коментар", CALLBACK_DATA_WAITING_FOR_COMMENT);
+    }
+
+    public static InlineKeyboardButton completeCartButton() {
+        return createButton("Підтвердити замовлення", CALLBACK_DATA_COMPLETE_CART);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {

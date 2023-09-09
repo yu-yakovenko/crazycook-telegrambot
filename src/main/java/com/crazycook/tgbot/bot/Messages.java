@@ -17,4 +17,9 @@ public class Messages {
     public static final String NEGATIVE_NUMBER_REACTION = "\uD83E\uDD28 Серйозно, відємне значення? Ти, що тестувальник(ця) \uD83D\uDE01? \nЯкщо в тебе є бажання допомогти нам тестувати цей бот, звернись до наших адмінів.";
     public static final String FLOATING_NUMBER_REACTION = "\uD83E\uDDD0 Це що дробне значенн? Ми продаємо лише цілі бокси і цілі макарони.";
     public static final String TO_LONG_INTEGER_NUMBER_REACTION = "\uD83D\uDE02 Ого, оце ти ласун(ка)! Але в нас стільки макаронів немає, спробуй написати меншу кількість.";
+
+    public static final String LEAVE_COMMENT = "Якщо хочешь, можешь залишити коментар до замовлення. Наприклад, можешь вказати як краще з тобою звязуватись - писати в телеграмі, чи дзвонити на телефон. Можешь написати побажання до дати і часу доставки, або будь яке інше побажання.";
+    public static final String WAITING_COMMENT = "\uD83E\uDDDE\u200D♂️ Я слухаю, пиши.";
+    public static final String COMMENT_ADDED = "Дякую, коментар додали.";
+
 }

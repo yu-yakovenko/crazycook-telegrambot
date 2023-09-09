@@ -17,7 +17,9 @@ import static com.crazycook.tgbot.command.CommandName.CHOOSE_FLAVORS;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_L;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_M;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_S;
+import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.COMPLETE_CART;
+import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.COURIER;
 import static com.crazycook.tgbot.command.CommandName.DELIVERY;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR;
@@ -30,6 +32,7 @@ import static com.crazycook.tgbot.command.CommandName.SELF_PICKUP;
 import static com.crazycook.tgbot.command.CommandName.SHOW_CART;
 import static com.crazycook.tgbot.command.CommandName.START;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_COMMENT;
 
 public class CommandContainer {
     private final ImmutableMap<String, CrazyCookTGCommand> commandMap;
@@ -59,6 +62,9 @@ public class CommandContainer {
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
                 .put(MIX_FLAVOR_FOR_REST.getCommandName(), new MixForRestCommand(sendBotMessageService, cartService, boxService))
                 .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
+                .put(CONTACT_COMMAND.getCommandName(), new ContactCommand(sendBotMessageService, customerService))
+                .put(WAITING_FOR_COMMENT.getCommandName(), new CommentWaitingCommand(sendBotMessageService, cartService))
+                .put(COMMENT.getCommandName(), new CommentCommand(sendBotMessageService, cartService))
                 .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();

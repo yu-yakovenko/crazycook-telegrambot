@@ -15,7 +15,7 @@ import static com.crazycook.tgbot.bot.Messages.FLOATING_NUMBER_REACTION;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.NEGATIVE_NUMBER_REACTION;
 import static com.crazycook.tgbot.bot.Messages.TO_LONG_INTEGER_NUMBER_REACTION;
-import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_APPROVE;
+import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
 public class BoxNumberCommand implements CrazyCookTGCommand {
@@ -77,7 +77,7 @@ public class BoxNumberCommand implements CrazyCookTGCommand {
             }
             default -> throw new IllegalStateException("Unexpected value: " + cart.getStatus());
         }
-        cart.setStatus(WAITING_FOR_APPROVE);
+        cart.setStatus(IN_PROGRESS);
         cartService.save(cart);
         sendBotMessageService.sendMessage(chatId, String.format(MESSAGE_FORMAT, incomeNumber, boxSize), cartInProgressButtons());
     }

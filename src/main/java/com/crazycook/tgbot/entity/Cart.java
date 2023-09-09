@@ -48,6 +48,8 @@ public class Cart {
     @Column(name = "l_number")
     private int lNumber = 0;
 
+    private String comment;
+
     @OneToOne
     @JoinColumn(name = "box_in_progress_id", referencedColumnName = "id")
     private Box boxInProgress;

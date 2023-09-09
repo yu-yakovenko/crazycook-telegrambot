@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
 import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
-import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_APPROVE;
+import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
 public class FlavorNumberCommand implements CrazyCookTGCommand {
@@ -78,7 +77,7 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
 
         addFlavorToFlavorQuantities(flavor, number, flavorQuantities, boxInProgress);
 
-        cart.setStatus(WAITING_FOR_APPROVE);
+        cart.setStatus(IN_PROGRESS);
         cart.setCurrentFlavor(null);
         boxInProgress.setFlavorQuantities(flavorQuantities);
         cart.setBoxInProgress(boxService.save(boxInProgress));
@@ -90,7 +89,7 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
 
         message += String.format(MESSAGE, number, flavor.getName(), boxIndex, boxSize.name());
 
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        List<List<InlineKeyboardButton>> buttons;
         if (moreFlavorsPossible) {
             message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber - number);
             buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList());

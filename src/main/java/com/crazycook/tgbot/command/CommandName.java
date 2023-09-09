@@ -27,7 +27,10 @@ public enum CommandName {
     CHOOSE_DELIVERY("/choose_delivery"),
     COURIER("/courier"),
     SELF_PICKUP("/self_pickup"),
-    COMPLETE_CART("CompleteCart"),
+    COMMENT("CommentCommand"),
+    WAITING_FOR_COMMENT("/waiting_for_comment"),
+    COMPLETE_CART("/complete_cart"),
+    CONTACT_COMMAND("ContactCommand"),
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

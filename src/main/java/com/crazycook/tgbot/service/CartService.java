@@ -46,7 +46,7 @@ public class CartService {
         if (cart == null) {
             cart = cartRepository.save(Cart.builder()
                     .customer(customer)
-                    .status(CartStatus.NEW)
+                    .status(CartStatus.IN_PROGRESS)
                     .build());
         }
         return cart;

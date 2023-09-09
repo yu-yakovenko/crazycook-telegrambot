@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 
 @AllArgsConstructor
 public class CompleteCartCommand implements CrazyCookTGCommand {
@@ -34,23 +35,35 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         Long customerChatId = getChatId(update);
         String customerUsername = getUserName(update);
         Cart cart = cartService.createOrFind(customerChatId, customerUsername);
-
-        //оновити контакти кастомера
         Customer customer = customerService.createOrFind(customerChatId, customerUsername);
-        customer = updateCustomerContacts(update, customer);
 
         //Надрукувати що в корзині
         String cartSummery = cartSummery(cart);
+        String deliveryMethod = delivery(cart);
+        String comment = comment(cart);
+
+        if (cartSummery.isBlank()) {
+            String messageForCustomer = "В твоєму замовленні ще нічого немає.";
+            sendBotMessageService.sendMessage(customerChatId, messageForCustomer, List.of(List.of(addMoreButton())));
+            return;
+        }
 
         //Надіслати повідомлення замовнику
-        String messageForCustomer = "В твоєму замовленні: \n\n" + cartSummery + THANKS_MESSAGE;
+        String messageForCustomer = "В твоєму замовленні: \n\n" + cartSummery + deliveryMethod + comment + THANKS_MESSAGE;
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
         //закрити корзину
         cart.setStatus(CartStatus.DONE);
 
         // повідомити адмінів
-        sendMessageForAdmin(cartSummery, customer);
+        sendMessageForAdmin(cartSummery + deliveryMethod + comment, customer);
+    }
+
+    private String comment(Cart cart) {
+        if (cart.getComment() != null && !cart.getComment().isBlank()) {
+            return "Коментар: " + cart.getComment();
+        }
+        return "";
     }
 
     private void sendMessageForAdmin(String cartSummery, Customer customer) {
@@ -71,14 +84,13 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         cartSummery.append(cartService.flavorMixToString(cart));
         List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
         flavorDescription.forEach(cartSummery::append);
-        cartSummery.append("\n<b>Cпосіб доставки: </b>").append(cart.getDeliveryMethod().getName()).append("\n");
         return cartSummery.toString();
     }
 
-    private Customer updateCustomerContacts(Update update, Customer customer) {
-        customer.setPhoneNumber(update.getMessage().getContact().getPhoneNumber().trim());
-        customer.setFirstName(update.getMessage().getContact().getFirstName());
-        customer.setLastName(update.getMessage().getContact().getLastName());
-        return customerService.saveCustomer(customer);
+    private String delivery(Cart cart) {
+        if (cart.getDeliveryMethod() != null) {
+            return "\n<b>Cпосіб доставки: </b>" + cart.getDeliveryMethod().getName() + "\n";
+        }
+        return "";
     }
 }
