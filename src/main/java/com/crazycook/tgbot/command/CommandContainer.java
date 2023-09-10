@@ -27,6 +27,7 @@ import com.crazycook.tgbot.service.CustomerService;
 import com.crazycook.tgbot.service.FlavorQuantityService;
 import com.crazycook.tgbot.service.FlavorService;
 import com.crazycook.tgbot.service.OrderService;
+import com.crazycook.tgbot.service.PriceService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
@@ -63,14 +64,14 @@ public class CommandContainer {
     public CommandContainer(SendBotMessageService sendBotMessageService, CartService cartService,
                             CustomerService customerService, FlavorService flavorService, BoxService boxService,
                             FlavorQuantityService flavorQuantityService, AdminService adminService,
-                            OrderService orderService) {
+                            OrderService orderService, PriceService priceService) {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
-                .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService))
+                .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService, priceService))
                 .put(FLAVOR.getCommandName(), new FlavorInStockCommand(sendBotMessageService, flavorService))
                 .put(DELIVERY.getCommandName(), new DeliveryCommand(sendBotMessageService))
-                .put(CHOOSE_DELIVERY.getCommandName(), new ChooseDeliveryCommand(sendBotMessageService))
+                .put(CHOOSE_DELIVERY.getCommandName(), new ChooseDeliveryCommand(sendBotMessageService, priceService))
                 .put(COURIER.getCommandName(), new CourierCommand(sendBotMessageService, cartService))
                 .put(SELF_PICKUP.getCommandName(), new SelfPickupCommand(sendBotMessageService, cartService))
                 .put(CHOOSE_BOX.getCommandName(), new ChooseBoxCommand(sendBotMessageService))

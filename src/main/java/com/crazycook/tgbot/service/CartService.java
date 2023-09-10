@@ -5,11 +5,13 @@ import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.CartStatus;
 import com.crazycook.tgbot.entity.Customer;
+import com.crazycook.tgbot.entity.DeliveryMethod;
 import com.crazycook.tgbot.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
@@ -32,6 +34,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CustomerService customerService;
     private final BoxService boxService;
+    private final PriceService priceService;
 
     public Cart findCart(Long chatId, String username) {
         return cartRepository.findByCustomer(customerService.createOrFind(chatId, username));
@@ -138,5 +141,24 @@ public class CartService {
             boxService.save(box);
         });
         cartRepository.save(cart);
+    }
+
+    public BigDecimal countOverallPrice(Cart cart) {
+        BigDecimal price = new BigDecimal(0);
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+
+        BigDecimal sPrice = priceService.getBoxPrice(S);
+        BigDecimal mPrice = priceService.getBoxPrice(M);
+        BigDecimal lPrice = priceService.getBoxPrice(L);
+        BigDecimal courierDeliveryPrice = priceService.getDeliveryPrice();
+
+        price = price.add(sPrice.multiply(BigDecimal.valueOf(boxes.stream().filter(b -> S.equals(b.getBoxSize())).count())));
+        price = price.add(mPrice.multiply(BigDecimal.valueOf(boxes.stream().filter(b -> M.equals(b.getBoxSize())).count())));
+        price = price.add(lPrice.multiply(BigDecimal.valueOf(boxes.stream().filter(b -> L.equals(b.getBoxSize())).count())));
+
+        if (DeliveryMethod.COURIER.equals(cart.getDeliveryMethod())) {
+            price = price.add(courierDeliveryPrice);
+        }
+        return price;
     }
 }

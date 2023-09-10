@@ -13,6 +13,7 @@ import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
 import static com.crazycook.tgbot.bot.Messages.THANKS_MESSAGE;
 
 @AllArgsConstructor
@@ -45,6 +47,8 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         String cartSummery = cartSummery(cart);
         String deliveryMethod = delivery(cart);
         String comment = comment(cart);
+        BigDecimal overallPrice = cartService.countOverallPrice(cart);
+        String price = LINE_END + String.format(OVERALL_PRICE, overallPrice) + LINE_END;
 
         if (cartSummery.isBlank()) {
             String messageForCustomer = "В твоєму замовленні ще нічого немає.";
@@ -54,7 +58,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
         //Надіслати повідомлення замовнику
         String messageForCustomer = "В твоєму замовленні: " + LINE_END + LINE_END
-                + cartSummery + deliveryMethod + comment + LINE_END + THANKS_MESSAGE;
+                + cartSummery + deliveryMethod + comment + price + LINE_END + THANKS_MESSAGE;
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
         //закрити корзину
@@ -62,7 +66,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         cartService.delete(cart);
 
         // повідомити адмінів
-        sendMessageForAdmin(cartSummery + deliveryMethod + comment, customer);
+        sendMessageForAdmin(cartSummery + deliveryMethod + comment + price, customer);
     }
 
     private String comment(Cart cart) {

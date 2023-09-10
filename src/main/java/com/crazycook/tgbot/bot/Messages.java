@@ -4,6 +4,8 @@ public class Messages {
     public static final String BOLD_START = "<b>";
     public static final String BOLD_END = "</b>";
     public static final String LINE_END = "\n";
+    public static final String VALUE = "%s";
+    public static final String POINT = ".";
     public static final String ONE_SPACE = " ";
     public static final String FOUR_SPACES = "    ";
 
@@ -28,4 +30,21 @@ public class Messages {
 
     public final static String CART_WAS_REFRESH = "Корзину очищено, зараз в ній нічого немає.";
 
+    public final static String DELIVERY_MESSAGE = """
+            Доставка можлива тільки по Києву.
+             🔹 Доставка кур'єром <b>%s грн.</b> Після оформлення замовлення ми вам передзвонимо для уточння часу і місця\s
+             🔹 Самовивоз. Сікорського 1, з 10 до 20 за попередньою домовленістю\s
+             🔹 Новою поштою не відправляємо, бо макарнчики надто тендітні і не перживають таку доставку.\s
+            """;
+
+    public final static String PRICE_MESSAGE = """
+            Маємо в асортименті три типи боксів:\s
+             🔹 Бокс <b>S</b> містить <b>8</b> макаронів, <b>%s</b> грн;\s
+             🔹 Бокс <b>M</b> містить <b>12</b> макаронів, <b>%s</b> грн;\s
+             🔹 Бокс <b>L</b> містить <b>18</b> макаронів, <b>%s</b> грн;""";
+
+    public final static String OVERALL_PRICE_START = "Загальна вартість замовлення: ";
+    public final static String UAH = "грн";
+
+    public final static String OVERALL_PRICE = BOLD_START + OVERALL_PRICE_START + BOLD_END + VALUE + ONE_SPACE + UAH + POINT;
 }
