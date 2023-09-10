@@ -26,6 +26,7 @@ import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
 import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.COMMENT;
 import static com.crazycook.tgbot.bot.Messages.FOUR_SPACES;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
@@ -71,6 +72,10 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         if (IN_YOUR_CART.equals(message.toString())) {
             message.append(FOUR_SPACES).append(YOUR_CART_IS_EMPTY);
             emptyCart = true;
+        }
+
+        if (cart.getComment() != null && !cart.getComment().isBlank()) {
+            message.append(LINE_END).append(BOLD_START).append(COMMENT).append(BOLD_END).append(cart.getComment());
         }
 
         BigDecimal overallPrice = cartService.countOverallPrice(cart);
