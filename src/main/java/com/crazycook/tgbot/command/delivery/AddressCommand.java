@@ -9,11 +9,15 @@ import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
+import static com.crazycook.tgbot.Utils.getMessage;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.entity.DeliveryMethod.COURIER;
+import static com.crazycook.tgbot.bot.Buttons.requestContactButton;
+import static com.crazycook.tgbot.bot.Messages.ADDRESS_SAVED;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.REQUEST_CONTACT;
 
 @AllArgsConstructor
-public class CourierCommand implements CrazyCookTGCommand {
+public class AddressCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
 
@@ -21,12 +25,15 @@ public class CourierCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         Long chatId = getChatId(update);
         String username = getUserName(update);
+        String address = getMessage(update);
 
         Cart cart = cartService.createOrFind(chatId, username);
-        cart.setDeliveryMethod(COURIER);
-        cart.setStatus(CartStatus.WAITING_FOR_ADDRESS);
+        cart.setAddress(address);
+        cart.setStatus(CartStatus.IN_PROGRESS);
         cartService.save(cart);
 
-        sendBotMessageService.sendMessage(chatId, "Введи адресу доставки");
+        String message = ADDRESS_SAVED + LINE_END + REQUEST_CONTACT;
+
+        sendBotMessageService.requestContact(chatId, message, requestContactButton());
     }
 }

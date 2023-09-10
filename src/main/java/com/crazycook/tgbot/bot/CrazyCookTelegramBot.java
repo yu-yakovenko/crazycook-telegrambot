@@ -21,12 +21,14 @@ import java.util.Locale;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.command.CommandName.ADDRESS;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_BOX_NUMBER_STATUSES;
+import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_ADDRESS;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_COMMENT;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_FLAVOR_NUMBER;
 
@@ -60,7 +62,9 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
 
         String message = Utils.getMessage(update);
         Cart cart = cartService.createOrFind(chatId, username);
-        if (WAITING_FOR_COMMENT.equals(cart.getStatus())) {
+        if (WAITING_FOR_ADDRESS.equals(cart.getStatus())) {
+            commandContainer.findCommand(ADDRESS.getCommandName()).execute(update);
+        } else if (WAITING_FOR_COMMENT.equals(cart.getStatus())) {
             commandContainer.findCommand(COMMENT.getCommandName()).execute(update);
         } else if (update.getMessage() != null && update.getMessage().hasContact()) {
             commandContainer.findCommand(CONTACT_COMMAND.getCommandName()).execute(update);

@@ -41,6 +41,8 @@ public class Order {
 
     private String comment;
 
+    private String address;
+
     @Builder.Default
     @OneToMany(mappedBy = "order")
     private Set<Box> boxes = new HashSet<>();

@@ -25,6 +25,7 @@ public class OrderService {
                 .customer(cart.getCustomer())
                 .boxes(cartService.getBoxesForCart(cart.getId()))
                 .comment(cart.getComment())
+                .address(cart.getAddress())
                 .deliveryMethod(cart.getDeliveryMethod())
                 .status(OrderStatus.IN_PROGRESS)
                 .build();

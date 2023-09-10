@@ -16,6 +16,10 @@ public class Messages {
     public static final String IN_YOUR_CART = "В твоїй корзині зараз: \n";
     public static final String YOUR_CART_IS_EMPTY = "\uD83D\uDE32 Тут пуст! Жодного макарончика \uD83E\uDD37\u200D♂️";
     public static final String COMMENT = "Коментар: ";
+    public final static String ADDRESS_SAVED = "Адресу збережено. ";
+    public final static String ADDRESS = BOLD_START + "Адреса доставки: " + BOLD_END;
+    public static final String REQUEST_CONTACT = "Будь ласка поділіться своїм контактом, щоб ми могли звязатися з вами для уточнення деталей доставки";
+    public static final String DELIVERY_METHOD = "Cпосіб доставки: ";
 
     public static final String NEGATIVE_NUMBER_REACTION = "\uD83E\uDD28 Серйозно, від'ємне значення? Ти, що тестувальник(ця) \uD83D\uDE01? \nЯкщо в тебе є бажання допомогти нам тестувати цей бот, звернись до наших адмінів.";
     public static final String FLOATING_NUMBER_REACTION = "\uD83E\uDDD0 Це що дробне значенн? Ми продаємо лише цілі бокси і цілі макарони.";

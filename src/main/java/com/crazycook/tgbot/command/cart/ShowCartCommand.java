@@ -24,6 +24,7 @@ import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
 import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
+import static com.crazycook.tgbot.bot.Messages.ADDRESS;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.COMMENT;
@@ -91,6 +92,10 @@ public class ShowCartCommand implements CrazyCookTGCommand {
             message.append(LINE_END).append(String.format(OVERALL_PRICE, overallPrice));
         } else {
             buttons.add(List.of(addMoreButton()));
+        }
+
+        if (cart.getAddress() != null && !cart.getAddress().isBlank()) {
+            message.append(LINE_END).append(ADDRESS).append(cart.getAddress());
         }
 
         sendBotMessageService.sendMessage(getChatId(update), message.toString(), buttons);

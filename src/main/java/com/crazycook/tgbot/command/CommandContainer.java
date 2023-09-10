@@ -10,6 +10,7 @@ import com.crazycook.tgbot.command.cart.RefreshCartCommand;
 import com.crazycook.tgbot.command.cart.ShowCartCommand;
 import com.crazycook.tgbot.command.comment.CommentCommand;
 import com.crazycook.tgbot.command.comment.CommentWaitingCommand;
+import com.crazycook.tgbot.command.delivery.AddressCommand;
 import com.crazycook.tgbot.command.delivery.ChooseDeliveryCommand;
 import com.crazycook.tgbot.command.delivery.CourierCommand;
 import com.crazycook.tgbot.command.delivery.DeliveryCommand;
@@ -31,6 +32,7 @@ import com.crazycook.tgbot.service.PriceService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
+import static com.crazycook.tgbot.command.CommandName.ADDRESS;
 import static com.crazycook.tgbot.command.CommandName.ADD_MORE_BOXES;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_BOX;
@@ -87,8 +89,9 @@ public class CommandContainer {
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
                 .put(MIX_FLAVOR_FOR_REST.getCommandName(), new MixForRestCommand(sendBotMessageService, cartService, boxService))
                 .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
-                .put(CONTACT_COMMAND.getCommandName(), new ContactCommand(sendBotMessageService, customerService))
+                .put(CONTACT_COMMAND.getCommandName(), new ContactCommand(sendBotMessageService, customerService, cartService))
                 .put(WAITING_FOR_COMMENT.getCommandName(), new CommentWaitingCommand(sendBotMessageService, cartService))
+                .put(ADDRESS.getCommandName(), new AddressCommand(sendBotMessageService, cartService))
                 .put(COMMENT.getCommandName(), new CommentCommand(sendBotMessageService, cartService))
                 .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService, orderService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))

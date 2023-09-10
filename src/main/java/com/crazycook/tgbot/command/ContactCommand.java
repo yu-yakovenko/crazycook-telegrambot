@@ -1,6 +1,7 @@
 package com.crazycook.tgbot.command;
 
 import com.crazycook.tgbot.entity.Customer;
+import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import static com.crazycook.tgbot.bot.Messages.LEAVE_COMMENT;
 public class ContactCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CustomerService customerService;
+    private final CartService cartService;
 
     @Override
     public void execute(Update update) {

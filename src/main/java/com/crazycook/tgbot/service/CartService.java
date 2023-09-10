@@ -136,6 +136,7 @@ public class CartService {
         cart.setDeliveryMethod(null);
         cart.setComment(null);
         cart.setBoxes(null);
+        cart.setAddress(null);
         getBoxesForCart(cart.getId()).forEach(box -> {
             box.setCart(null);
             boxService.save(box);

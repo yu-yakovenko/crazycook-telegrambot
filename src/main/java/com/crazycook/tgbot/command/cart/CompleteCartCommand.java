@@ -15,14 +15,17 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
+import static com.crazycook.tgbot.bot.Messages.ADDRESS;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.DELIVERY_METHOD;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
 import static com.crazycook.tgbot.bot.Messages.THANKS_MESSAGE;
@@ -49,6 +52,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         String comment = comment(cart);
         BigDecimal overallPrice = cartService.countOverallPrice(cart);
         String price = LINE_END + String.format(OVERALL_PRICE, overallPrice) + LINE_END;
+        String addres = address(cart);
 
         if (cartSummery.isBlank()) {
             String messageForCustomer = "В твоєму замовленні ще нічого немає.";
@@ -58,7 +62,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
         //Надіслати повідомлення замовнику
         String messageForCustomer = "В твоєму замовленні: " + LINE_END + LINE_END
-                + cartSummery + deliveryMethod + comment + price + LINE_END + THANKS_MESSAGE;
+                + cartSummery + deliveryMethod + addres + comment + price + LINE_END + THANKS_MESSAGE;
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
         //закрити корзину
@@ -66,19 +70,26 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         cartService.delete(cart);
 
         // повідомити адмінів
-        sendMessageForAdmin(cartSummery + deliveryMethod + comment + price, customer);
+        sendMessageForAdmin(cartSummery + deliveryMethod + addres + LINE_END + comment + price, customer);
+    }
+
+    private String address(Cart cart) {
+        if (cart.getAddress() != null && !cart.getAddress().isBlank()) {
+            return LINE_END + ADDRESS + cart.getAddress();
+        }
+        return "";
     }
 
     private String comment(Cart cart) {
         if (cart.getComment() != null && !cart.getComment().isBlank()) {
-            return BOLD_START + "Коментар: " + BOLD_END + cart.getComment();
+            return LINE_END + BOLD_START + "Коментар: " + BOLD_END + cart.getComment();
         }
         return "";
     }
 
     private void sendMessageForAdmin(String cartSummery, Customer customer) {
         String message = customer.getFirstName() + " " +
-                customer.getLastName() + " " +
+                Optional.of(customer.getLastName()).orElse("") + " " +
                 "@" + customer.getUsername() +
                 " щойно оформив замовлення. <b>Телефон: " + customer.getPhoneNumber() + ".</b>\n" +
                 "\n" + cartSummery;
@@ -99,7 +110,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
     private String delivery(Cart cart) {
         if (cart.getDeliveryMethod() != null) {
-            return "\n<b>Cпосіб доставки: </b>" + cart.getDeliveryMethod().getName() + "\n";
+            return LINE_END + BOLD_START + DELIVERY_METHOD + BOLD_END + cart.getDeliveryMethod().getName();
         }
         return "";
     }
