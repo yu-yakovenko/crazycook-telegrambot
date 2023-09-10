@@ -70,7 +70,7 @@ public class CommandContainer {
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
                 .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService, priceService))
                 .put(FLAVOR.getCommandName(), new FlavorInStockCommand(sendBotMessageService, flavorService))
-                .put(DELIVERY.getCommandName(), new DeliveryCommand(sendBotMessageService))
+                .put(DELIVERY.getCommandName(), new DeliveryCommand(sendBotMessageService, priceService))
                 .put(CHOOSE_DELIVERY.getCommandName(), new ChooseDeliveryCommand(sendBotMessageService, priceService))
                 .put(COURIER.getCommandName(), new CourierCommand(sendBotMessageService, cartService))
                 .put(SELF_PICKUP.getCommandName(), new SelfPickupCommand(sendBotMessageService, cartService))
