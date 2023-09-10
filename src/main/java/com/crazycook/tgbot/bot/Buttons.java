@@ -129,15 +129,15 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton commentButton() {
-        return createButton("Залишити коментар", CALLBACK_DATA_WAITING_FOR_COMMENT);
+        return createButton("\uD83D\uDDD2 Залишити коментар", CALLBACK_DATA_WAITING_FOR_COMMENT);
     }
 
     public static InlineKeyboardButton completeCartButton() {
-        return createButton("Підтвердити замовлення", CALLBACK_DATA_COMPLETE_CART);
+        return createButton("✅ Підтвердити замовлення", CALLBACK_DATA_COMPLETE_CART);
     }
 
     public static InlineKeyboardButton refreshCartButton() {
-        return createButton("Очистити корзину", CALLBACK_DATA_REFRESH);
+        return createButton("\uD83D\uDDD1 Очистити корзину", CALLBACK_DATA_REFRESH);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {

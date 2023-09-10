@@ -72,11 +72,14 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         }
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        buttons.add(List.of(addMoreButton()));
         if (emptyBoxes) {
+            buttons.add(List.of(addMoreButton(), refreshCartButton()));
             buttons.add(List.of(chooseFlavorsLongButton()));
         } else if (!emptyCart) {
+            buttons.add(List.of(addMoreButton()));
             buttons.add(List.of(chooseDeliveryButton(), refreshCartButton()));
+        } else {
+            buttons.add(List.of(addMoreButton()));
         }
 
         sendBotMessageService.sendMessage(getChatId(update), message.toString(), buttons);
