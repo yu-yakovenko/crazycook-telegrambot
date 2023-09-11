@@ -103,4 +103,9 @@ public class Messages {
     public final static String PROMO_EXPIRED = "Вибач, цей промокод вже просрочено, він діяв до " + VALUE;
     public final static String WRONG_PROMO = "Такого промокоду в нас немає.";
     public final static String INPUT_PROMO = "Введи промокод";
+    public static final String INPUT_NEW_PROMO = "Введи новий промокод у форматі: " + LINE_END + "назва промокоду; 99; 2023-12-31" + LINE_END + " де 99 це процент знижки який надає промокод, а 2023-12-31 дата завершення. Головне не забудь поставити символ ';' між назвою, процентом і датою";
+    public static final String PERCENT_WRONG = "Формат вводу проценту невірний, щоб я зміг зрозуміти, пиши процент просто числом без додаткових символів. І звісно підходять значення тільки від 1 до 100";
+    public static final String DATE_WRONG = "Формат вводу дати невірний. Я дозумію формат yyyy-mm-dd, тобто нарпиклад 1991-08-24  це валідний ввод дати";
+    public static final String NEW_PROMO_ADDED = "Новий промокод '%s', що надає знижку у розмірі %s відсотків, та діє до %s, додано.";
+    public static final String PROMO_ALREADY_EXISTS = "Промокод з такою назвою вже існує.";
 }

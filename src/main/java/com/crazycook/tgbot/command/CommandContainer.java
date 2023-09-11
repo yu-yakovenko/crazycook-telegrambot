@@ -1,9 +1,11 @@
 package com.crazycook.tgbot.command;
 
 import com.crazycook.tgbot.command.admin.AddNewFlavorCommand;
+import com.crazycook.tgbot.command.admin.AddNewPromoCommand;
 import com.crazycook.tgbot.command.admin.MarkOrderAsDoneCommand;
 import com.crazycook.tgbot.command.admin.ShowActiveOrdersCommand;
 import com.crazycook.tgbot.command.admin.WaitingForFlavorCommand;
+import com.crazycook.tgbot.command.admin.WaitingForNewPromoCommand;
 import com.crazycook.tgbot.command.box.BoxNumberCommand;
 import com.crazycook.tgbot.command.box.ChooseBoxCommand;
 import com.crazycook.tgbot.command.box.ChooseLCommand;
@@ -40,8 +42,9 @@ import com.crazycook.tgbot.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
 import static com.crazycook.tgbot.command.CommandName.ADDRESS;
-import static com.crazycook.tgbot.command.CommandName.ADD_FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.ADD_MORE_BOXES;
+import static com.crazycook.tgbot.command.CommandName.ADD_NEW_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.ADD_NEW_PROMO;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_BOX;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_DELIVERY;
@@ -70,6 +73,7 @@ import static com.crazycook.tgbot.command.CommandName.START;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_COMMENT;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_NEW_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_NEW_PROMO;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_PROMO_CODE;
 
 public class CommandContainer {
@@ -111,8 +115,10 @@ public class CommandContainer {
                 .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService, orderService, promoService))
                 .put(SHOW_ACTIVE_ORDERS.getCommandName(), new ShowActiveOrdersCommand(sendBotMessageService, orderService, boxService, adminService, promoService))
                 .put(MARK_ORDER_AS_DONE.getCommandName(), new MarkOrderAsDoneCommand(sendBotMessageService, orderService, adminService))
-                .put(ADD_FLAVOR.getCommandName(), new AddNewFlavorCommand(sendBotMessageService, flavorService, adminService))
+                .put(ADD_NEW_FLAVOR.getCommandName(), new AddNewFlavorCommand(sendBotMessageService, flavorService, adminService))
                 .put(WAITING_FOR_NEW_FLAVOR.getCommandName(), new WaitingForFlavorCommand(sendBotMessageService, adminService))
+                .put(ADD_NEW_PROMO.getCommandName(), new AddNewPromoCommand(sendBotMessageService, promoService, adminService))
+                .put(WAITING_FOR_NEW_PROMO.getCommandName(), new WaitingForNewPromoCommand(sendBotMessageService, adminService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 

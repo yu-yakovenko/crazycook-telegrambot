@@ -38,8 +38,9 @@ public enum CommandName {
     SHOW_ACTIVE_ORDERS("/active_orders"),
     MARK_ORDER_AS_DONE("/order_done"),
     WAITING_FOR_NEW_FLAVOR("/add_flavor"),
-    ADD_FLAVOR("AddNewFlavorCommand"),
-
+    ADD_NEW_FLAVOR("AddNewFlavorCommand"),
+    WAITING_FOR_NEW_PROMO("/add_promo"),
+    ADD_NEW_PROMO("AddNewPromoCommand"),
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

@@ -1,6 +1,9 @@
 package com.crazycook.tgbot.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,9 @@ import java.time.LocalDate;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Promo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

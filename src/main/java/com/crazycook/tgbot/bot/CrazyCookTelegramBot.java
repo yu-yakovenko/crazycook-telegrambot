@@ -3,6 +3,7 @@ package com.crazycook.tgbot.bot;
 import com.crazycook.tgbot.AppProperty;
 import com.crazycook.tgbot.Utils;
 import com.crazycook.tgbot.command.CommandContainer;
+import com.crazycook.tgbot.entity.AdminStatus;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.service.AdminService;
 import com.crazycook.tgbot.service.BoxService;
@@ -23,14 +24,14 @@ import java.util.Locale;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.command.CommandName.ADDRESS;
-import static com.crazycook.tgbot.command.CommandName.ADD_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.ADD_NEW_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.ADD_NEW_PROMO;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.PROMO_CODE;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
-import static com.crazycook.tgbot.entity.AdminStatus.WAITING_FOR_FLAVOR_NAME;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_BOX_NUMBER_STATUSES;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_ADDRESS;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_COMMENT;
@@ -85,8 +86,10 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
              commandContainer.findCommand(BOX_NUMBER_COMMAND.getCommandName()).execute(update);
          } else if (message.matches(regExOnlyIntNumbers) && WAITING_FOR_FLAVOR_NUMBER.equals(cart.getStatus())) {
              commandContainer.findCommand(FLAVOR_NUMBER_COMMAND.getCommandName()).execute(update);
-         } else if (isAdmin && adminService.isHasStatus(chatId, WAITING_FOR_FLAVOR_NAME)) {
-             commandContainer.findCommand(ADD_FLAVOR.getCommandName()).execute(update);
+         } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_FLAVOR)) {
+             commandContainer.findCommand(ADD_NEW_FLAVOR.getCommandName()).execute(update);
+         } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_PROMO)) {
+             commandContainer.findCommand(ADD_NEW_PROMO.getCommandName()).execute(update);
          } else {
              commandContainer.findCommand(UNKNOWN_COMMAND.getCommandName()).execute(update);
          }

@@ -9,10 +9,10 @@ import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
-import static com.crazycook.tgbot.bot.Messages.INPUT_NEW_FLAVOR;
+import static com.crazycook.tgbot.bot.Messages.INPUT_NEW_PROMO;
 
 @AllArgsConstructor
-public class WaitingForFlavorCommand implements CrazyCookTGCommand {
+public class WaitingForNewPromoCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final AdminService adminService;
 
@@ -23,9 +23,9 @@ public class WaitingForFlavorCommand implements CrazyCookTGCommand {
             return;
         }
         Admin admin = adminService.getById(chatId);
-        admin.setStatus(AdminStatus.WAITING_FOR_FLAVOR);
+        admin.setStatus(AdminStatus.WAITING_FOR_PROMO);
         adminService.save(admin);
 
-        sendBotMessageService.sendMessage(chatId, INPUT_NEW_FLAVOR);
+        sendBotMessageService.sendMessage(chatId, INPUT_NEW_PROMO);
     }
 }

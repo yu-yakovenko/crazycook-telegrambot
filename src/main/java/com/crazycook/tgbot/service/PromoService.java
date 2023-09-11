@@ -29,4 +29,8 @@ public class PromoService {
         return (overallPrice.multiply(new BigDecimal(100 - promoCode.getPercent())))
                 .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
     }
+
+    public Promo save(Promo promo) {
+        return promoRepository.save(promo);
+    }
 }
