@@ -65,25 +65,24 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
 
         String message = Utils.getMessage(update);
         Cart cart = cartService.createOrFind(chatId, username);
-        if (WAITING_FOR_PROMO.equals(cart.getStatus())) {
-            commandContainer.findCommand(PROMO_CODE.getCommandName()).execute(update);
-        } else if (WAITING_FOR_ADDRESS.equals(cart.getStatus())) {
-            commandContainer.findCommand(ADDRESS.getCommandName()).execute(update);
-        } else if (WAITING_FOR_COMMENT.equals(cart.getStatus())) {
-            commandContainer.findCommand(COMMENT.getCommandName()).execute(update);
-        } else if (update.getMessage() != null && update.getMessage().hasContact()) {
-            commandContainer.findCommand(CONTACT_COMMAND.getCommandName()).execute(update);
-        } else if (message.startsWith(COMMAND_PREFIX)) {
-            String commandIdentifier = message.split(" ")[0].toLowerCase();
-            commandContainer.findCommand(commandIdentifier.toLowerCase(Locale.ROOT)).execute(update);
-        } else if (message.matches(regExOnlyNumbers) && WAITING_BOX_NUMBER_STATUSES.contains(cart.getStatus())) {
-            commandContainer.findCommand(BOX_NUMBER_COMMAND.getCommandName()).execute(update);
-        } else if (message.matches(regExOnlyIntNumbers) && WAITING_FOR_FLAVOR_NUMBER.equals(cart.getStatus())) {
-            commandContainer.findCommand(FLAVOR_NUMBER_COMMAND.getCommandName()).execute(update);
-        } else {
-            commandContainer.findCommand(UNKNOWN_COMMAND.getCommandName()).execute(update);
-        }
-
+         if (update.getMessage() != null && update.getMessage().hasContact()) {
+             commandContainer.findCommand(CONTACT_COMMAND.getCommandName()).execute(update);
+         } else if (message.startsWith(COMMAND_PREFIX)) {
+             String commandIdentifier = message.split(" ")[0].toLowerCase();
+             commandContainer.findCommand(commandIdentifier.toLowerCase(Locale.ROOT)).execute(update);
+         } else if (WAITING_FOR_PROMO.equals(cart.getStatus())) {
+             commandContainer.findCommand(PROMO_CODE.getCommandName()).execute(update);
+         } else if (WAITING_FOR_ADDRESS.equals(cart.getStatus())) {
+             commandContainer.findCommand(ADDRESS.getCommandName()).execute(update);
+         } else if (WAITING_FOR_COMMENT.equals(cart.getStatus())) {
+             commandContainer.findCommand(COMMENT.getCommandName()).execute(update);
+         } else if (message.matches(regExOnlyNumbers) && WAITING_BOX_NUMBER_STATUSES.contains(cart.getStatus())) {
+             commandContainer.findCommand(BOX_NUMBER_COMMAND.getCommandName()).execute(update);
+         } else if (message.matches(regExOnlyIntNumbers) && WAITING_FOR_FLAVOR_NUMBER.equals(cart.getStatus())) {
+             commandContainer.findCommand(FLAVOR_NUMBER_COMMAND.getCommandName()).execute(update);
+         } else {
+             commandContainer.findCommand(UNKNOWN_COMMAND.getCommandName()).execute(update);
+         }
     }
 
     @Override

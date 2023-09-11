@@ -47,7 +47,7 @@ public class Messages {
     public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
 
     //contact
-    public static final String REQUEST_CONTACT = "Будь ласка натисніть кнопку 'Поділіться контактом', щоб ми могли звязатися з вами для уточнення деталей доставки";
+    public static final String REQUEST_CONTACT = "Будь ласка натисніть кнопку 'Поділитися контактом', щоб ми могли звязатися з вами для уточнення деталей доставки";
     public static final String PHONE_NUMBER_IS = "Телефон: ";
 
     //address
@@ -66,7 +66,6 @@ public class Messages {
     public static final String WAITING_COMMENT = "\uD83E\uDDDE\u200D♂️ Я слухаю, пиши.";
     public static final String COMMENT_ADDED = "Дякую, коментар додали.";
     public static final String COMMENT_IS = "Коментар: ";
-
 
     //delivery
     public final static String DELIVERY_MESSAGE = """
