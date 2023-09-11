@@ -49,6 +49,8 @@ public class Messages {
     public final static String BOX_OVERFLOW = "Упс, схоже що в цей бокс ще %s макарончиків не влізе.\n";
     public static final String FLAVOR_ADDED = "Ми додали %d макарон зі смаком %s в %d-й %s бокс. ";
     public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
+    public static final String NEW_FLAVOR_ADDED = "Новий смак '%s' створено, наявність автоматично встановлено 'в наявності'.";
+    public static final String INPUT_NEW_FLAVOR = "Введи назву нового смаку";
 
     //contact
     public static final String REQUEST_CONTACT = "Будь ласка натисніть кнопку 'Поділитися контактом', щоб ми могли звязатися з вами для уточнення деталей доставки";

@@ -39,4 +39,8 @@ public class FlavorService {
                 .isInStock(f.getIsInStock())
                 .build();
     }
+
+    public Flavor save(Flavor flavor) {
+        return flavorRepository.save(flavor);
+    }
 }

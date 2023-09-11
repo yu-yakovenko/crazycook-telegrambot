@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Data
@@ -18,4 +20,7 @@ public class Admin {
     private Long chatId;
 
     private String username;
+
+    @Enumerated(EnumType.STRING)
+    private AdminStatus status;
 }

@@ -37,6 +37,8 @@ public enum CommandName {
 
     SHOW_ACTIVE_ORDERS("/active_orders"),
     MARK_ORDER_AS_DONE("/order_done"),
+    WAITING_FOR_NEW_FLAVOR("/add_flavor"),
+    ADD_FLAVOR("AddNewFlavorCommand"),
 
     UNKNOWN_COMMAND("/unknown_command");
 
