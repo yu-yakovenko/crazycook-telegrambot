@@ -9,13 +9,13 @@ import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.CustomerService;
 import com.crazycook.tgbot.service.OrderService;
+import com.crazycook.tgbot.service.PromoService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,18 +23,15 @@ import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Messages.ADDRESS;
-import static com.crazycook.tgbot.bot.Messages.AT_SIGN;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.COMMENT_IS;
+import static com.crazycook.tgbot.bot.Messages.CUSTOMER_JUST_PLACED_ORDER;
 import static com.crazycook.tgbot.bot.Messages.DELIVERY_METHOD;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_ORDER;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
-import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
 import static com.crazycook.tgbot.bot.Messages.ORDER_EMPTY;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
-import static com.crazycook.tgbot.bot.Messages.PHONE_NUMBER_IS;
-import static com.crazycook.tgbot.bot.Messages.PLACE_ORDER;
 import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
 import static com.crazycook.tgbot.bot.Messages.THANKS_MESSAGE;
 
@@ -46,6 +43,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     private final BoxService boxService;
     private final AdminService adminService;
     private final OrderService orderService;
+    private final PromoService promoService;
 
     @Override
     public void execute(Update update) {
@@ -83,7 +81,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
     private String promo(BigDecimal overallPrice, Cart cart) {
         if (cart.getPromoCode() != null && overallPrice.compareTo(BigDecimal.ZERO) > 0) {
-            BigDecimal promoPrice = cartService.countPromoPrice(overallPrice, cart.getPromoCode());
+            BigDecimal promoPrice = promoService.countPromoPrice(overallPrice, cart.getPromoCode());
             return LINE_END + String.format(PRICE_WITH_PROMO, cart.getPromoCode().getName(), promoPrice);
         }
         return "";
@@ -105,11 +103,13 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     }
 
     private void sendMessageForAdmin(String cartSummery, Customer customer) {
-        String message = customer.getFirstName() + " " +
-                Optional.of(customer.getLastName()).orElse("") + " " +
-                AT_SIGN + customer.getUsername() + ONE_SPACE +
-                PLACE_ORDER + BOLD_START + PHONE_NUMBER_IS + customer.getPhoneNumber() + BOLD_END +
-                LINE_END + LINE_END + cartSummery;
+        String lastName = customer.getLastName() == null ? "" : customer.getLastName();
+
+        String message = String.format(CUSTOMER_JUST_PLACED_ORDER,
+                customer.getFirstName(),
+                lastName,
+                customer.getUsername(), customer.getPhoneNumber())
+                + cartSummery;
 
         Set<Long> adminIds = adminService.getAdminChatIds();
         adminIds.forEach(id -> sendBotMessageService.sendMessage(id, message));

@@ -34,6 +34,8 @@ public enum CommandName {
     CONTACT_COMMAND("ContactCommand"),
     WAITING_FOR_PROMO_CODE("/waiting_for_promo_code"),
     PROMO_CODE("PromoCodeWaitingCommand"),
+
+    SHOW_ACTIVE_ORDERS("/active_orders"),
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

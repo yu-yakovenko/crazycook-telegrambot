@@ -28,6 +28,7 @@ public class Messages {
     public static final String ORDER_EMPTY = "В твоєму замовленні ще нічого немає.";
     public static final String IN_YOUR_ORDER = "В твоєму замовленні: ";
     public static final String PLACE_ORDER = "щойно оформив замовлення.";
+    public static final String ORDER_NUMBER = "Замовлення номер: ";
 
     //box
     public static final String BOX_COMPLETE_MIX = "Бокс заповнено міксом смаків. ";
@@ -50,6 +51,10 @@ public class Messages {
     //contact
     public static final String REQUEST_CONTACT = "Будь ласка натисніть кнопку 'Поділитися контактом', щоб ми могли звязатися з вами для уточнення деталей доставки";
     public static final String PHONE_NUMBER_IS = "Телефон: ";
+    public static final String CUSTOMER_CONTACT = VALUE + ONE_SPACE + VALUE + ONE_SPACE + AT_SIGN + VALUE + ONE_SPACE +
+            BOLD_START + PHONE_NUMBER_IS + VALUE + BOLD_END + LINE_END + LINE_END;
+    public static final String CUSTOMER_JUST_PLACED_ORDER = VALUE + ONE_SPACE + VALUE + ONE_SPACE + AT_SIGN + VALUE
+            + ONE_SPACE + PLACE_ORDER + BOLD_START + PHONE_NUMBER_IS + VALUE + BOLD_END + LINE_END + LINE_END;
 
     //address
     public final static String ADDRESS_SAVED = "Адресу збережено. ";

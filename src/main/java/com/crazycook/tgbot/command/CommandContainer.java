@@ -1,5 +1,6 @@
 package com.crazycook.tgbot.command;
 
+import com.crazycook.tgbot.command.admin.ShowActiveOrdersCommand;
 import com.crazycook.tgbot.command.box.BoxNumberCommand;
 import com.crazycook.tgbot.command.box.ChooseBoxCommand;
 import com.crazycook.tgbot.command.box.ChooseLCommand;
@@ -58,6 +59,7 @@ import static com.crazycook.tgbot.command.CommandName.PRICE;
 import static com.crazycook.tgbot.command.CommandName.PROMO_CODE;
 import static com.crazycook.tgbot.command.CommandName.REFRESH;
 import static com.crazycook.tgbot.command.CommandName.SELF_PICKUP;
+import static com.crazycook.tgbot.command.CommandName.SHOW_ACTIVE_ORDERS;
 import static com.crazycook.tgbot.command.CommandName.SHOW_CART;
 import static com.crazycook.tgbot.command.CommandName.START;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
@@ -88,7 +90,7 @@ public class CommandContainer {
                 .put(CHOOSE_L.getCommandName(), new ChooseLCommand(sendBotMessageService, cartService))
                 .put(BOX_NUMBER_COMMAND.getCommandName(), new BoxNumberCommand(sendBotMessageService, cartService, adminService))
                 .put(FLAVOR_NUMBER_COMMAND.getCommandName(), new FlavorNumberCommand(sendBotMessageService, flavorService, cartService, boxService, flavorQuantityService))
-                .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService, boxService))
+                .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService, boxService, promoService))
                 .put(REFRESH.getCommandName(), new RefreshCartCommand(sendBotMessageService, cartService))
                 .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
@@ -100,7 +102,8 @@ public class CommandContainer {
                 .put(COMMENT.getCommandName(), new CommentCommand(sendBotMessageService, cartService))
                 .put(WAITING_FOR_PROMO_CODE.getCommandName(), new PromoCodeWaitingCommand(sendBotMessageService, cartService))
                 .put(PROMO_CODE.getCommandName(), new PromoCodeCommand(sendBotMessageService, cartService, promoService))
-                .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService, orderService))
+                .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService, orderService, promoService))
+                .put(SHOW_ACTIVE_ORDERS.getCommandName(), new ShowActiveOrdersCommand(sendBotMessageService, orderService, boxService, adminService, promoService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 

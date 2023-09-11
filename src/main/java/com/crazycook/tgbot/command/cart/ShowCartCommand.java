@@ -6,6 +6,7 @@ import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
+import com.crazycook.tgbot.service.PromoService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,7 @@ public class ShowCartCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
     private final BoxService boxService;
+    private final PromoService promoService;
 
     @Override
     @Transactional
@@ -96,7 +98,7 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         }
 
         if (hasPromo && overallPrice.compareTo(BigDecimal.ZERO) > 0) {
-            BigDecimal promoPrice = cartService.countPromoPrice(overallPrice, cart.getPromoCode());
+            BigDecimal promoPrice = promoService.countPromoPrice(overallPrice, cart.getPromoCode());
             message.append(LINE_END).append(String.format(PRICE_WITH_PROMO, cart.getPromoCode().getName(), promoPrice));
         }
 

@@ -38,6 +38,8 @@ public class Buttons {
     public static final String CALLBACK_DATA_CHANGE_PROMO = "/change_prono";
     public static final String CALLBACK_DATA_ADD_FLAVOR = "/add_flavor";
     public static final String CALLBACK_DATA_ADD_PROMO = "/add_promo";
+    public static final String CALLBACK_DATA_USER_MENU = "/user_menu";
+    public static final String CALLBACK_DATA_SET_ORDER_AS_DONE = "/order_done";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
@@ -185,7 +187,11 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton userMenuButton() {
-        return createButton("Перейти в меню користувачів", CALLBACK_DATA_ADD_PROMO);
+        return createButton("Перейти в меню користувачів", CALLBACK_DATA_USER_MENU);
+    }
+
+    public static InlineKeyboardButton setOrderAsDoneButton(Long id) {
+        return createButton("Відмітити як виконаний", CALLBACK_DATA_SET_ORDER_AS_DONE + " " + id);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {
