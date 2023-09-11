@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Buttons.CALLBACK_DATA_FLAVOR_ID;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
@@ -93,7 +94,7 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
         List<List<InlineKeyboardButton>> buttons;
         if (moreFlavorsPossible) {
             message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber - number);
-            buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList());
+            buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList(), CALLBACK_DATA_FLAVOR_ID);
         } else if (moreBoxesPossible) {
             //Показати повідомлення що бокс повністю заповнено
             message += BOX_COMPLETE;

@@ -52,6 +52,9 @@ public class Messages {
     public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
     public static final String NEW_FLAVOR_ADDED = "Новий смак '%s' створено, наявність автоматично встановлено 'в наявності'.";
     public static final String INPUT_NEW_FLAVOR = "Введи назву нового смаку";
+    public static final String IN_STOCK_FLAVORS = "Це смаки які зараз <b>є в наявності</b>. Натисни кнопку, щоб поміняти статус цього смаку на 'немає в наявності'";
+    public static final String NOT_IN_STOCK_FLAVORS = "Це смаки яких зараз <b>немає в наявності</b>. Натисни кнопку, щоб поміняти статус цього смаку на 'є в наявності'";
+    public static final String IN_STOCK_WAS_CHANGED = "Статус смаку '%s' змінено на <b>%s</b>";
 
     //contact
     public static final String REQUEST_CONTACT = "Будь ласка натисніть кнопку 'Поділитися контактом', щоб ми могли звязатися з вами для уточнення деталей доставки";

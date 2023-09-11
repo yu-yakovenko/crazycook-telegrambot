@@ -16,6 +16,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_PRICE = "/Price";
     public static final String CALLBACK_DATA_FLAVOR = "/flavor";
     public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
+    public static final String CALLBACK_DATA_CHANGE_FLAVOR_ID = "/change_flavor_id";
     public static final String CALLBACK_DATA_MIX_FLAVOR = "/mix_flavor";
     public static final String CALLBACK_DATA_MIX_FLAVOR_FOR_REST = "/mix_flavor_for_rest";
     public static final String CALLBACK_DATA_MESSAGE = "/message";
@@ -102,8 +103,8 @@ public class Buttons {
         return createButton("\uD83D\uDED2 Покажи, що знаходиться в корзині", CALLBACK_DATA_SHOW_CART);
     }
 
-    public static InlineKeyboardButton flavorIdButton(String name, Long id) {
-        return createButton(name, CALLBACK_DATA_FLAVOR_ID + " " + id);
+    public static InlineKeyboardButton flavorIdButton(String name, Long id, String callBack) {
+        return createButton(name, callBack + " " + id);
     }
 
     public static InlineKeyboardButton mixFlavorButton() {
@@ -179,7 +180,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton changePromoButton() {
-        return createButton("Редагувати cмаки", CALLBACK_DATA_CHANGE_PROMO);
+        return createButton("Редагувати промокоди", CALLBACK_DATA_CHANGE_PROMO);
     }
 
     public static InlineKeyboardButton addPromoButton() {
@@ -214,16 +215,16 @@ public class Buttons {
         return List.of(buttonRow1, buttonRow3);
     }
 
-    public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors) {
+    public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors, String callBack) {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        int rowsNumber = flavors.size() % 3 + 1;
+        int rowsNumber = flavors.size() / 3 + 1;
         int flavorIndex = 0;
         for (int i = 0; i < rowsNumber; i++) {
             List<InlineKeyboardButton> buttonRow = new ArrayList<>();
 
             for (int j = 0; j < 3 && flavorIndex < flavors.size(); j++, flavorIndex++) {
                 Flavor flavor = flavors.get(flavorIndex);
-                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId()));
+                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId(), callBack));
             }
 
             buttons.add(buttonRow);

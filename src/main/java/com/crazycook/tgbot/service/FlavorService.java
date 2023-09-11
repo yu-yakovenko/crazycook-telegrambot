@@ -26,6 +26,10 @@ public class FlavorService {
         return flavorRepository.getByIsInStock(true);
     }
 
+    public Set<Flavor> getAllNotInStock() {
+        return flavorRepository.getByIsInStock(false);
+    }
+
     public Flavor getById(String flavorId) {
         Flavor flavor = flavorRepository.getById(Long.parseLong(flavorId));
         flavor.getName(); // the only way to avoid could not initialize proxy - no Session

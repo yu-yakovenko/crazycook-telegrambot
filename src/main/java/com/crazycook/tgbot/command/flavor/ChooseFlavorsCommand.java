@@ -19,6 +19,7 @@ import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Buttons.CALLBACK_DATA_FLAVOR_ID;
 import static com.crazycook.tgbot.bot.Buttons.addButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorButton;
@@ -39,7 +40,7 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
 
         List<Flavor> flavors = flavorService.getAllInStock().stream().toList();
 
-        List<List<InlineKeyboardButton>> flavorButtons = generateFlavorButtons(flavors);
+        List<List<InlineKeyboardButton>> flavorButtons = generateFlavorButtons(flavors, CALLBACK_DATA_FLAVOR_ID);
         addMixFlavorButton(flavorButtons);
 
         String message = handleBox(chatId, username);
