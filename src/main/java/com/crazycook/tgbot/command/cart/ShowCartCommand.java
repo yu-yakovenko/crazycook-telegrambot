@@ -23,6 +23,7 @@ import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
+import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
 import static com.crazycook.tgbot.bot.Messages.ADDRESS;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
@@ -33,6 +34,7 @@ import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
+import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
 import static com.crazycook.tgbot.bot.Messages.RED_DIAMOND;
 import static com.crazycook.tgbot.bot.Messages.YOUR_CART_IS_EMPTY;
 
@@ -80,18 +82,23 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         }
 
         BigDecimal overallPrice = cartService.countOverallPrice(cart);
-
+        boolean hasPromo = cart.getPromoCode() != null;
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         if (emptyBoxes) {
             buttons.add(List.of(addMoreButton(), refreshCartButton()));
             buttons.add(List.of(chooseFlavorsLongButton()));
             message.append(LINE_END).append(String.format(OVERALL_PRICE, overallPrice));
         } else if (!emptyCart) {
-            buttons.add(List.of(addMoreButton()));
-            buttons.add(List.of(chooseDeliveryButton(), refreshCartButton()));
+            buttons.add(List.of(addMoreButton(), chooseDeliveryButton()));
+            buttons.add(List.of(promoCodeButton(), refreshCartButton()));
             message.append(LINE_END).append(String.format(OVERALL_PRICE, overallPrice));
         } else {
             buttons.add(List.of(addMoreButton()));
+        }
+
+        if (hasPromo && overallPrice.compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal promoPrice = cartService.countPromoPrice(overallPrice, cart.getPromoCode());
+            message.append(LINE_END).append(String.format(PRICE_WITH_PROMO, cart.getPromoCode().getName(), promoPrice));
         }
 
         if (cart.getAddress() != null && !cart.getAddress().isBlank()) {

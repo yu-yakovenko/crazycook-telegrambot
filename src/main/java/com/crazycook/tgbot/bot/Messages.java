@@ -52,4 +52,12 @@ public class Messages {
     public final static String UAH = "грн";
 
     public final static String OVERALL_PRICE = BOLD_START + OVERALL_PRICE_START + BOLD_END + VALUE + ONE_SPACE + UAH + POINT;
+    public final static String PRICE_WITH_PROMO = BOLD_START + "Промокод: " + BOLD_END + VALUE
+            + LINE_END + BOLD_START + "Вартість із промокодом: " + BOLD_END + VALUE;
+
+    public static final String CART_COMPLETE = "Корзина сформована повністю. ";
+    public static final String BOX_COMPLETE_MIX = "Бокс заповнено міксом смаків. ";
+    public static final String BOXES_COMPLETE = "Бокси заповнено міксом смаків. ";
+    public static final String BOX_COMPLETE = "Бокс заповнено.";
+
 }

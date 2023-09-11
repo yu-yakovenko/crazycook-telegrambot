@@ -6,12 +6,14 @@ import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.CartStatus;
 import com.crazycook.tgbot.entity.Customer;
 import com.crazycook.tgbot.entity.DeliveryMethod;
+import com.crazycook.tgbot.entity.Promo;
 import com.crazycook.tgbot.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
@@ -137,6 +139,7 @@ public class CartService {
         cart.setComment(null);
         cart.setBoxes(null);
         cart.setAddress(null);
+        cart.setPromoCode(null);
         getBoxesForCart(cart.getId()).forEach(box -> {
             box.setCart(null);
             boxService.save(box);
@@ -161,5 +164,10 @@ public class CartService {
             price = price.add(courierDeliveryPrice);
         }
         return price;
+    }
+
+    public BigDecimal countPromoPrice(BigDecimal overallPrice, Promo promoCode) {
+        return (overallPrice.multiply(new BigDecimal(100 - promoCode.getPercent())))
+                .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
     }
 }

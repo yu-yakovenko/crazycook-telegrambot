@@ -12,6 +12,7 @@ import com.crazycook.tgbot.service.FlavorQuantityService;
 import com.crazycook.tgbot.service.FlavorService;
 import com.crazycook.tgbot.service.OrderService;
 import com.crazycook.tgbot.service.PriceService;
+import com.crazycook.tgbot.service.PromoService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -26,11 +27,13 @@ import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
+import static com.crazycook.tgbot.command.CommandName.PROMO_CODE;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_BOX_NUMBER_STATUSES;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_ADDRESS;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_COMMENT;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_FLAVOR_NUMBER;
+import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_PROMO;
 
 @Component
 public class CrazyCookTelegramBot extends TelegramLongPollingBot {
@@ -47,12 +50,12 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
     public CrazyCookTelegramBot(AppProperty property, CartService cartService, CustomerService customerService,
                                 FlavorService flavorService, BoxService boxService,
                                 FlavorQuantityService flavorQuantityService, AdminService adminService,
-                                OrderService orderService, PriceService priceService) {
+                                OrderService orderService, PriceService priceService, PromoService promoService) {
         this.property = property;
         this.cartService = cartService;
         sendBotMessageService = new SendBotMessageService(this);
         commandContainer = new CommandContainer(sendBotMessageService, cartService, customerService, flavorService,
-                boxService, flavorQuantityService, adminService, orderService, priceService);
+                boxService, flavorQuantityService, adminService, orderService, priceService, promoService);
     }
 
     @Override
@@ -62,7 +65,9 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
 
         String message = Utils.getMessage(update);
         Cart cart = cartService.createOrFind(chatId, username);
-        if (WAITING_FOR_ADDRESS.equals(cart.getStatus())) {
+        if (WAITING_FOR_PROMO.equals(cart.getStatus())) {
+            commandContainer.findCommand(PROMO_CODE.getCommandName()).execute(update);
+        } else if (WAITING_FOR_ADDRESS.equals(cart.getStatus())) {
             commandContainer.findCommand(ADDRESS.getCommandName()).execute(update);
         } else if (WAITING_FOR_COMMENT.equals(cart.getStatus())) {
             commandContainer.findCommand(COMMENT.getCommandName()).execute(update);

@@ -27,6 +27,7 @@ public class OrderService {
                 .comment(cart.getComment())
                 .address(cart.getAddress())
                 .deliveryMethod(cart.getDeliveryMethod())
+                .promoCode(cart.getPromoCode())
                 .status(OrderStatus.IN_PROGRESS)
                 .build();
         order = orderRepository.save(order);

@@ -32,6 +32,8 @@ public enum CommandName {
     WAITING_FOR_COMMENT("/waiting_for_comment"),
     COMPLETE_CART("/complete_cart"),
     CONTACT_COMMAND("ContactCommand"),
+    WAITING_FOR_PROMO_CODE("/waiting_for_promo_code"),
+    PROMO_CODE("PromoCodeWaitingCommand"),
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

@@ -18,16 +18,16 @@ import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
+import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Messages.BOXES_COMPLETE;
+import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 
 @AllArgsConstructor
 public class MixForRestCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
     private final BoxService boxService;
-
-    public static final String CART_COMPLETE = "Корзина сформована повністю.";
-    public static final String BOXES_COMPLETE = "Бокси заповнено міксом смаків.";
 
     @Override
     public void execute(Update update) {
@@ -48,9 +48,8 @@ public class MixForRestCommand implements CrazyCookTGCommand {
         String message = BOXES_COMPLETE + CART_COMPLETE;
 
         List<List<InlineKeyboardButton>> buttons = List.of(
-                List.of(showCartButton()),
-                List.of(addMoreButton()),
-                List.of(chooseDeliveryButton()));
+                List.of(addMoreButton(), chooseDeliveryButton()),
+                List.of(showCartButton(), promoCodeButton()));
 
         sendBotMessageService.sendMessage(chatId, message, buttons);
     }

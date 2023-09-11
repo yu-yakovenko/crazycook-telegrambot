@@ -28,6 +28,7 @@ import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.DELIVERY_METHOD;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
+import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
 import static com.crazycook.tgbot.bot.Messages.THANKS_MESSAGE;
 
 @AllArgsConstructor
@@ -52,7 +53,8 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         String comment = comment(cart);
         BigDecimal overallPrice = cartService.countOverallPrice(cart);
         String price = LINE_END + String.format(OVERALL_PRICE, overallPrice) + LINE_END;
-        String addres = address(cart);
+        String address = address(cart);
+        String promo = promo(overallPrice, cart);
 
         if (cartSummery.isBlank()) {
             String messageForCustomer = "В твоєму замовленні ще нічого немає.";
@@ -62,7 +64,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
         //Надіслати повідомлення замовнику
         String messageForCustomer = "В твоєму замовленні: " + LINE_END + LINE_END
-                + cartSummery + deliveryMethod + addres + comment + price + LINE_END + THANKS_MESSAGE;
+                + cartSummery + deliveryMethod + address + comment + price + promo + LINE_END + THANKS_MESSAGE;
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
         //закрити корзину
@@ -70,7 +72,15 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         cartService.delete(cart);
 
         // повідомити адмінів
-        sendMessageForAdmin(cartSummery + deliveryMethod + addres + LINE_END + comment + price, customer);
+        sendMessageForAdmin(cartSummery + deliveryMethod + address + LINE_END + comment + price + promo, customer);
+    }
+
+    private String promo(BigDecimal overallPrice, Cart cart) {
+        if (cart.getPromoCode() != null && overallPrice.compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal promoPrice = cartService.countPromoPrice(overallPrice, cart.getPromoCode());
+            return LINE_END + String.format(PRICE_WITH_PROMO, cart.getPromoCode().getName(), promoPrice);
+        }
+        return "";
     }
 
     private String address(Cart cart) {

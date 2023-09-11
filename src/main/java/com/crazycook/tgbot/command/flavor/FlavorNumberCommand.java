@@ -27,7 +27,10 @@ import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
 import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
+import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
+import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
@@ -41,8 +44,6 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
     public final static String BOX_OVERFLOW = "Упс, схоже що в цей бокс ще %s макарончиків не влізе.\n";
     public static final String MESSAGE = "Ми додали %d макарон зі смаком %s в %d-й %s бокс. ";
     public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
-    public static final String CART_COMPLETE = "Корзина сформована повністю.";
-    public static final String BOX_COMPLETE = "Бокс заповнено.";
 
     @Override
     @Transactional
@@ -103,7 +104,7 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
             //Показати повідомлення про те, що корзина повністю заповнена
             message += CART_COMPLETE;
             //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
-            buttons = List.of(List.of(showCartButton()), List.of(addMoreButton()), List.of(chooseDeliveryButton()));
+            buttons = List.of(List.of(addMoreButton(), showCartButton()), List.of(chooseDeliveryButton(), promoCodeButton()));
         }
 
         sendBotMessageService.sendMessage(chatId, message, buttons);

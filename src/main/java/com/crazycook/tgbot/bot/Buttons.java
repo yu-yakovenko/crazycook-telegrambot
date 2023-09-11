@@ -31,6 +31,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_WAITING_FOR_COMMENT = "/waiting_for_comment";
     public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
+    public static final String CALLBACK_DATA_PROMO_CODE = "/waiting_for_promo_code";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
@@ -90,7 +91,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton showCartButton() {
-        return createButton("\uD83D\uDED2 Покажи, що зараз знаходиться в моїй корзині", CALLBACK_DATA_SHOW_CART);
+        return createButton("\uD83D\uDED2 Покажи, що знаходиться в корзині", CALLBACK_DATA_SHOW_CART);
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id) {
@@ -138,6 +139,10 @@ public class Buttons {
 
     public static InlineKeyboardButton refreshCartButton() {
         return createButton("\uD83D\uDDD1 Очистити корзину", CALLBACK_DATA_REFRESH);
+    }
+
+    public static InlineKeyboardButton promoCodeButton() {
+        return createButton("\uD83E\uDD11 Застосувати промокод", CALLBACK_DATA_PROMO_CODE);
     }
 
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {

@@ -43,6 +43,10 @@ public class Order {
 
     private String address;
 
+    @ManyToOne
+    @JoinColumn(name = "promo_id")
+    private Promo promoCode;
+
     @Builder.Default
     @OneToMany(mappedBy = "order")
     private Set<Box> boxes = new HashSet<>();
