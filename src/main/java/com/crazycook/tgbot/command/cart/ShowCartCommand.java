@@ -29,13 +29,12 @@ import static com.crazycook.tgbot.bot.Messages.ADDRESS;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.COMMENT;
+import static com.crazycook.tgbot.bot.Messages.EMPTY_BOX;
 import static com.crazycook.tgbot.bot.Messages.FOUR_SPACES;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
-import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
 import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
-import static com.crazycook.tgbot.bot.Messages.RED_DIAMOND;
 import static com.crazycook.tgbot.bot.Messages.YOUR_CART_IS_EMPTY;
 
 @AllArgsConstructor
@@ -111,9 +110,7 @@ public class ShowCartCommand implements CrazyCookTGCommand {
     private boolean addMessageForEmptyBoxes(StringBuilder message, int filledSNumber, int thisSizeNumber, BoxSize size) {
         boolean emptyBoxes = false;
         if (thisSizeNumber > filledSNumber) {
-            message.append(RED_DIAMOND).append(ONE_SPACE).append(BOLD_START)
-                    .append(thisSizeNumber - filledSNumber).append(" пустих ").append(size).append(" боксів")
-                    .append(BOLD_END).append(LINE_END);
+            message.append(String.format(EMPTY_BOX, thisSizeNumber - filledSNumber, size));
             emptyBoxes = true;
         }
         return emptyBoxes;

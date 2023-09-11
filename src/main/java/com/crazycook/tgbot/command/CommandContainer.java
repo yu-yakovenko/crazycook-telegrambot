@@ -94,7 +94,7 @@ public class CommandContainer {
                 .put(MIX_FLAVOR.getCommandName(), new MixCommand(sendBotMessageService, cartService, boxService))
                 .put(MIX_FLAVOR_FOR_REST.getCommandName(), new MixForRestCommand(sendBotMessageService, cartService, boxService))
                 .put(FLAVOR_ID.getCommandName(), new FlavorIdCommand(sendBotMessageService, flavorService, cartService))
-                .put(CONTACT_COMMAND.getCommandName(), new ContactCommand(sendBotMessageService, customerService, cartService))
+                .put(CONTACT_COMMAND.getCommandName(), new ContactCommand(sendBotMessageService, customerService))
                 .put(WAITING_FOR_COMMENT.getCommandName(), new CommentWaitingCommand(sendBotMessageService, cartService))
                 .put(ADDRESS.getCommandName(), new AddressCommand(sendBotMessageService, cartService))
                 .put(COMMENT.getCommandName(), new CommentCommand(sendBotMessageService, cartService))

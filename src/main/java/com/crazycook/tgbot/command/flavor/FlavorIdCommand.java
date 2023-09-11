@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Messages.FLAVOR_NUMBER_MESSAGE;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_FLAVOR_NUMBER;
 
 @AllArgsConstructor
@@ -20,8 +21,6 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final FlavorService flavorService;
     private final CartService cartService;
-
-    public final static String FLAVOR_NUMBER_MESSAGE = "Напиши цифрою скільки макаронів зі смаком ʼ%sʼ ти хочеш додати до цього боксу?\n";
 
     @Override
     @Transactional

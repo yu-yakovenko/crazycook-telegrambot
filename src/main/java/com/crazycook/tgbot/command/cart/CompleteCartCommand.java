@@ -23,11 +23,18 @@ import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Messages.ADDRESS;
+import static com.crazycook.tgbot.bot.Messages.AT_SIGN;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.COMMENT_IS;
 import static com.crazycook.tgbot.bot.Messages.DELIVERY_METHOD;
+import static com.crazycook.tgbot.bot.Messages.IN_YOUR_ORDER;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
+import static com.crazycook.tgbot.bot.Messages.ORDER_EMPTY;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
+import static com.crazycook.tgbot.bot.Messages.PHONE_NUMBER_IS;
+import static com.crazycook.tgbot.bot.Messages.PLACE_ORDER;
 import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
 import static com.crazycook.tgbot.bot.Messages.THANKS_MESSAGE;
 
@@ -57,13 +64,12 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
         String promo = promo(overallPrice, cart);
 
         if (cartSummery.isBlank()) {
-            String messageForCustomer = "В твоєму замовленні ще нічого немає.";
-            sendBotMessageService.sendMessage(customerChatId, messageForCustomer, List.of(List.of(addMoreButton())));
+            sendBotMessageService.sendMessage(customerChatId, ORDER_EMPTY, List.of(List.of(addMoreButton())));
             return;
         }
 
         //Надіслати повідомлення замовнику
-        String messageForCustomer = "В твоєму замовленні: " + LINE_END + LINE_END
+        String messageForCustomer = IN_YOUR_ORDER + LINE_END + LINE_END
                 + cartSummery + deliveryMethod + address + comment + price + promo + LINE_END + THANKS_MESSAGE;
         sendBotMessageService.sendMessage(customerChatId, messageForCustomer);
 
@@ -92,7 +98,8 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
     private String comment(Cart cart) {
         if (cart.getComment() != null && !cart.getComment().isBlank()) {
-            return LINE_END + BOLD_START + "Коментар: " + BOLD_END + cart.getComment();
+            return LINE_END + BOLD_START + COMMENT_IS
+                    + BOLD_END + cart.getComment();
         }
         return "";
     }
@@ -100,9 +107,9 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
     private void sendMessageForAdmin(String cartSummery, Customer customer) {
         String message = customer.getFirstName() + " " +
                 Optional.of(customer.getLastName()).orElse("") + " " +
-                "@" + customer.getUsername() +
-                " щойно оформив замовлення. <b>Телефон: " + customer.getPhoneNumber() + ".</b>\n" +
-                "\n" + cartSummery;
+                AT_SIGN + customer.getUsername() + ONE_SPACE +
+                PLACE_ORDER + BOLD_START + PHONE_NUMBER_IS + customer.getPhoneNumber() + BOLD_END +
+                LINE_END + LINE_END + cartSummery;
 
         Set<Long> adminIds = adminService.getAdminChatIds();
         adminIds.forEach(id -> sendBotMessageService.sendMessage(id, message));

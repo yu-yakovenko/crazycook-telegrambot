@@ -22,6 +22,8 @@ import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorButton;
+import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
+import static com.crazycook.tgbot.bot.Messages.START_BOX_MESSAGE;
 
 @AllArgsConstructor
 public class ChooseFlavorsCommand implements CrazyCookTGCommand {
@@ -29,9 +31,6 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
     private final FlavorService flavorService;
     private final CartService cartService;
     private final BoxService boxService;
-
-    public final static String START_BOX_MESSAGE = "Починаємо збирати %s бокс номер %d. Додай смак до боксу:";
-    public final static String IN_PROGRESS_BOX_MESSAGE = "Продовжуємо збирати %s бокс номер %d. Зараз в ньому вже є %d макарон. Можна додати ще %d. Додай смак до боксу:";
 
     @Override
     public void execute(Update update) {

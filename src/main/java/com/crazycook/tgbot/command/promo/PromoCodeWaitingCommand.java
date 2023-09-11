@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Messages.INPUT_PROMO;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_PROMO;
 
 @AllArgsConstructor
@@ -25,6 +26,6 @@ public class PromoCodeWaitingCommand implements CrazyCookTGCommand {
         cart.setStatus(WAITING_FOR_PROMO);
         cartService.save(cart);
 
-        sendBotMessageService.sendMessage(customerChatId, "Введи промокод");
+        sendBotMessageService.sendMessage(customerChatId, INPUT_PROMO);
     }
 }

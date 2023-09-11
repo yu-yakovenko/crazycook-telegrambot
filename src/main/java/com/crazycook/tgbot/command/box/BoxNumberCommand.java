@@ -14,13 +14,13 @@ import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.cartInProgressButtons;
 import static com.crazycook.tgbot.bot.Messages.FLOATING_NUMBER_REACTION;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
+import static com.crazycook.tgbot.bot.Messages.MESSAGE_FORMAT;
 import static com.crazycook.tgbot.bot.Messages.NEGATIVE_NUMBER_REACTION;
 import static com.crazycook.tgbot.bot.Messages.TO_LONG_INTEGER_NUMBER_REACTION;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
 public class BoxNumberCommand implements CrazyCookTGCommand {
-    public static final String MESSAGE_FORMAT = "Супер, ми додали %s %s боксів до твого кошика.";
     public static String regExIntNumber = "[+-]?[0-9]+";
 
     private final SendBotMessageService sendBotMessageService;

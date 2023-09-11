@@ -8,14 +8,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.mainMenuButtons;
+import static com.crazycook.tgbot.bot.Messages.START_MESSAGE;
 
 @AllArgsConstructor
 public class StartCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CustomerService customerService;
-
-    public final static String START_MESSAGE = "Привіт \uD83D\uDC4B, раді тебе вітати в нашому чат-боті для замовлення макарон. Ось головне меню, обери, що тебе цікавить: ";
-
 
     @Override
     public void execute(Update update) {

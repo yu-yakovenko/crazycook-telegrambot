@@ -12,6 +12,7 @@ import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.bot.Buttons.lButton;
 import static com.crazycook.tgbot.bot.Buttons.mButton;
 import static com.crazycook.tgbot.bot.Buttons.sButton;
+import static com.crazycook.tgbot.bot.Messages.CHOOSE_BOX;
 
 public class ChooseBoxCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
@@ -19,8 +20,6 @@ public class ChooseBoxCommand implements CrazyCookTGCommand {
     public ChooseBoxCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
     }
-
-    public final static String CHOOSE_BOX_MESSAGE = "Обери розмір боксу: \n";
 
     @Override
     public void execute(Update update) {
@@ -31,6 +30,6 @@ public class ChooseBoxCommand implements CrazyCookTGCommand {
         buttonRow.add(mButton());
         buttonRow.add(lButton());
 
-        sendBotMessageService.sendMessage(chatId, CHOOSE_BOX_MESSAGE, List.of(buttonRow));
+        sendBotMessageService.sendMessage(chatId, CHOOSE_BOX, List.of(buttonRow));
     }
 }

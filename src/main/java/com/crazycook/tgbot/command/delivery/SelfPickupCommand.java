@@ -10,14 +10,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.requestContactButton;
+import static com.crazycook.tgbot.bot.Messages.REQUEST_CONTACT;
 import static com.crazycook.tgbot.entity.DeliveryMethod.SELF_PICKUP;
 
 @AllArgsConstructor
 public class SelfPickupCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final CartService cartService;
-
-    public static final String REQUEST_CONTACT = "Будь ласка поділіться своїм контактом, щоб ми могли звязатися з вами для уточнення деталей доставки";
 
     @Override
     public void execute(Update update) {

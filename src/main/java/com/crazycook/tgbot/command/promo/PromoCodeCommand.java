@@ -21,6 +21,9 @@ import static com.crazycook.tgbot.bot.Buttons.commentButton;
 import static com.crazycook.tgbot.bot.Buttons.completeCartButton;
 import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Messages.PROMO_ADDED;
+import static com.crazycook.tgbot.bot.Messages.PROMO_EXPIRED;
+import static com.crazycook.tgbot.bot.Messages.WRONG_PROMO;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
@@ -44,13 +47,13 @@ public class PromoCodeCommand implements CrazyCookTGCommand {
             Promo promo = optPromo.get();
             if (promoService.isNotExpired(promo)) {
                 cart.setPromoCode(optPromo.get());
-                message = "Додали промокод " + promo.getName() + ", що дає знижку " + promo.getPercent() + "%.";
+                message = String.format(PROMO_ADDED, promo.getName(), promo.getPercent());
                 isPromoSuccess = true;
             } else {
-                message = "Вибач, цей промокод вже просрочено, він діяв до " + promo.getExpiringDate() + "";
+                message = String.format(PROMO_EXPIRED, promo.getExpiringDate());
             }
         } else {
-            message = "Такого промокоду в нас немає.";
+            message = WRONG_PROMO;
         }
         cartService.save(cart);
 

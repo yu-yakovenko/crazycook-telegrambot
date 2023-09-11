@@ -30,7 +30,10 @@ import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
+import static com.crazycook.tgbot.bot.Messages.BOX_OVERFLOW;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
+import static com.crazycook.tgbot.bot.Messages.FLAVOR_ADDED;
+import static com.crazycook.tgbot.bot.Messages.MORE_FLAVORS_POSSIBLE;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
@@ -40,10 +43,6 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
     private final CartService cartService;
     private final BoxService boxService;
     private final FlavorQuantityService flavorQuantityService;
-
-    public final static String BOX_OVERFLOW = "Упс, схоже що в цей бокс ще %s макарончиків не влізе.\n";
-    public static final String MESSAGE = "Ми додали %d макарон зі смаком %s в %d-й %s бокс. ";
-    public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
 
     @Override
     @Transactional
@@ -89,7 +88,7 @@ public class FlavorNumberCommand implements CrazyCookTGCommand {
             cartService.completeBoxInProgress(cart);
         }
 
-        message += String.format(MESSAGE, number, flavor.getName(), boxIndex, boxSize.name());
+        message += String.format(FLAVOR_ADDED, number, flavor.getName(), boxIndex, boxSize.name());
 
         List<List<InlineKeyboardButton>> buttons;
         if (moreFlavorsPossible) {

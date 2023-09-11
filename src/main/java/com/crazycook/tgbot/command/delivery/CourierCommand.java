@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Messages.INPUT_ADDRESS;
 import static com.crazycook.tgbot.entity.DeliveryMethod.COURIER;
 
 @AllArgsConstructor
@@ -27,6 +28,6 @@ public class CourierCommand implements CrazyCookTGCommand {
         cart.setStatus(CartStatus.WAITING_FOR_ADDRESS);
         cartService.save(cart);
 
-        sendBotMessageService.sendMessage(chatId, "Введи адресу доставки");
+        sendBotMessageService.sendMessage(chatId, INPUT_ADDRESS);
     }
 }
