@@ -36,6 +36,8 @@ public enum CommandName {
     PROMO_CODE("PromoCodeWaitingCommand"),
 
     SHOW_ACTIVE_ORDERS("/active_orders"),
+    MARK_ORDER_AS_DONE("/order_done"),
+
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

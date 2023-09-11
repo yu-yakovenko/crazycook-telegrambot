@@ -102,4 +102,12 @@ public class OrderService {
         }
         return flavorMixStr;
     }
+
+    public Optional<Order> findById(long id) {
+        return orderRepository.findById(id);
+    }
+
+    public void save(Order order) {
+        orderRepository.save(order);
+    }
 }

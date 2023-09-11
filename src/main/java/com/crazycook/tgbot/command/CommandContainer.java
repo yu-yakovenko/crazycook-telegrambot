@@ -1,5 +1,6 @@
 package com.crazycook.tgbot.command;
 
+import com.crazycook.tgbot.command.admin.MarkOrderAsDoneCommand;
 import com.crazycook.tgbot.command.admin.ShowActiveOrdersCommand;
 import com.crazycook.tgbot.command.box.BoxNumberCommand;
 import com.crazycook.tgbot.command.box.ChooseBoxCommand;
@@ -53,6 +54,7 @@ import static com.crazycook.tgbot.command.CommandName.DELIVERY;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_ID;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
+import static com.crazycook.tgbot.command.CommandName.MARK_ORDER_AS_DONE;
 import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR_FOR_REST;
 import static com.crazycook.tgbot.command.CommandName.PRICE;
@@ -104,6 +106,7 @@ public class CommandContainer {
                 .put(PROMO_CODE.getCommandName(), new PromoCodeCommand(sendBotMessageService, cartService, promoService))
                 .put(COMPLETE_CART.getCommandName(), new CompleteCartCommand(sendBotMessageService, customerService, cartService, boxService, adminService, orderService, promoService))
                 .put(SHOW_ACTIVE_ORDERS.getCommandName(), new ShowActiveOrdersCommand(sendBotMessageService, orderService, boxService, adminService, promoService))
+                .put(MARK_ORDER_AS_DONE.getCommandName(), new MarkOrderAsDoneCommand(sendBotMessageService, orderService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 
