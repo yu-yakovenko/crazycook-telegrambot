@@ -74,7 +74,7 @@ public class CommandContainer {
                             OrderService orderService, PriceService priceService, PromoService promoService) {
 
         commandMap = ImmutableMap.<String, CrazyCookTGCommand>builder()
-                .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService))
+                .put(START.getCommandName(), new StartCommand(sendBotMessageService, customerService, adminService))
                 .put(PRICE.getCommandName(), new PriceCommand(sendBotMessageService, priceService))
                 .put(FLAVOR.getCommandName(), new FlavorInStockCommand(sendBotMessageService, flavorService))
                 .put(DELIVERY.getCommandName(), new DeliveryCommand(sendBotMessageService, priceService))

@@ -22,4 +22,8 @@ public class AdminService {
     public Set<String> getAdminUsernames() {
         return adminRepository.findAll().stream().map(Admin::getUsername).collect(Collectors.toSet());
     }
+
+    public boolean checkIsAdmin(Long chatId) {
+        return adminRepository.findById(chatId).isPresent();
+    }
 }

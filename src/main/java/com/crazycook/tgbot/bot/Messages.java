@@ -14,7 +14,8 @@ public class Messages {
     public static final String BLUE_DIAMOND = "\uD83D\uDD39";
     public static final String YELLOW_DIAMOND = "\uD83D\uDD38";
 
-    public final static String START_MESSAGE = "Привіт \uD83D\uDC4B, раді тебе вітати в нашому чат-боті для замовлення макарон. Ось головне меню, обери, що тебе цікавить: ";
+    public final static String START_USER_MESSAGE = "Привіт \uD83D\uDC4B, раді тебе вітати в нашому чат-боті для замовлення макарон. Ось головне меню, обери, що тебе цікавить: ";
+    public final static String START_ADMIN_MESSAGE = "Привіт мій любий, адмін ❤️ Що будемо робити сьогодні?";
 
     //cart
     public static final String IN_YOUR_CART = "В твоїй корзині зараз: \n";

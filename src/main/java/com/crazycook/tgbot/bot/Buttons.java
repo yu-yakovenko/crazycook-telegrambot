@@ -32,6 +32,12 @@ public class Buttons {
     public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
     public static final String CALLBACK_DATA_REFRESH = "/refresh";
     public static final String CALLBACK_DATA_PROMO_CODE = "/waiting_for_promo_code";
+    public static final String CALLBACK_DATA_ACTIVE_ORDERS = "/active_orders";
+    public static final String CALLBACK_DATA_CHANGE_PRICE = "/change_price";
+    public static final String CALLBACK_DATA_CHANGE_FLAVORS = "/change_flavors";
+    public static final String CALLBACK_DATA_CHANGE_PROMO = "/change_prono";
+    public static final String CALLBACK_DATA_ADD_FLAVOR = "/add_flavor";
+    public static final String CALLBACK_DATA_ADD_PROMO = "/add_promo";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
@@ -145,6 +151,43 @@ public class Buttons {
         return createButton("\uD83E\uDD11 Застосувати промокод", CALLBACK_DATA_PROMO_CODE);
     }
 
+    public static List<List<InlineKeyboardButton>> adminMainMenuButtons() {
+        List<InlineKeyboardButton> buttonRow1 = List.of(showActiveOrdersButton(), changePriceButton());
+        List<InlineKeyboardButton> buttonRow2 = List.of(addFlavorButton(), changeFlavorButton());
+        List<InlineKeyboardButton> buttonRow3 = List.of(addPromoButton(), changePromoButton());
+        List<InlineKeyboardButton> buttonRow4 = List.of(userMenuButton());
+
+        return List.of(buttonRow1, buttonRow2, buttonRow3, buttonRow4);
+    }
+
+    public static InlineKeyboardButton showActiveOrdersButton() {
+        return createButton("Активні замовлення", CALLBACK_DATA_ACTIVE_ORDERS);
+    }
+
+    public static InlineKeyboardButton changePriceButton() {
+        return createButton("Редагувати ціни", CALLBACK_DATA_CHANGE_PRICE);
+    }
+
+    public static InlineKeyboardButton changeFlavorButton() {
+        return createButton("Редагувати cмаки", CALLBACK_DATA_CHANGE_FLAVORS);
+    }
+
+    public static InlineKeyboardButton addFlavorButton() {
+        return createButton("Додати cмак", CALLBACK_DATA_ADD_FLAVOR);
+    }
+
+    public static InlineKeyboardButton changePromoButton() {
+        return createButton("Редагувати cмаки", CALLBACK_DATA_CHANGE_PROMO);
+    }
+
+    public static InlineKeyboardButton addPromoButton() {
+        return createButton("Додати промокод", CALLBACK_DATA_ADD_PROMO);
+    }
+
+    public static InlineKeyboardButton userMenuButton() {
+        return createButton("Перейти в меню користувачів", CALLBACK_DATA_ADD_PROMO);
+    }
+
     public static List<List<InlineKeyboardButton>> mainMenuButtons() {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
@@ -161,7 +204,6 @@ public class Buttons {
 
     public static List<List<InlineKeyboardButton>> cartInProgressButtons() {
         List<InlineKeyboardButton> buttonRow1 = List.of(addMoreButton(), chooseFlavorsButton());
-//        List<InlineKeyboardButton> buttonRow2 = List.of(chooseFlavorsButton());
         List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton());
         return List.of(buttonRow1, buttonRow3);
     }
