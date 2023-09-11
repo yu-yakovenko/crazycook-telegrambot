@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.mainMenuButtons;
+import static com.crazycook.tgbot.bot.Buttons.customerMenuButtons;
 import static com.crazycook.tgbot.bot.Messages.CART_WAS_REFRESH;
 
 @AllArgsConstructor
@@ -26,6 +26,6 @@ public class RefreshCartCommand implements CrazyCookTGCommand {
 
         cartService.delete(cart);
 
-        sendBotMessageService.sendMessage(customerChatId, CART_WAS_REFRESH, mainMenuButtons());
+        sendBotMessageService.sendMessage(customerChatId, CART_WAS_REFRESH, customerMenuButtons());
     }
 }

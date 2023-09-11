@@ -194,7 +194,7 @@ public class Buttons {
         return createButton("Відмітити як виконаний", CALLBACK_DATA_MARK_ORDER_AS_DONE + " " + id);
     }
 
-    public static List<List<InlineKeyboardButton>> mainMenuButtons() {
+    public static List<List<InlineKeyboardButton>> customerMenuButtons() {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow3 = new ArrayList<>();

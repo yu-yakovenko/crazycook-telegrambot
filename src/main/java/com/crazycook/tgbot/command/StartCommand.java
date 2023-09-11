@@ -9,9 +9,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.adminMainMenuButtons;
-import static com.crazycook.tgbot.bot.Buttons.mainMenuButtons;
-import static com.crazycook.tgbot.bot.Messages.START_ADMIN_MESSAGE;
-import static com.crazycook.tgbot.bot.Messages.START_USER_MESSAGE;
+import static com.crazycook.tgbot.bot.Buttons.customerMenuButtons;
+import static com.crazycook.tgbot.bot.Messages.START_ADMIN;
+import static com.crazycook.tgbot.bot.Messages.START_USER;
 
 @AllArgsConstructor
 public class StartCommand implements CrazyCookTGCommand {
@@ -26,9 +26,9 @@ public class StartCommand implements CrazyCookTGCommand {
         customerService.createOrFind(chatId, username);
         boolean isAdmin = adminService.checkIsAdmin(chatId);
         if (isAdmin) {
-            sendBotMessageService.sendMessage(chatId, START_ADMIN_MESSAGE, adminMainMenuButtons());
+            sendBotMessageService.sendMessage(chatId, START_ADMIN, adminMainMenuButtons());
         } else {
-            sendBotMessageService.sendMessage(chatId, START_USER_MESSAGE, mainMenuButtons());
+            sendBotMessageService.sendMessage(chatId, START_USER, customerMenuButtons());
         }
     }
 }

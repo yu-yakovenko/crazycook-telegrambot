@@ -41,6 +41,7 @@ public enum CommandName {
     ADD_NEW_FLAVOR("AddNewFlavorCommand"),
     WAITING_FOR_NEW_PROMO("/add_promo"),
     ADD_NEW_PROMO("AddNewPromoCommand"),
+    CUSTOMER_MENU("/user_menu"),
     UNKNOWN_COMMAND("/unknown_command");
 
     private final String commandName;

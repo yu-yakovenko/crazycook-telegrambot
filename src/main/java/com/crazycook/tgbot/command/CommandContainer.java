@@ -2,6 +2,7 @@ package com.crazycook.tgbot.command;
 
 import com.crazycook.tgbot.command.admin.AddNewFlavorCommand;
 import com.crazycook.tgbot.command.admin.AddNewPromoCommand;
+import com.crazycook.tgbot.command.admin.CustomerMenuCommand;
 import com.crazycook.tgbot.command.admin.MarkOrderAsDoneCommand;
 import com.crazycook.tgbot.command.admin.ShowActiveOrdersCommand;
 import com.crazycook.tgbot.command.admin.WaitingForFlavorCommand;
@@ -56,6 +57,7 @@ import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.COMPLETE_CART;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.COURIER;
+import static com.crazycook.tgbot.command.CommandName.CUSTOMER_MENU;
 import static com.crazycook.tgbot.command.CommandName.DELIVERY;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_ID;
@@ -119,6 +121,7 @@ public class CommandContainer {
                 .put(WAITING_FOR_NEW_FLAVOR.getCommandName(), new WaitingForFlavorCommand(sendBotMessageService, adminService))
                 .put(ADD_NEW_PROMO.getCommandName(), new AddNewPromoCommand(sendBotMessageService, promoService, adminService))
                 .put(WAITING_FOR_NEW_PROMO.getCommandName(), new WaitingForNewPromoCommand(sendBotMessageService, adminService))
+                .put(CUSTOMER_MENU.getCommandName(), new CustomerMenuCommand(sendBotMessageService, adminService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 
