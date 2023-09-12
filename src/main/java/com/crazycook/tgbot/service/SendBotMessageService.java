@@ -4,6 +4,7 @@ import com.crazycook.tgbot.bot.CrazyCookTelegramBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -22,6 +23,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class SendBotMessageService {
 
     private final CrazyCookTelegramBot crazyCookTelegramBot;
+    private EditMessageText editMessageText = new EditMessageText();
     private SendMessage sendMessage = new SendMessage();
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
     public static final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -73,5 +75,17 @@ public class SendBotMessageService {
         replyKeyboardMarkup.setResizeKeyboard(true);
 
         sendMessage(chatId, message, replyKeyboardMarkup);
+    }
+
+    public void editMessage(Integer messageId, Long chatId, String message) {
+        editMessageText.setMessageId(messageId);
+        editMessageText.setChatId(chatId.toString());
+        editMessageText.setText(message);
+        try {
+            crazyCookTelegramBot.execute(editMessageText);
+        } catch (TelegramApiException e) {
+            //todo add logging to the project.
+            e.printStackTrace();
+        }
     }
 }

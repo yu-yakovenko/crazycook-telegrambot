@@ -4,11 +4,14 @@ import com.crazycook.tgbot.command.admin.AddNewFlavorCommand;
 import com.crazycook.tgbot.command.admin.AddNewPromoCommand;
 import com.crazycook.tgbot.command.admin.ChangeInStokCommand;
 import com.crazycook.tgbot.command.admin.ChangeInStokMenuCommand;
+import com.crazycook.tgbot.command.admin.ChangePriceCommand;
+import com.crazycook.tgbot.command.admin.ChangePriceManuCommand;
 import com.crazycook.tgbot.command.admin.CustomerMenuCommand;
 import com.crazycook.tgbot.command.admin.MarkOrderAsDoneCommand;
 import com.crazycook.tgbot.command.admin.ShowActiveOrdersCommand;
 import com.crazycook.tgbot.command.admin.WaitingForFlavorCommand;
 import com.crazycook.tgbot.command.admin.WaitingForNewPromoCommand;
+import com.crazycook.tgbot.command.admin.WatingForPriceIdCommand;
 import com.crazycook.tgbot.command.box.BoxNumberCommand;
 import com.crazycook.tgbot.command.box.ChooseBoxCommand;
 import com.crazycook.tgbot.command.box.ChooseLCommand;
@@ -51,6 +54,8 @@ import static com.crazycook.tgbot.command.CommandName.ADD_NEW_PROMO;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.CHANGE_FLAVORS;
 import static com.crazycook.tgbot.command.CommandName.CHANGE_FLAVOR_ID;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE_MENU;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_BOX;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_DELIVERY;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_FLAVORS;
@@ -80,6 +85,7 @@ import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_COMMENT;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_NEW_FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_NEW_PROMO;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_PRICE;
 import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_PROMO_CODE;
 
 public class CommandContainer {
@@ -128,6 +134,9 @@ public class CommandContainer {
                 .put(CUSTOMER_MENU.getCommandName(), new CustomerMenuCommand(sendBotMessageService, adminService))
                 .put(CHANGE_FLAVORS.getCommandName(), new ChangeInStokMenuCommand(sendBotMessageService, flavorService, adminService))
                 .put(CHANGE_FLAVOR_ID.getCommandName(), new ChangeInStokCommand(sendBotMessageService, flavorService, adminService))
+                .put(CHANGE_PRICE_MENU.getCommandName(), new ChangePriceManuCommand(sendBotMessageService, priceService, adminService))
+                .put(WAITING_FOR_PRICE.getCommandName(), new WatingForPriceIdCommand(sendBotMessageService, adminService))
+                .put(CHANGE_PRICE.getCommandName(), new ChangePriceCommand(sendBotMessageService, priceService, adminService))
                 .put(UNKNOWN_COMMAND.getCommandName(), new UnknownCommand(sendBotMessageService))
                 .build();
 

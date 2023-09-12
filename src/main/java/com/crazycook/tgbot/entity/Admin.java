@@ -21,6 +21,8 @@ public class Admin {
 
     private String username;
 
+    private Long idToChange;
+
     @Enumerated(EnumType.STRING)
     private AdminStatus status;
 }

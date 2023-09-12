@@ -35,6 +35,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_PROMO_CODE = "/waiting_for_promo_code";
     public static final String CALLBACK_DATA_ACTIVE_ORDERS = "/active_orders";
     public static final String CALLBACK_DATA_CHANGE_PRICE = "/change_price";
+    public static final String CALLBACK_DATA_CHANGE_PRICE_ID = "/change_price_id";
     public static final String CALLBACK_DATA_CHANGE_FLAVORS = "/change_flavors";
     public static final String CALLBACK_DATA_CHANGE_PROMO = "/change_prono";
     public static final String CALLBACK_DATA_ADD_FLAVOR = "/add_flavor";
@@ -169,6 +170,10 @@ public class Buttons {
 
     public static InlineKeyboardButton changePriceButton() {
         return createButton("Редагувати ціни", CALLBACK_DATA_CHANGE_PRICE);
+    }
+
+    public static InlineKeyboardButton changePriceIdButton(String message, Long id) {
+        return createButton(message, CALLBACK_DATA_CHANGE_PRICE_ID + " " + id);
     }
 
     public static InlineKeyboardButton changeFlavorButton() {

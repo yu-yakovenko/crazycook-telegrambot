@@ -44,7 +44,11 @@ public enum CommandName {
     CUSTOMER_MENU("/user_menu"),
     CHANGE_FLAVORS("/change_flavors"),
     CHANGE_FLAVOR_ID("/change_flavor_id"),
+    CHANGE_PRICE_MENU("/change_price"),
+    WAITING_FOR_PRICE("/change_price_id"),
+    CHANGE_PRICE("ChangePriceCommand"),
     UNKNOWN_COMMAND("/unknown_command");
+
 
     private final String commandName;
 

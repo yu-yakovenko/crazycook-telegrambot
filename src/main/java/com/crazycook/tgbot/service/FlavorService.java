@@ -36,14 +36,6 @@ public class FlavorService {
         return flavor;
     }
 
-    public Flavor copy(Flavor f) {
-        return Flavor.builder()
-                .id(f.getId())
-                .name(f.getName())
-                .isInStock(f.getIsInStock())
-                .build();
-    }
-
     public Flavor save(Flavor flavor) {
         return flavorRepository.save(flavor);
     }

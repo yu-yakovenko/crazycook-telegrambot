@@ -101,6 +101,12 @@ public class Messages {
     public final static String OVERALL_PRICE = BOLD_START + OVERALL_PRICE_START + BOLD_END + VALUE + ONE_SPACE + UAH + POINT;
     public final static String PRICE_WITH_PROMO = BOLD_START + "Промокод: " + BOLD_END + VALUE
             + LINE_END + BOLD_START + "Вартість із промокодом: " + BOLD_END + VALUE;
+    public final static String CHANGE_PRICE_MENU = "Вибери яку ціну ти хочеш змінити.";
+    public final static String BOX_PRICE = "Бокс %s - %s грн.";
+    public final static String DELIVERY_PRICE = "Доставка - %s грн.";
+    public final static String INPUT_NEW_PRICE = "Введи нову ціну";
+    public final static String PRICE_WAS_CHAGED = "Ціну змінено.";
+    public final static String INVALID_PRICE_VALUE = "Невірне значення ціни. Я розумію цілі та дробні значення. Якщо ти вводиш дробне значення, використовуй крапку як роздыловий знак '0.0' (не кому)";
 
     //promo
     public final static String PROMO_ADDED = "Додали промокод " + VALUE + " , що дає знижку " + VALUE + "%%.";

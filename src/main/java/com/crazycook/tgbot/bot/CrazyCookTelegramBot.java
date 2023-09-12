@@ -27,6 +27,7 @@ import static com.crazycook.tgbot.command.CommandName.ADDRESS;
 import static com.crazycook.tgbot.command.CommandName.ADD_NEW_FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.ADD_NEW_PROMO;
 import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE;
 import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
@@ -90,6 +91,8 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
              commandContainer.findCommand(ADD_NEW_FLAVOR.getCommandName()).execute(update);
          } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_PROMO)) {
              commandContainer.findCommand(ADD_NEW_PROMO.getCommandName()).execute(update);
+         } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_PRICE)) {
+             commandContainer.findCommand(CHANGE_PRICE.getCommandName()).execute(update);
          } else {
              commandContainer.findCommand(UNKNOWN_COMMAND.getCommandName()).execute(update);
          }
