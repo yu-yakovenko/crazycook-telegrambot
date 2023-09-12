@@ -14,7 +14,6 @@ public enum CommandName {
     MIX_FLAVOR("/mix_flavor"),
     MIX_FLAVOR_FOR_REST("/mix_flavor_for_rest"),
     CHOOSE_FLAVORS("/choose_flavors"),
-    FLAVOR_NUMBER_COMMAND("FlavorNumberCommand"),
 
     CHOOSE_S("/s"),
     CHOOSE_M("/m"),

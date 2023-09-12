@@ -15,6 +15,7 @@ import com.crazycook.tgbot.service.OrderService;
 import com.crazycook.tgbot.service.PriceService;
 import com.crazycook.tgbot.service.PromoService;
 import com.crazycook.tgbot.service.SendBotMessageService;
+import org.jboss.logging.Logger;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -30,21 +31,21 @@ import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE;
 import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
-import static com.crazycook.tgbot.command.CommandName.FLAVOR_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.PROMO_CODE;
 import static com.crazycook.tgbot.command.CommandName.UNKNOWN_COMMAND;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_BOX_NUMBER_STATUSES;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_ADDRESS;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_COMMENT;
-import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_FLAVOR_NUMBER;
 import static com.crazycook.tgbot.entity.CartStatus.WAITING_FOR_PROMO;
 
 @Component
 public class CrazyCookTelegramBot extends TelegramLongPollingBot {
 
-    public static String COMMAND_PREFIX = "/";
-    public static String regExOnlyIntNumbers = "[0-9]+";
-    public static String regExOnlyNumbers = "^[+-]?([0-9]+(([.]|[,])[0-9]*)?|([.]|[,])[0-9]+)$";
+    private static final Logger log = Logger.getLogger(CrazyCookTelegramBot.class);
+
+    public static final String COMMAND_PREFIX = "/";
+    public static final String regExOnlyIntNumbers = "[0-9]+";
+    public static final String regExOnlyNumbers = "^[+-]?([0-9]+(([.]|[,])[0-9]*)?|([.]|[,])[0-9]+)$";
 
     public final AppProperty property;
     private final SendBotMessageService sendBotMessageService;
@@ -85,8 +86,6 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
              commandContainer.findCommand(COMMENT.getCommandName()).execute(update);
          } else if (message.matches(regExOnlyNumbers) && WAITING_BOX_NUMBER_STATUSES.contains(cart.getStatus())) {
              commandContainer.findCommand(BOX_NUMBER_COMMAND.getCommandName()).execute(update);
-         } else if (message.matches(regExOnlyIntNumbers) && WAITING_FOR_FLAVOR_NUMBER.equals(cart.getStatus())) {
-             commandContainer.findCommand(FLAVOR_NUMBER_COMMAND.getCommandName()).execute(update);
          } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_FLAVOR)) {
              commandContainer.findCommand(ADD_NEW_FLAVOR.getCommandName()).execute(update);
          } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_PROMO)) {

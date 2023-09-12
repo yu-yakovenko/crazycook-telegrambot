@@ -78,9 +78,18 @@ public class SendBotMessageService {
     }
 
     public void editMessage(Integer messageId, Long chatId, String message) {
+        editMessage(messageId, chatId, message, null);
+    }
+
+    public void editMessage(Integer messageId, Long chatId, String message, List<List<InlineKeyboardButton>> buttons) {
         editMessageText.setMessageId(messageId);
         editMessageText.setChatId(chatId.toString());
         editMessageText.setText(message);
+        editMessageText.enableHtml(true);
+        if (buttons != null) {
+            keyboardMarkup.setKeyboard(buttons);
+            editMessageText.setReplyMarkup(keyboardMarkup);
+        }
         try {
             crazyCookTelegramBot.execute(editMessageText);
         } catch (TelegramApiException e) {

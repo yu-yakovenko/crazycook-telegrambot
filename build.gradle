@@ -1,5 +1,6 @@
 plugins {
-    id 'war'
+    id 'org.springframework.boot' version '2.5.4' // Встановлюємо версію Spring Boot Plugin
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
 
@@ -11,10 +12,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.4'
-    implementation 'org.springframework:spring-tx:5.3.9'
-
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator' // Опціонально, для моніторингу
     implementation 'org.postgresql:postgresql:42.2.23'
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
@@ -22,10 +22,9 @@ dependencies {
 
     implementation 'org.telegram:telegrambots:5.4.0.1'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.4'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     implementation 'org.flywaydb:flyway-core:8.0.1'
 }

@@ -48,7 +48,7 @@ public class Messages {
     public final static String FLAVOR_MESSAGE = BOLD_START + "Зараз в наявності є такі смаки: " + BOLD_END + LINE_END;
     public final static String FLAVOR_NUMBER_MESSAGE = "Напиши цифрою скільки макаронів зі смаком ʼ%sʼ ти хочеш додати до цього боксу?\n";
     public final static String BOX_OVERFLOW = "Упс, схоже що в цей бокс ще %s макарончиків не влізе.\n";
-    public static final String FLAVOR_ADDED = "Ми додали %d макарон зі смаком %s в %d-й %s бокс. ";
+    public static final String FLAVOR_ADDED = "Ми додали макарон зі смаком %s в %d-й %s бокс. ";
     public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
     public static final String NEW_FLAVOR_ADDED = "Новий смак '%s' створено, наявність автоматично встановлено 'в наявності'.";
     public static final String INPUT_NEW_FLAVOR = "Введи назву нового смаку";
