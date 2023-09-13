@@ -19,7 +19,7 @@ public class Messages {
     public final static String CUSTOMER_MENU = "Меню користувача: ";
 
     //cart
-    public static final String IN_YOUR_CART = "В твоїй корзині зараз: \n";
+    public static final String IN_YOUR_CART = "В твоєму кошику зараз: \n";
     public static final String YOUR_CART_IS_EMPTY = "\uD83D\uDE32 Тут пуст! Жодного макарончика \uD83E\uDD37\u200D♂️";
     public final static String CART_WAS_REFRESH = "Корзину очищено, зараз в ній нічого немає.";
     public static final String CART_COMPLETE = "Корзина сформована повністю. ";
@@ -37,7 +37,8 @@ public class Messages {
     public static final String BOX_COMPLETE_MIX = "Бокс заповнено міксом смаків. ";
     public static final String BOXES_COMPLETE = "Бокси заповнено міксом смаків. ";
     public static final String BOX_COMPLETE = "Бокс заповнено.";
-    public static final String MESSAGE_FORMAT = "Супер, ми додали %s %s боксів до твого кошика.";
+    public static final String BOX_ADDED = "Супер, ми додали %s бокс до твого кошика.";
+    public static final String ONE_MORE_BOX_ADDED = "Супер, ми додали ще один %s бокс до твого кошика.";
     public final static String CHOOSE_BOX = "Обери розмір боксу: \n";
     public final static String SIZE_NUMBER = "Напиши цифрою скільки %s боксів ти хочеш додати до замовлення? \n";
     public final static String EMPTY_BOX = RED_DIAMOND + ONE_SPACE + BOLD_START + VALUE + " пустих " + VALUE + " боксів" + BOLD_END + LINE_END;

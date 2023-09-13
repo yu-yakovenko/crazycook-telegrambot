@@ -1,8 +1,6 @@
 package com.crazycook.tgbot.command.cart;
 
 import com.crazycook.tgbot.command.CrazyCookTGCommand;
-import com.crazycook.tgbot.entity.Box;
-import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
@@ -16,8 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
@@ -30,13 +26,10 @@ import static com.crazycook.tgbot.bot.Messages.ADDRESS;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
 import static com.crazycook.tgbot.bot.Messages.COMMENT;
-import static com.crazycook.tgbot.bot.Messages.EMPTY_BOX;
-import static com.crazycook.tgbot.bot.Messages.FOUR_SPACES;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
 import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
-import static com.crazycook.tgbot.bot.Messages.YOUR_CART_IS_EMPTY;
 
 @AllArgsConstructor
 public class ShowCartCommand implements CrazyCookTGCommand {
@@ -54,29 +47,10 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         Cart cart = cartService.findCart(chatId, username);
 
         StringBuilder message = new StringBuilder(IN_YOUR_CART);
-        Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
+        message.append(cartService.cartBoxesToString(cart));
 
-        int filledSNumber = getBoxNumber(boxes, BoxSize.S);
-        int filledMNumber = getBoxNumber(boxes, BoxSize.M);
-        int filledLNumber = getBoxNumber(boxes, BoxSize.L);
-
-        boolean emptyBoxes = addMessageForEmptyBoxes(message, filledSNumber, cart.getSNumber(), BoxSize.S)
-                || addMessageForEmptyBoxes(message, filledMNumber, cart.getMNumber(), BoxSize.M)
-                || addMessageForEmptyBoxes(message, filledLNumber, cart.getLNumber(), BoxSize.L);
-
-        message.append(cartService.flavorMixToString(cart));
-
-        List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
-
-        for (String s : flavorDescription) {
-            message.append(s);
-        }
-
-        boolean emptyCart = false;
-        if (IN_YOUR_CART.equals(message.toString())) {
-            message.append(FOUR_SPACES).append(YOUR_CART_IS_EMPTY);
-            emptyCart = true;
-        }
+        boolean emptyBoxes = cartService.containsEmptyBoxes(cart);
+        boolean emptyCart = cart.getSNumber() + cart.getMNumber() + cart.getLNumber() == 0;
 
         if (cart.getComment() != null && !cart.getComment().isBlank()) {
             message.append(LINE_END).append(BOLD_START).append(COMMENT).append(BOLD_END).append(cart.getComment());
@@ -107,18 +81,5 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         }
 
         sendBotMessageService.sendMessage(getChatId(update), message.toString(), buttons);
-    }
-
-    private boolean addMessageForEmptyBoxes(StringBuilder message, int filledSNumber, int thisSizeNumber, BoxSize size) {
-        boolean emptyBoxes = false;
-        if (thisSizeNumber > filledSNumber) {
-            message.append(String.format(EMPTY_BOX, thisSizeNumber - filledSNumber, size));
-            emptyBoxes = true;
-        }
-        return emptyBoxes;
-    }
-
-    private int getBoxNumber(Set<Box> boxes, BoxSize size) {
-        return (int) boxes.stream().filter(b -> size.equals(b.getBoxSize())).count();
     }
 }

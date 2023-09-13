@@ -1,6 +1,8 @@
 package com.crazycook.tgbot.service;
 
 import com.crazycook.tgbot.entity.Box;
+import com.crazycook.tgbot.entity.BoxSize;
+import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.FlavorQuantity;
 import com.crazycook.tgbot.repository.BoxRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.EMPTY_BOX;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.YELLOW_DIAMOND;
 
@@ -52,6 +55,21 @@ public class BoxService {
             message.append("    ").append(fq.toString());
         }
         return message.toString();
+    }
+
+
+    public String messageForEmptyBoxes(Cart cart, int filledSNumber, int filledMNumber, int filledLNumber) {
+        return messageForEmptyBox(filledSNumber, cart.getSNumber(), BoxSize.S)
+                + messageForEmptyBox(filledMNumber, cart.getMNumber(), BoxSize.M)
+                + messageForEmptyBox(filledLNumber, cart.getLNumber(), BoxSize.L);
+    }
+
+    private String messageForEmptyBox(int filledNumber, int thisSizeNumber, BoxSize size) {
+        String message = "";
+        if (thisSizeNumber > filledNumber) {
+            message = (String.format(EMPTY_BOX, thisSizeNumber - filledNumber, size));
+        }
+        return message;
     }
 
 }

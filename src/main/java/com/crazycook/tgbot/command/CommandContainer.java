@@ -12,11 +12,8 @@ import com.crazycook.tgbot.command.admin.ShowActiveOrdersCommand;
 import com.crazycook.tgbot.command.admin.WaitingForFlavorCommand;
 import com.crazycook.tgbot.command.admin.WaitingForNewPromoCommand;
 import com.crazycook.tgbot.command.admin.WatingForPriceIdCommand;
-import com.crazycook.tgbot.command.box.BoxNumberCommand;
+import com.crazycook.tgbot.command.box.AddBoxCommand;
 import com.crazycook.tgbot.command.box.ChooseBoxCommand;
-import com.crazycook.tgbot.command.box.ChooseLCommand;
-import com.crazycook.tgbot.command.box.ChooseMCommand;
-import com.crazycook.tgbot.command.box.ChooseSCommand;
 import com.crazycook.tgbot.command.cart.CompleteCartCommand;
 import com.crazycook.tgbot.command.cart.RefreshCartCommand;
 import com.crazycook.tgbot.command.cart.ShowCartCommand;
@@ -47,10 +44,10 @@ import com.crazycook.tgbot.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
 import static com.crazycook.tgbot.command.CommandName.ADDRESS;
+import static com.crazycook.tgbot.command.CommandName.ADD_BOX;
 import static com.crazycook.tgbot.command.CommandName.ADD_MORE_BOXES;
 import static com.crazycook.tgbot.command.CommandName.ADD_NEW_FLAVOR;
 import static com.crazycook.tgbot.command.CommandName.ADD_NEW_PROMO;
-import static com.crazycook.tgbot.command.CommandName.BOX_NUMBER_COMMAND;
 import static com.crazycook.tgbot.command.CommandName.CHANGE_FLAVORS;
 import static com.crazycook.tgbot.command.CommandName.CHANGE_FLAVOR_ID;
 import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE;
@@ -58,9 +55,6 @@ import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE_MENU;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_BOX;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_DELIVERY;
 import static com.crazycook.tgbot.command.CommandName.CHOOSE_FLAVORS;
-import static com.crazycook.tgbot.command.CommandName.CHOOSE_L;
-import static com.crazycook.tgbot.command.CommandName.CHOOSE_M;
-import static com.crazycook.tgbot.command.CommandName.CHOOSE_S;
 import static com.crazycook.tgbot.command.CommandName.COMMENT;
 import static com.crazycook.tgbot.command.CommandName.COMPLETE_CART;
 import static com.crazycook.tgbot.command.CommandName.CONTACT_COMMAND;
@@ -105,10 +99,7 @@ public class CommandContainer {
                 .put(SELF_PICKUP.getCommandName(), new SelfPickupCommand(sendBotMessageService, cartService))
                 .put(CHOOSE_BOX.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
                 .put(ADD_MORE_BOXES.getCommandName(), new ChooseBoxCommand(sendBotMessageService))
-                .put(CHOOSE_S.getCommandName(), new ChooseSCommand(sendBotMessageService, cartService))
-                .put(CHOOSE_M.getCommandName(), new ChooseMCommand(sendBotMessageService, cartService))
-                .put(CHOOSE_L.getCommandName(), new ChooseLCommand(sendBotMessageService, cartService))
-                .put(BOX_NUMBER_COMMAND.getCommandName(), new BoxNumberCommand(sendBotMessageService, cartService, adminService))
+                .put(ADD_BOX.getCommandName(), new AddBoxCommand(sendBotMessageService, cartService))
                 .put(SHOW_CART.getCommandName(), new ShowCartCommand(sendBotMessageService, cartService, boxService, promoService))
                 .put(REFRESH.getCommandName(), new RefreshCartCommand(sendBotMessageService, cartService))
                 .put(CHOOSE_FLAVORS.getCommandName(), new ChooseFlavorsCommand(sendBotMessageService, flavorService, cartService, boxService))

@@ -1,18 +1,18 @@
 package com.crazycook.tgbot.bot;
 
+import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Flavor;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Buttons {
 
-    public static final String CALLBACK_DATA_S = "/s";
-    public static final String CALLBACK_DATA_M = "/m";
-    public static final String CALLBACK_DATA_L = "/l";
+    public static final String CALLBACK_DATA_BOX_SIZE = "/box";
     public static final String CALLBACK_DATA_PRICE = "/Price";
     public static final String CALLBACK_DATA_FLAVOR = "/flavor";
     public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
@@ -23,7 +23,6 @@ public class Buttons {
     public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
     public static final String CALLBACK_DATA_CHOOSE_FLAVORS = "/choose_flavors";
     public static final String CALLBACK_DATA_SHOW_CART = "/show_cart";
-    public static final String CALLBACK_DATA_START = "/start";
     public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
     public static final String CALLBACK_DATA_DELIVERY = "/delivery";
     public static final String CALLBACK_DATA_CHOOSE_DELIVERY = "/choose_delivery";
@@ -37,7 +36,7 @@ public class Buttons {
     public static final String CALLBACK_DATA_CHANGE_PRICE = "/change_price";
     public static final String CALLBACK_DATA_CHANGE_PRICE_ID = "/change_price_id";
     public static final String CALLBACK_DATA_CHANGE_FLAVORS = "/change_flavors";
-    public static final String CALLBACK_DATA_CHANGE_PROMO = "/change_prono";
+    public static final String CALLBACK_DATA_CHANGE_PROMO = "/change_promo";
     public static final String CALLBACK_DATA_ADD_FLAVOR = "/add_flavor";
     public static final String CALLBACK_DATA_ADD_PROMO = "/add_promo";
     public static final String CALLBACK_DATA_USER_MENU = "/user_menu";
@@ -52,20 +51,14 @@ public class Buttons {
         return inlineKeyboardButton;
     }
 
-    public static InlineKeyboardButton sButton() {
-        return createButton("S 8 штук", CALLBACK_DATA_S);
+    public static InlineKeyboardButton boxSizeButton(BoxSize size) {
+        return createButton(size.name() + " " + size.getCapacity() + " штук", CALLBACK_DATA_BOX_SIZE + " " + size.name());
     }
 
-    public static InlineKeyboardButton mButton() {
-        return createButton("M 12 штук", CALLBACK_DATA_M);
-    }
-
-    public static InlineKeyboardButton lButton() {
-        return createButton("L 18 штук", CALLBACK_DATA_L);
-    }
-
-    public static InlineKeyboardButton startButton() {
-        return createButton("Головне меню", CALLBACK_DATA_START);
+    public static List<InlineKeyboardButton> boxSizeButtons() {
+        List<InlineKeyboardButton> buttonRow = new ArrayList<>();
+        Arrays.stream(BoxSize.values()).forEach(size -> buttonRow.add(boxSizeButton(size)));
+        return buttonRow;
     }
 
     public static InlineKeyboardButton priceButton() {
@@ -76,7 +69,7 @@ public class Buttons {
         return createButton("\uD83D\uDE0B Смаки в наявності", CALLBACK_DATA_FLAVOR);
     }
 
-    public static InlineKeyboardButton createOrderButton() {
+    public static InlineKeyboardButton chooseBoxButton() {
         return createButton("\uD83D\uDECD Замовити бокс", CALLBACK_DATA_CHOOSE_BOX);
     }
 
@@ -206,7 +199,7 @@ public class Buttons {
         List<InlineKeyboardButton> buttonRow3 = new ArrayList<>();
         buttonRow2.add(priceButton());
         buttonRow1.add(flavorsButton());
-        buttonRow1.add(createOrderButton());
+        buttonRow1.add(chooseBoxButton());
         buttonRow2.add(deliveryButton());
 //        todo return messageButton when implement functionality
 //         buttonRow3.add(messageButton());

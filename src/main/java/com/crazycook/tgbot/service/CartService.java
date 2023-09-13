@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.crazycook.tgbot.bot.Messages.BLUE_DIAMOND;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
@@ -162,5 +164,36 @@ public class CartService {
             price = price.add(courierDeliveryPrice);
         }
         return price;
+    }
+
+    public String cartBoxesToString(Cart cart) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        StringBuilder sb = new StringBuilder();
+
+        int filledSNumber = getBoxNumber(boxes, BoxSize.S);
+        int filledMNumber = getBoxNumber(boxes, BoxSize.M);
+        int filledLNumber = getBoxNumber(boxes, BoxSize.L);
+
+        sb.append(boxService.messageForEmptyBoxes(cart, filledSNumber, filledMNumber, filledLNumber));
+
+        sb.append(flavorMixToString(cart));
+        List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
+
+        for (String s : flavorDescription) {
+            sb.append(s);
+        }
+        return sb.toString();
+    }
+
+    private int getBoxNumber(Set<Box> boxes, BoxSize size) {
+        return (int) boxes.stream().filter(b -> size.equals(b.getBoxSize())).count();
+    }
+
+    public boolean containsEmptyBoxes(Cart cart) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        int filledSNumber = getBoxNumber(boxes, BoxSize.S);
+        int filledMNumber = getBoxNumber(boxes, BoxSize.M);
+        int filledLNumber = getBoxNumber(boxes, BoxSize.L);
+        return filledSNumber < cart.getSNumber() || filledMNumber < cart.getMNumber() || filledLNumber < cart.getLNumber();
     }
 }

@@ -15,12 +15,10 @@ public enum CommandName {
     MIX_FLAVOR_FOR_REST("/mix_flavor_for_rest"),
     CHOOSE_FLAVORS("/choose_flavors"),
 
-    CHOOSE_S("/s"),
-    CHOOSE_M("/m"),
-    CHOOSE_L("/l"),
     CHOOSE_BOX("/choose_box"),
     BOX_NUMBER_COMMAND("BoxNumberCommand"),
     ADD_MORE_BOXES("/add_more_boxes"),
+    ADD_BOX("/box"),
 
     DELIVERY("/delivery"),
     CHOOSE_DELIVERY("/choose_delivery"),
@@ -44,6 +42,7 @@ public enum CommandName {
     CHANGE_FLAVORS("/change_flavors"),
     CHANGE_FLAVOR_ID("/change_flavor_id"),
     CHANGE_PRICE_MENU("/change_price"),
+    CHANGE_PROMO_MENU("/change_promo"),
     WAITING_FOR_PRICE("/change_price_id"),
     CHANGE_PRICE("ChangePriceCommand"),
     UNKNOWN_COMMAND("/unknown_command");

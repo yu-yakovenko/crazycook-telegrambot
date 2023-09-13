@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
-import static com.crazycook.tgbot.bot.Buttons.createOrderButton;
+import static com.crazycook.tgbot.bot.Buttons.chooseBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.deliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.priceButton;
 import static com.crazycook.tgbot.bot.Messages.FLAVOR_MESSAGE;
@@ -30,7 +30,7 @@ public class FlavorInStockCommand implements CrazyCookTGCommand {
                 .stream()
                 .reduce(FLAVOR_MESSAGE, (partialString, element) -> partialString + "\uD83D\uDD38 " + element + "; \n");
 
-        List<InlineKeyboardButton> buttonRow1 = List.of(priceButton(), createOrderButton());
+        List<InlineKeyboardButton> buttonRow1 = List.of(priceButton(), chooseBoxButton());
         List<InlineKeyboardButton> buttonRow2 = List.of(deliveryButton());
 
         sendBotMessageService.sendMessage(chatId, message, List.of(buttonRow1, buttonRow2));

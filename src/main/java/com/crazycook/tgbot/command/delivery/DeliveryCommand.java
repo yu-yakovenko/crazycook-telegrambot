@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static com.crazycook.tgbot.Utils.getChatId;
-import static com.crazycook.tgbot.bot.Buttons.createOrderButton;
+import static com.crazycook.tgbot.bot.Buttons.chooseBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.flavorsButton;
 import static com.crazycook.tgbot.bot.Buttons.priceButton;
 import static com.crazycook.tgbot.bot.Messages.DELIVERY_MESSAGE;
@@ -25,7 +25,7 @@ public class DeliveryCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         Long chatId = getChatId(update);
 
-        List<InlineKeyboardButton> buttonRow1 = List.of(priceButton(), createOrderButton());
+        List<InlineKeyboardButton> buttonRow1 = List.of(priceButton(), chooseBoxButton());
         List<InlineKeyboardButton> buttonRow2 = List.of(flavorsButton());
 
         BigDecimal deliveryPrice = priceService.getDeliveryPrice();

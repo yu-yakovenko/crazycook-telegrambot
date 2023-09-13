@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.List;
 
 import static com.crazycook.tgbot.Utils.getChatId;
-import static com.crazycook.tgbot.bot.Buttons.createOrderButton;
+import static com.crazycook.tgbot.bot.Buttons.chooseBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.deliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.flavorsButton;
 import static com.crazycook.tgbot.bot.Buttons.priceButton;
@@ -22,7 +22,7 @@ public class UnknownCommand implements CrazyCookTGCommand {
 
     @Override
     public void execute(Update update) {
-        List<InlineKeyboardButton> buttonRow1 = List.of(flavorsButton(), createOrderButton());
+        List<InlineKeyboardButton> buttonRow1 = List.of(flavorsButton(), chooseBoxButton());
         List<InlineKeyboardButton> buttonRow2 = List.of(priceButton(), deliveryButton());
         List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton());
 
