@@ -16,7 +16,6 @@ import static com.crazycook.tgbot.Utils.getMessage;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.boxSizeButtons;
 import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsButton;
-import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOX_ADDED;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
@@ -45,8 +44,7 @@ public class AddBoxCommand implements CrazyCookTGCommand {
         }
 
         List<List<InlineKeyboardButton>> buttons = List.of(boxSizeButtons(),
-                List.of(chooseFlavorsButton()),
-                List.of(showCartButton()));
+                List.of(chooseFlavorsButton()));
 
         cart.setStatus(IN_PROGRESS);
         cartService.save(cart);

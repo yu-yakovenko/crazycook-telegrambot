@@ -32,7 +32,7 @@ import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
-import static com.crazycook.tgbot.bot.Messages.FLAVOR_ADDED;
+import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.MORE_FLAVORS_POSSIBLE;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
@@ -81,13 +81,13 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         cart.setBoxInProgress(boxService.save(boxInProgress));
         cartService.save(cart);
 
-        if (!moreFlavorsPossible) {
+        if (moreFlavorsPossible) {
+            message += String.format(IN_PROGRESS_BOX_MESSAGE, boxSize.name(), boxIndex);
+        } else {
             cartService.completeBoxInProgress(cart);
+            message += String.format(BOX_COMPLETE, boxIndex, boxSize.name());
         }
 
-        message += String.format(FLAVOR_ADDED, flavor.getName(), boxIndex, boxSize.name());
-
-        //Відобразити склад боксу
         message += LINE_END + boxService.flavorQuantitiesToString(boxInProgress);
 
         List<List<InlineKeyboardButton>> buttons;
@@ -95,14 +95,11 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
             message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber - 1);
             buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList(), CALLBACK_DATA_FLAVOR_ID);
         } else if (moreBoxesPossible) {
-            //Показати повідомлення що бокс повністю заповнено
-            message += BOX_COMPLETE;
             //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
             buttons = List.of(List.of(nextBoxButton()), List.of(mixFlavorForAllButton()), List.of(showCartButton()));
         } else {
-            //Показати повідомлення про те, що корзина повністю заповнена
-            message += CART_COMPLETE;
             //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
+            message += CART_COMPLETE;
             buttons = List.of(List.of(addMoreButton(), showCartButton()), List.of(chooseDeliveryButton(), promoCodeButton()));
         }
 

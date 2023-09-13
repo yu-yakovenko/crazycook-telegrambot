@@ -21,6 +21,7 @@ public class ChooseBoxCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         Long chatId = getChatId(update);
 
+        sendBotMessageService.hidePreviousButtons(update, chatId);
         sendBotMessageService.sendMessage(chatId, CHOOSE_BOX, List.of(boxSizeButtons()));
     }
 }

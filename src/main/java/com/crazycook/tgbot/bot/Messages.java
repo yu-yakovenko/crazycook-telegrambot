@@ -36,20 +36,16 @@ public class Messages {
     //box
     public static final String BOX_COMPLETE_MIX = "Бокс заповнено міксом смаків. ";
     public static final String BOXES_COMPLETE = "Бокси заповнено міксом смаків. ";
-    public static final String BOX_COMPLETE = "Бокс заповнено.";
+    public static final String BOX_COMPLETE = "%d-й %s бокс заповнено.";
     public static final String BOX_ADDED = "Супер, ми додали %s бокс до твого кошика.";
     public static final String ONE_MORE_BOX_ADDED = "Супер, ми додали ще один %s бокс до твого кошика.";
     public final static String CHOOSE_BOX = "Обери розмір боксу: \n";
-    public final static String SIZE_NUMBER = "Напиши цифрою скільки %s боксів ти хочеш додати до замовлення? \n";
     public final static String EMPTY_BOX = RED_DIAMOND + ONE_SPACE + BOLD_START + VALUE + " пустих " + VALUE + " боксів" + BOLD_END + LINE_END;
     public final static String START_BOX_MESSAGE = "Починаємо збирати %s бокс номер %d. Додай смак до боксу:";
-    public final static String IN_PROGRESS_BOX_MESSAGE = "Продовжуємо збирати %s бокс номер %d. Зараз в ньому вже є %d макарон. Можна додати ще %d. Додай смак до боксу:";
+    public final static String IN_PROGRESS_BOX_MESSAGE = "Продовжуємо збирати %s бокс номер %d. В боксі зараз: ";
 
     //flavor
     public final static String FLAVOR_MESSAGE = BOLD_START + "Зараз в наявності є такі смаки: " + BOLD_END + LINE_END;
-    public final static String FLAVOR_NUMBER_MESSAGE = "Напиши цифрою скільки макаронів зі смаком ʼ%sʼ ти хочеш додати до цього боксу?\n";
-    public final static String BOX_OVERFLOW = "Упс, схоже що в цей бокс ще %s макарончиків не влізе.\n";
-    public static final String FLAVOR_ADDED = "Ми додали макарон зі смаком %s в %d-й %s бокс. ";
     public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
     public static final String NEW_FLAVOR_ADDED = "Новий смак '%s' створено, наявність автоматично встановлено 'в наявності'.";
     public static final String INPUT_NEW_FLAVOR = "Введи назву нового смаку";

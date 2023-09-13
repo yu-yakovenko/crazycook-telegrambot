@@ -16,12 +16,16 @@ import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
+import static com.crazycook.tgbot.bot.Buttons.commentButton;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
 import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE_MIX;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
+import static com.crazycook.tgbot.bot.Messages.FOUR_SPACES;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
 
 @AllArgsConstructor
 public class MixCommand implements CrazyCookTGCommand {
@@ -41,19 +45,19 @@ public class MixCommand implements CrazyCookTGCommand {
         cart.setBoxInProgress(null);
         cartService.save(cart);
         boolean moreBoxesPossible = cartService.isMoreBoxesPossible(cart);
+        int boxIndex = cartService.findCurrentBoxIndex(cart, box.getBoxSize());
 
-        String message = BOX_COMPLETE_MIX;
+        String message = String.format(BOX_COMPLETE, boxIndex, box.getBoxSize().name()) + LINE_END + FOUR_SPACES + BOX_COMPLETE_MIX;
         List<List<InlineKeyboardButton>> buttons;
         if (moreBoxesPossible) {
             //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
             buttons = List.of(List.of(nextBoxButton()), List.of(mixFlavorForAllButton()), List.of(showCartButton()));
         } else {
             //Показати повідомлення про те, що корзина повністю заповнена
-            message += CART_COMPLETE;
-            //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
-            buttons = List.of(List.of(addMoreButton(), chooseDeliveryButton()), List.of(showCartButton(), promoCodeButton()));
+            message += LINE_END + CART_COMPLETE;
+            buttons = List.of(List.of(promoCodeButton(), chooseDeliveryButton()), List.of(commentButton()), List.of(addMoreButton()));
         }
 
-        sendBotMessageService.sendMessage(chatId, message, buttons);
+        sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);
     }
 }

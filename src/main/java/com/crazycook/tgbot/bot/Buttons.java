@@ -133,7 +133,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton commentButton() {
-        return createButton("\uD83D\uDDD2 Залишити коментар", CALLBACK_DATA_WAITING_FOR_COMMENT);
+        return createButton("\uD83D\uDDD2 Додати коментар до замовлення", CALLBACK_DATA_WAITING_FOR_COMMENT);
     }
 
     public static InlineKeyboardButton completeCartButton() {

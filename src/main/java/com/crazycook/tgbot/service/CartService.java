@@ -177,7 +177,7 @@ public class CartService {
         sb.append(boxService.messageForEmptyBoxes(cart, filledSNumber, filledMNumber, filledLNumber));
 
         sb.append(flavorMixToString(cart));
-        List<String> flavorDescription = boxes.stream().map(boxService::flavorQuantitiesToString).collect(Collectors.toList());
+        List<String> flavorDescription = boxes.stream().map(boxService::customFlavorToString).collect(Collectors.toList());
 
         for (String s : flavorDescription) {
             sb.append(s);

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -79,6 +80,12 @@ public class SendBotMessageService {
 
     public void editMessage(Integer messageId, Long chatId, String message) {
         editMessage(messageId, chatId, message, null);
+    }
+
+    public void hidePreviousButtons(Update update, Long chatId) {
+        if (update.getCallbackQuery().getMessage().getReplyMarkup() != null) {
+            editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, update.getCallbackQuery().getMessage().getText(), Collections.emptyList());
+        }
     }
 
     public void editMessage(Integer messageId, Long chatId, String message, List<List<InlineKeyboardButton>> buttons) {

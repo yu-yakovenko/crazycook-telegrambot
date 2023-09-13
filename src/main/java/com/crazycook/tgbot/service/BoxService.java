@@ -50,7 +50,7 @@ public class BoxService {
         if (flavorQuantity.isEmpty()) {
             return "";
         }
-        StringBuilder message = new StringBuilder(YELLOW_DIAMOND + BOLD_START + "Бокс " + box.getBoxSize() + ", що міcтить:" + BOLD_END + LINE_END);
+        StringBuilder message = new StringBuilder();
         for (FlavorQuantity fq : flavorQuantity) {
             message.append("    ").append(fq.toString());
         }
@@ -72,4 +72,11 @@ public class BoxService {
         return message;
     }
 
+    public String customFlavorToString(Box box) {
+        if (box.getIsMix()) {
+            return "";
+        }
+        return YELLOW_DIAMOND + BOLD_START + "Бокс " + box.getBoxSize() + ", що міcтить:" + BOLD_END + LINE_END
+                + flavorQuantitiesToString(box);
+    }
 }

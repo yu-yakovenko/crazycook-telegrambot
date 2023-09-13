@@ -44,6 +44,8 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
         addMixFlavorButton(flavorButtons);
 
         String message = handleBox(chatId, username);
+
+        sendBotMessageService.hidePreviousButtons(update, chatId);
         sendBotMessageService.sendMessage(chatId, message, flavorButtons);
     }
 
@@ -71,7 +73,7 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
         int vacantNumber = boxSize.getCapacity() - occupiedNumber;
 
         int boxIndex = cartService.findCurrentBoxIndex(cart, boxSize);
-        return String.format(IN_PROGRESS_BOX_MESSAGE, boxSize.name(), boxIndex, occupiedNumber, vacantNumber);
+        return String.format(IN_PROGRESS_BOX_MESSAGE, boxSize.name(), boxIndex);
     }
 
     private String handleEmptyBox(Cart cart) {
