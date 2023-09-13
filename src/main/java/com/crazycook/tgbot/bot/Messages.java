@@ -21,8 +21,8 @@ public class Messages {
     //cart
     public static final String IN_YOUR_CART = "В твоєму кошику зараз: \n";
     public static final String YOUR_CART_IS_EMPTY = "\uD83D\uDE32 Тут пуст! Жодного макарончика \uD83E\uDD37\u200D♂️";
-    public final static String CART_WAS_REFRESH = "Корзину очищено, зараз в ній нічого немає.";
-    public static final String CART_COMPLETE = "Корзина сформована повністю. ";
+    public final static String CART_WAS_REFRESH = "Кошик очищено, зараз в ній нічого немає.";
+    public static final String CART_COMPLETE = "Кошик сформовано повністю. ";
     public static final String THANKS_MESSAGE = "Дякуємо за замовлення, наш менеджер скоро звяжеться з вами.";
 
     //order

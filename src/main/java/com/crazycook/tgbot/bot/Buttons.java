@@ -94,7 +94,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton showCartButton() {
-        return createButton("\uD83D\uDED2 Покажи, що знаходиться в корзині", CALLBACK_DATA_SHOW_CART);
+        return createButton("\uD83D\uDED2 Покажи, що знаходиться в кошику", CALLBACK_DATA_SHOW_CART);
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id, String callBack) {
@@ -106,7 +106,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton mixFlavorForAllButton() {
-        return createButton("Для всіх інших боксів зробіть мікс смаків", CALLBACK_DATA_MIX_FLAVOR_FOR_REST);
+        return createButton("Для всіх пустих боксів зробіть мікс смаків", CALLBACK_DATA_MIX_FLAVOR_FOR_REST);
     }
 
     public static InlineKeyboardButton nextBoxButton() {
@@ -141,7 +141,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton refreshCartButton() {
-        return createButton("\uD83D\uDDD1 Очистити корзину", CALLBACK_DATA_REFRESH);
+        return createButton("\uD83D\uDDD1 Очистити кошик", CALLBACK_DATA_REFRESH);
     }
 
     public static InlineKeyboardButton promoCodeButton() {
@@ -211,21 +211,20 @@ public class Buttons {
         if (readyForComplete) {
             return List.of(
                     List.of(chooseDeliveryButton(), promoCodeButton()),
-                    List.of(commentButton()),
-                    List.of(addMoreButton()));
+                    List.of(commentButton(), addMoreButton()),
+                    List.of(completeCartButton()));
         } else {
             return List.of(
                     List.of(chooseDeliveryButton(), promoCodeButton()),
-                    List.of(commentButton(), addMoreButton()),
-                    List.of(completeCartButton()));
+                    List.of(commentButton()),
+                    List.of(addMoreButton()));
         }
     }
 
     public static List<List<InlineKeyboardButton>> moreBoxesPossibleButtons() {
         return List.of(
                 List.of(nextBoxButton()),
-                List.of(mixFlavorForAllButton()),
-                List.of(showCartButton()));
+                List.of(mixFlavorForAllButton()));
     }
 
     public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors, String callBack) {

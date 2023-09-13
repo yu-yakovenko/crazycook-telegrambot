@@ -14,7 +14,7 @@ import java.util.List;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
+import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.moreBoxesPossibleButtons;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE_MIX;
@@ -50,7 +50,7 @@ public class MixCommand implements CrazyCookTGCommand {
         } else {
             //Показати повідомлення про те, що корзина повністю заповнена
             message += LINE_END + CART_COMPLETE;
-            buttons = cartCompleteButtons(cartService.readyForComplete(cart));
+            buttons = List.of(List.of(chooseDeliveryButton()));
         }
 
         sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);

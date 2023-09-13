@@ -9,14 +9,13 @@ import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
 import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
+import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Messages.BOXES_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 
@@ -44,10 +43,8 @@ public class MixForRestCommand implements CrazyCookTGCommand {
         //Показати повідомлення про те, що корзина повністю заповнена
         String message = BOXES_COMPLETE + CART_COMPLETE;
 
-        List<List<InlineKeyboardButton>> buttons = cartCompleteButtons(cartService.readyForComplete(cart));
-
         sendBotMessageService.hidePreviousButtons(update, chatId);
-        sendBotMessageService.sendMessage(chatId, message, buttons);
+        sendBotMessageService.sendMessage(chatId, message, List.of(List.of(chooseDeliveryButton())));
     }
 
     private void createBoxesIfNeeded(int existsNumber, BoxSize boxSize, Cart cart, Set<Box> boxes) {

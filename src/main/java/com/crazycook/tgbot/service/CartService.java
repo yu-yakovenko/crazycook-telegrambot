@@ -18,11 +18,16 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.crazycook.tgbot.bot.Messages.ADDRESS;
 import static com.crazycook.tgbot.bot.Messages.BLUE_DIAMOND;
 import static com.crazycook.tgbot.bot.Messages.BOLD_END;
 import static com.crazycook.tgbot.bot.Messages.BOLD_START;
+import static com.crazycook.tgbot.bot.Messages.COMMENT_IS;
+import static com.crazycook.tgbot.bot.Messages.DELIVERY_METHOD;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
+import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
+import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
 import static com.crazycook.tgbot.entity.BoxSize.L;
 import static com.crazycook.tgbot.entity.BoxSize.M;
 import static com.crazycook.tgbot.entity.BoxSize.S;
@@ -37,6 +42,7 @@ public class CartService {
     private final CustomerService customerService;
     private final BoxService boxService;
     private final PriceService priceService;
+    private final PromoService promoService;
 
     public Cart findCart(Long chatId, String username) {
         return cartRepository.findByCustomer(customerService.createOrFind(chatId, username));
@@ -147,22 +153,28 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public BigDecimal countOverallPrice(Cart cart) {
-        BigDecimal price = new BigDecimal(0);
+    public BigDecimal countOverallPriceBeforePromo(Cart cart) {
         Set<Box> boxes = getBoxesForCart(cart.getId());
+        BigDecimal price = countBoxesPrice(boxes);
+        BigDecimal courierDeliveryPrice = priceService.getDeliveryPrice();
+
+        if (DeliveryMethod.COURIER.equals(cart.getDeliveryMethod())) {
+            price = price.add(courierDeliveryPrice);
+        }
+        return price;
+    }
+
+    public BigDecimal countBoxesPrice(Set<Box> boxes) {
+        BigDecimal price = new BigDecimal(0);
 
         BigDecimal sPrice = priceService.getBoxPrice(S);
         BigDecimal mPrice = priceService.getBoxPrice(M);
         BigDecimal lPrice = priceService.getBoxPrice(L);
-        BigDecimal courierDeliveryPrice = priceService.getDeliveryPrice();
 
         price = price.add(sPrice.multiply(BigDecimal.valueOf(boxes.stream().filter(b -> S.equals(b.getBoxSize())).count())));
         price = price.add(mPrice.multiply(BigDecimal.valueOf(boxes.stream().filter(b -> M.equals(b.getBoxSize())).count())));
         price = price.add(lPrice.multiply(BigDecimal.valueOf(boxes.stream().filter(b -> L.equals(b.getBoxSize())).count())));
 
-        if (DeliveryMethod.COURIER.equals(cart.getDeliveryMethod())) {
-            price = price.add(courierDeliveryPrice);
-        }
         return price;
     }
 
@@ -199,16 +211,71 @@ public class CartService {
 
     public boolean readyForComplete(Cart cart) {
         Set<Box> boxes = getBoxesForCart(cart.getId());
-        int filledSNumber = getBoxNumber(boxes, BoxSize.S);
-        int filledMNumber = getBoxNumber(boxes, BoxSize.M);
-        int filledLNumber = getBoxNumber(boxes, BoxSize.L);
-        boolean allBoxFilled = filledSNumber == cart.getSNumber()
-                && filledMNumber == cart.getMNumber()
-                && filledLNumber < cart.getLNumber();
+        int filledNumber = boxes.size();
+
+        boolean allBoxFilled = filledNumber == cart.getSNumber() + cart.getMNumber() + cart.getLNumber();
+
         boolean deliveryFilled =
                 cart.getDeliveryMethod() != null
                         && (cart.getDeliveryMethod().equals(DeliveryMethod.SELF_PICKUP)
                         || (cart.getDeliveryMethod().equals(DeliveryMethod.COURIER) && cart.getAddress() != null));
         return allBoxFilled && deliveryFilled;
+    }
+
+    public String cartSummery(Cart cart) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        StringBuilder cartSummery = new StringBuilder();
+
+        cartSummery.append(cartBoxesToString(cart));
+
+        cartSummery.append(delivery(cart));
+        cartSummery.append(address(cart));
+        cartSummery.append(comment(cart));
+        cartSummery.append(price(cart));
+        cartSummery.append(promo(cart, boxes));
+
+        return cartSummery.toString();
+    }
+
+    private String delivery(Cart cart) {
+        if (cart.getDeliveryMethod() != null) {
+            return LINE_END + BOLD_START + DELIVERY_METHOD + BOLD_END + cart.getDeliveryMethod().getName();
+        }
+        return "";
+    }
+
+    private String address(Cart cart) {
+        if (cart.getAddress() != null && !cart.getAddress().isBlank()) {
+            return LINE_END + ADDRESS + cart.getAddress();
+        }
+        return "";
+    }
+
+    private String comment(Cart cart) {
+        if (cart.getComment() != null && !cart.getComment().isBlank()) {
+            return LINE_END + BOLD_START + COMMENT_IS
+                    + BOLD_END + cart.getComment();
+        }
+        return "";
+    }
+
+    private String promo(Cart cart, Set<Box> boxes) {
+        BigDecimal boxesPrice = countBoxesPrice(boxes);
+
+        if (cart.getPromoCode() != null && boxesPrice.compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal promoPrice = promoService.countPromoPrice(boxesPrice, cart.getPromoCode());
+            if (cart.getDeliveryMethod() != null && DeliveryMethod.COURIER.equals(cart.getDeliveryMethod())) {
+                promoPrice = promoPrice.add(priceService.getDeliveryPrice());
+            }
+            return LINE_END + String.format(PRICE_WITH_PROMO, cart.getPromoCode().getName(), promoPrice);
+        }
+        return "";
+    }
+
+    private String price(Cart cart) {
+        if (cart.getSNumber() + cart.getMNumber() + cart.getLNumber() > 0) {
+            return LINE_END + String.format(OVERALL_PRICE, countOverallPriceBeforePromo(cart)) + LINE_END;
+        }
+        return "";
     }
 }

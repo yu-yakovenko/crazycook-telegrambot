@@ -23,7 +23,7 @@ import java.util.Optional;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.CALLBACK_DATA_FLAVOR_ID;
-import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
+import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
 import static com.crazycook.tgbot.bot.Buttons.moreBoxesPossibleButtons;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
@@ -96,7 +96,7 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         } else {
             //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
             message += CART_COMPLETE;
-            buttons = cartCompleteButtons(cartService.readyForComplete(cart));
+            buttons = List.of(List.of(chooseDeliveryButton()));
         }
 
         sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);
