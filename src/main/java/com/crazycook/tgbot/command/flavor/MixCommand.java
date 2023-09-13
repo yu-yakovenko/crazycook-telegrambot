@@ -14,13 +14,8 @@ import java.util.List;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
-import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
-import static com.crazycook.tgbot.bot.Buttons.commentButton;
-import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
-import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
-import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
-import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
+import static com.crazycook.tgbot.bot.Buttons.moreBoxesPossibleButtons;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE_MIX;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
@@ -50,12 +45,12 @@ public class MixCommand implements CrazyCookTGCommand {
         String message = String.format(BOX_COMPLETE, boxIndex, box.getBoxSize().name()) + LINE_END + FOUR_SPACES + BOX_COMPLETE_MIX;
         List<List<InlineKeyboardButton>> buttons;
         if (moreBoxesPossible) {
-            //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
-            buttons = List.of(List.of(nextBoxButton()), List.of(mixFlavorForAllButton()), List.of(showCartButton()));
+            //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків"
+            buttons = moreBoxesPossibleButtons();
         } else {
             //Показати повідомлення про те, що корзина повністю заповнена
             message += LINE_END + CART_COMPLETE;
-            buttons = List.of(List.of(promoCodeButton(), chooseDeliveryButton()), List.of(commentButton()), List.of(addMoreButton()));
+            buttons = cartCompleteButtons(cartService.readyForComplete(cart));
         }
 
         sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);

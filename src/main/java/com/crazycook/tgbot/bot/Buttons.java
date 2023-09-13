@@ -207,10 +207,25 @@ public class Buttons {
         return List.of(buttonRow1, buttonRow2, buttonRow3);
     }
 
-    public static List<List<InlineKeyboardButton>> cartInProgressButtons() {
-        List<InlineKeyboardButton> buttonRow1 = List.of(addMoreButton(), chooseFlavorsButton());
-        List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton());
-        return List.of(buttonRow1, buttonRow3);
+    public static List<List<InlineKeyboardButton>> cartCompleteButtons(boolean readyForComplete) {
+        if (readyForComplete) {
+            return List.of(
+                    List.of(chooseDeliveryButton(), promoCodeButton()),
+                    List.of(commentButton()),
+                    List.of(addMoreButton()));
+        } else {
+            return List.of(
+                    List.of(chooseDeliveryButton(), promoCodeButton()),
+                    List.of(commentButton(), addMoreButton()),
+                    List.of(completeCartButton()));
+        }
+    }
+
+    public static List<List<InlineKeyboardButton>> moreBoxesPossibleButtons() {
+        return List.of(
+                List.of(nextBoxButton()),
+                List.of(mixFlavorForAllButton()),
+                List.of(showCartButton()));
     }
 
     public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors, String callBack) {

@@ -16,10 +16,7 @@ import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
-import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
-import static com.crazycook.tgbot.bot.Buttons.commentButton;
-import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
+import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
 import static com.crazycook.tgbot.bot.Messages.BOXES_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 
@@ -47,11 +44,7 @@ public class MixForRestCommand implements CrazyCookTGCommand {
         //Показати повідомлення про те, що корзина повністю заповнена
         String message = BOXES_COMPLETE + CART_COMPLETE;
 
-        List<List<InlineKeyboardButton>> buttons = List.of(
-                List.of(promoCodeButton(), chooseDeliveryButton()),
-                List.of(commentButton()),
-                List.of(addMoreButton()));
-
+        List<List<InlineKeyboardButton>> buttons = cartCompleteButtons(cartService.readyForComplete(cart));
 
         sendBotMessageService.hidePreviousButtons(update, chatId);
         sendBotMessageService.sendMessage(chatId, message, buttons);

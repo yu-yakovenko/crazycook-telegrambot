@@ -196,4 +196,19 @@ public class CartService {
         int filledLNumber = getBoxNumber(boxes, BoxSize.L);
         return filledSNumber < cart.getSNumber() || filledMNumber < cart.getMNumber() || filledLNumber < cart.getLNumber();
     }
+
+    public boolean readyForComplete(Cart cart) {
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        int filledSNumber = getBoxNumber(boxes, BoxSize.S);
+        int filledMNumber = getBoxNumber(boxes, BoxSize.M);
+        int filledLNumber = getBoxNumber(boxes, BoxSize.L);
+        boolean allBoxFilled = filledSNumber == cart.getSNumber()
+                && filledMNumber == cart.getMNumber()
+                && filledLNumber < cart.getLNumber();
+        boolean deliveryFilled =
+                cart.getDeliveryMethod() != null
+                        && (cart.getDeliveryMethod().equals(DeliveryMethod.SELF_PICKUP)
+                        || (cart.getDeliveryMethod().equals(DeliveryMethod.COURIER) && cart.getAddress() != null));
+        return allBoxFilled && deliveryFilled;
+    }
 }

@@ -23,13 +23,9 @@ import java.util.Optional;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.CALLBACK_DATA_FLAVOR_ID;
-import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
-import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
+import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
 import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
-import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
-import static com.crazycook.tgbot.bot.Buttons.nextBoxButton;
-import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
-import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Buttons.moreBoxesPossibleButtons;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
@@ -96,11 +92,11 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
             buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList(), CALLBACK_DATA_FLAVOR_ID);
         } else if (moreBoxesPossible) {
             //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
-            buttons = List.of(List.of(nextBoxButton()), List.of(mixFlavorForAllButton()), List.of(showCartButton()));
+            buttons = moreBoxesPossibleButtons();
         } else {
             //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
             message += CART_COMPLETE;
-            buttons = List.of(List.of(addMoreButton(), showCartButton()), List.of(chooseDeliveryButton(), promoCodeButton()));
+            buttons = cartCompleteButtons(cartService.readyForComplete(cart));
         }
 
         sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);

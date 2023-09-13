@@ -10,17 +10,13 @@ import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getMessage;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.commentButton;
-import static com.crazycook.tgbot.bot.Buttons.completeCartButton;
-import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
-import static com.crazycook.tgbot.bot.Buttons.showCartButton;
+import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
 import static com.crazycook.tgbot.bot.Messages.PROMO_ADDED;
 import static com.crazycook.tgbot.bot.Messages.PROMO_EXPIRED;
 import static com.crazycook.tgbot.bot.Messages.WRONG_PROMO;
@@ -42,13 +38,11 @@ public class PromoCodeCommand implements CrazyCookTGCommand {
         Cart cart = cartService.findCart(customerChatId, customerUsername);
         cart.setStatus(IN_PROGRESS);
         Optional<Promo> optPromo = promoService.findByName(promoCodeName);
-        boolean isPromoSuccess = false;
         if (optPromo.isPresent()) {
             Promo promo = optPromo.get();
             if (promoService.isNotExpired(promo)) {
                 cart.setPromoCode(optPromo.get());
                 message = String.format(PROMO_ADDED, promo.getName(), promo.getPercent());
-                isPromoSuccess = true;
             } else {
                 message = String.format(PROMO_EXPIRED, promo.getExpiringDate());
             }
@@ -57,13 +51,7 @@ public class PromoCodeCommand implements CrazyCookTGCommand {
         }
         cartService.save(cart);
 
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        buttons.add(List.of(completeCartButton(), commentButton()));
-        if (isPromoSuccess) {
-            buttons.add(List.of(showCartButton()));
-        } else {
-            buttons.add(List.of(promoCodeButton(), showCartButton()));
-        }
+        List<List<InlineKeyboardButton>> buttons = cartCompleteButtons(cartService.readyForComplete(cart));
 
         sendBotMessageService.sendMessage(customerChatId, message, buttons);
     }

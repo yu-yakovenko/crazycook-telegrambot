@@ -6,13 +6,14 @@ import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getMessage;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.completeCartButton;
+import static com.crazycook.tgbot.bot.Buttons.cartCompleteButtons;
 import static com.crazycook.tgbot.bot.Messages.COMMENT_ADDED;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
@@ -30,7 +31,8 @@ public class CommentCommand implements CrazyCookTGCommand {
         cart.setComment(message);
         cart.setStatus(IN_PROGRESS);
         cartService.save(cart);
+        List<List<InlineKeyboardButton>> buttons = cartCompleteButtons(cartService.readyForComplete(cart));
 
-        sendBotMessageService.sendMessage(customerChatId, COMMENT_ADDED, List.of(List.of(completeCartButton())));
+        sendBotMessageService.sendMessage(customerChatId, COMMENT_ADDED, buttons);
     }
 }
