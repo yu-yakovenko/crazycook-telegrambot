@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Buttons {
 
-    public static final String HUMAN_SUPPORT_URL = "https://t.me/YurikSvit";
+    public static final String HUMAN_SUPPORT_URL = "https://t.me/CrazyCookKyiv";
 
     public static final String CALLBACK_DATA_BOX_SIZE = "/box";
     public static final String CALLBACK_DATA_PRICE = "/Price";
