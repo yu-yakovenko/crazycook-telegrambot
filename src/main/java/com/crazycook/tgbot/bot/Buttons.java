@@ -12,6 +12,8 @@ import java.util.List;
 
 public class Buttons {
 
+    public static final String HUMAN_SUPPORT_URL = "https://t.me/YurikSvit";
+
     public static final String CALLBACK_DATA_BOX_SIZE = "/box";
     public static final String CALLBACK_DATA_PRICE = "/Price";
     public static final String CALLBACK_DATA_FLAVOR = "/flavor";
@@ -73,8 +75,10 @@ public class Buttons {
         return createButton("\uD83D\uDECD Замовити бокс", CALLBACK_DATA_CHOOSE_BOX);
     }
 
-    public static InlineKeyboardButton messageButton() {
-        return createButton("Написати повідомлення менеджеру", CALLBACK_DATA_MESSAGE);
+    public static InlineKeyboardButton humanSupportButton() {
+        InlineKeyboardButton button = createButton("\uD83E\uDDD1\u200D\uD83D\uDCBB Написати повідомлення менеджеру", CALLBACK_DATA_MESSAGE);
+        button.setUrl(HUMAN_SUPPORT_URL);
+        return button;
     }
 
     public static InlineKeyboardButton deliveryButton() {
@@ -197,12 +201,11 @@ public class Buttons {
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow3 = new ArrayList<>();
-        buttonRow2.add(priceButton());
         buttonRow1.add(flavorsButton());
         buttonRow1.add(chooseBoxButton());
+        buttonRow2.add(priceButton());
         buttonRow2.add(deliveryButton());
-//        todo return messageButton when implement functionality
-//         buttonRow3.add(messageButton());
+        buttonRow3.add(humanSupportButton());
 
         return List.of(buttonRow1, buttonRow2, buttonRow3);
     }

@@ -4,7 +4,7 @@ public enum CommandName {
 
     PRICE("/price"),
     ORDER("/order"),
-    MESSAGE("/message"),
+    HUMAN_SUPPORT("/message"),
     START("/start"),
     SHOW_CART("/show_cart"),
     REFRESH("/refresh"),
