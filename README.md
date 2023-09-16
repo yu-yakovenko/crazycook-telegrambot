@@ -1,5 +1,5 @@
 Status of the last deployment
-<img src="https://github.com/yu-yakovenko/crazycook-telegrambot/workflows/CI-CD-to-AWS-ElasticBeanstalk/badge.svg?branche=master"> <br>
+<br> <img src="https://github.com/yu-yakovenko/crazycook-telegrambot/workflows/CI-CD-to-AWS-ElasticBeanstalk/badge.svg?branche=master"> <br>
 
 
 About
