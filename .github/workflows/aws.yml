@@ -35,7 +35,6 @@ jobs:
     - name: Print Heppy message for CI complete
       run : echo "CI finished successfully"
 
-jobs:
   cd-pipeline:
     runs-on: ubuntu-latest
     needs: [ci-pipeline]
