@@ -59,6 +59,3 @@ jobs:
     
     - name: Print Heppy message for CD complete
       run : echo "CD finished successfully"
-
-
-        
