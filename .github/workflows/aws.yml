@@ -5,7 +5,7 @@ on:
     branches: [ "master" ]
 
 env:
-  AWS_REGION                 : "us-east-1"
+  AWS_REGION                 : "eu-north-1"
   EB_PACKAGE_S3_BUCKET_NAME  : "crazycook-application-packages" 
   EB_APPLICATION_NAME        : "Crazycook-test" 
   EB_ENV_NAME                : "Crazycook-test-env"
