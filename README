@@ -1,3 +1,7 @@
+Status of last deployment
+<img src="https://github.com/yu-yakovenko/crazycook-telegrambot/workflows/CI-CD-to-AWS-ElasticBeanstalk/badge.svg?branche=master"> <br>
+
+
 About
 Telegram bot for ordering delicious products from the Crazy Cook confectioners team.
 
