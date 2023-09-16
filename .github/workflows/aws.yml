@@ -46,15 +46,15 @@ jobs:
         aws-secret-access-key: ${{secrets.MY_AWS_SECRET_KEY}}
         aws-region: ${{env.AWS_REGION}}
 
-    - name: Create new Elastic Beanstalk app
+    - name: Create a new Elastic Beanstalk app
       run : |
         aws elasticbeanstalk create-application-version \
         --application-name ${{ env.EB_APPLICATION_NAME }} \
-        --source-bundle S3Bucket="${{env.EB_PACKAGE_S3_BUCKET_NAME}}",S3Key="${{env.DEPLOY_PECKAGE_NAME}}" \
-        --version-label "Ver-${{github.sha}}" \
-        --description "CommitSHA-${{github.sha}}"
+        --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BUCKET_NAME }}",S3Key="${{ env.DEPLOY_PECKAGE_NAME }}" \
+        --version-label "Ver-${{ github.sha }}" \
+        --description "CommitSHA-${{ github.sha }}"
 
-    - name: Deploy new Elastic Beanstalk app version
+    - name: Deploy a new Elastic Beanstalk app version
       run : aws elasticbeanstalk update-environment --environment-name ${{env.EB_ENV_NAME}} --version-label "Ver-${{github.sha}}
     
     - name: Print Heppy message for CD complete
