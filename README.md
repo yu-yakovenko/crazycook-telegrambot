@@ -8,12 +8,12 @@ Status of the last deployment
 
 <ul>
 <br>Technological stack
-    <li>- SpringBoot as a skeleton framework</li>
-    <li>- PostgreSQL database as a database for saving customer and order info</li>
-    <li>- Flyway database migration tool</li>
-    <li>- Telegrambots lib</li>
-    <li>- Spring Data starter</li>
-    <li>- Spring Web for working with REST calls</li>
-    <li>- Junit for tests</li>
-    <li>- Gradle as a build tool</li>
+    <li> SpringBoot as a skeleton framework</li>
+    <li> PostgreSQL database as a database for saving customer and order info</li>
+    <li> Flyway database migration tool</li>
+    <li> Telegrambots lib</li>
+    <li> Spring Data starter</li>
+    <li> Spring Web for working with REST calls</li>
+    <li> Junit for tests</li>
+    <li> Gradle as a build tool</li>
 </ul>
