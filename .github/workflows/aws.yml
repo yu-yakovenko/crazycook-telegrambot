@@ -1,0 +1,24 @@
+name: CI-CD-to-AWS-ElasticBeanstalk
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  AWS_REGION                 : "us-east-1"                   # set this to your preferred AWS region, e.g. us-west-1
+  EB_PACKAGE_S3_BUCKET_NAME  : "crazycook-application-packages" 
+  EB_APPLICATION_NAME        : "Crazycook-test" 
+  EB_ENV_NAME                : "Crazycook-test-env"
+  DEPLOY_PECKAGE_NAME        : "crazycook_app_${{gihub.sha}}.zip"
+
+
+jobs:
+  ci-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+    - name: git clone repo
+      uses: actions/checkout@v3
+
+    - name: create zip deployment package
+      run : zip -r ${{env.DEPLOY_PECKAGE_NAME}} ./ -x *.git*
+    
