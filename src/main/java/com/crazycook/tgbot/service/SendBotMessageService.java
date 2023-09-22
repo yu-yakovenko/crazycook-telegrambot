@@ -74,6 +74,7 @@ public class SendBotMessageService {
         replyKeyboardMarkup.setKeyboard(List.of(keyboardRaw));
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
 
         sendMessage(chatId, message, replyKeyboardMarkup);
     }

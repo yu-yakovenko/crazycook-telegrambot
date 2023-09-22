@@ -43,6 +43,8 @@ public class Buttons {
     public static final String CALLBACK_DATA_ADD_PROMO = "/add_promo";
     public static final String CALLBACK_DATA_USER_MENU = "/user_menu";
     public static final String CALLBACK_DATA_MARK_ORDER_AS_DONE = "/order_done";
+    public static final String MINUS_ONE = "-1";
+    public static final String PlUS_ONE = "+1";
     public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
@@ -103,6 +105,14 @@ public class Buttons {
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id, String callBack) {
         return createButton(name, callBack + " " + id);
+    }
+
+    public static InlineKeyboardButton minusFlavorIdButton(Long id) {
+        return createButton(MINUS_ONE, CALLBACK_DATA_FLAVOR_ID + " " + id + " " + MINUS_ONE);
+    }
+
+    public static InlineKeyboardButton plusFlavorIdButton(Long id, String name) {
+        return createButton(name + " " + PlUS_ONE, CALLBACK_DATA_FLAVOR_ID + " " + id + " " + PlUS_ONE);
     }
 
     public static InlineKeyboardButton mixFlavorButton() {
@@ -227,10 +237,11 @@ public class Buttons {
     public static List<List<InlineKeyboardButton>> moreBoxesPossibleButtons() {
         return List.of(
                 List.of(nextBoxButton()),
-                List.of(mixFlavorForAllButton()));
+                List.of(mixFlavorForAllButton()),
+                List.of(showCartButton(), refreshCartButton()));
     }
 
-    public static List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors, String callBack) {
+    public static List<List<InlineKeyboardButton>> generateChangeFlavorButtons(List<Flavor> flavors) {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         int rowsNumber = flavors.size() / 3 + 1;
         int flavorIndex = 0;
@@ -239,7 +250,7 @@ public class Buttons {
 
             for (int j = 0; j < 3 && flavorIndex < flavors.size(); j++, flavorIndex++) {
                 Flavor flavor = flavors.get(flavorIndex);
-                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId(), callBack));
+                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId(), CALLBACK_DATA_CHANGE_FLAVOR_ID));
             }
 
             buttons.add(buttonRow);

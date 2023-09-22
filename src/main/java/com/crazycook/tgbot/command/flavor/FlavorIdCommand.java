@@ -19,13 +19,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.CALLBACK_DATA_FLAVOR_ID;
+import static com.crazycook.tgbot.bot.Buttons.PlUS_ONE;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
-import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
+import static com.crazycook.tgbot.bot.Buttons.minusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Buttons.moreBoxesPossibleButtons;
+import static com.crazycook.tgbot.bot.Buttons.plusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
@@ -47,6 +49,7 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         String username = getUserName(update);
         String callBackData = Utils.getMessage(update);
         String flavorId = callBackData.split(" ")[1].toLowerCase();
+        String sign = callBackData.split(" ")[2].toLowerCase();
 
         String message = "";
 
@@ -65,11 +68,17 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         boolean moreFlavorsPossible = true;
         boolean moreBoxesPossible = cartService.isMoreBoxesPossible(cart);
 
-        if (vacantNumber == 1) {
+        if (vacantNumber == 1 && PlUS_ONE.equals(sign)) {
             moreFlavorsPossible = false;
         }
 
-        addFlavorToFlavorQuantities(flavor, flavorQuantities, boxInProgress);
+        if (PlUS_ONE.equals(sign)) {
+            addFlavorToFlavorQuantities(flavor, flavorQuantities, boxInProgress);
+            vacantNumber -= 1;
+        } else {
+            minusFlavorToFlavorQuantities(flavor, flavorQuantities, boxInProgress);
+            vacantNumber += 1;
+        }
 
         cart.setStatus(IN_PROGRESS);
         cart.setCurrentFlavor(null);
@@ -88,8 +97,10 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
 
         List<List<InlineKeyboardButton>> buttons;
         if (moreFlavorsPossible) {
-            message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber - 1);
-            buttons = generateFlavorButtons(flavorService.getAllInStock().stream().toList(), CALLBACK_DATA_FLAVOR_ID);
+            message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber);
+            buttons = flavorService.getAllInStock().stream()
+                    .map(f -> List.of(plusFlavorIdButton(f.getId(), f.getName()), minusFlavorIdButton(f.getId())))
+                    .collect(Collectors.toList());
         } else if (moreBoxesPossible) {
             //Показати кнопу "перейти до заповнення нового боксу", "Для всіх інших боксів зробіть мікс смаків" та "показати що в корзині"
             buttons = moreBoxesPossibleButtons();
@@ -100,6 +111,23 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         }
 
         sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);
+    }
+
+    private void minusFlavorToFlavorQuantities(Flavor flavor, List<FlavorQuantity> flavorQuantities, Box box) {
+        Optional<FlavorQuantity> optFq = flavorQuantities.stream().filter(f -> f.getFlavor().getId().equals(flavor.getId())).findFirst();
+        if (optFq.isPresent()) {
+            FlavorQuantity fq = optFq.get();
+            if (fq.getQuantity() <= 1) {
+                box.setFlavorQuantities(flavorQuantities.stream()
+                        .filter(f -> !f.getFlavor().getId().equals(flavor.getId()))
+                        .collect(Collectors.toList())
+                );
+                boxService.save(box);
+            } else {
+                fq.setQuantity(fq.getQuantity() - 1);
+                flavorQuantityService.save(fq);
+            }
+        }
     }
 
     private void addFlavorToFlavorQuantities(Flavor flavor, List<FlavorQuantity> flavorQuantities, Box box) {

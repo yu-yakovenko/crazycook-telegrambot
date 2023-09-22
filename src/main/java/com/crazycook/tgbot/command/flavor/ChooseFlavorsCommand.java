@@ -5,7 +5,6 @@ import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.Flavor;
-import com.crazycook.tgbot.entity.FlavorQuantity;
 import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.FlavorService;
@@ -16,13 +15,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
-import static com.crazycook.tgbot.bot.Buttons.CALLBACK_DATA_FLAVOR_ID;
-import static com.crazycook.tgbot.bot.Buttons.addButton;
-import static com.crazycook.tgbot.bot.Buttons.generateFlavorButtons;
+import static com.crazycook.tgbot.bot.Buttons.minusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorButton;
+import static com.crazycook.tgbot.bot.Buttons.plusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
 import static com.crazycook.tgbot.bot.Messages.START_BOX_MESSAGE;
 
@@ -40,17 +39,13 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
 
         List<Flavor> flavors = flavorService.getAllInStock().stream().toList();
 
-        List<List<InlineKeyboardButton>> flavorButtons = generateFlavorButtons(flavors, CALLBACK_DATA_FLAVOR_ID);
-        addMixFlavorButton(flavorButtons);
+        List<List<InlineKeyboardButton>> flavorButtons = generateFlavorButtons(flavors);
+        flavorButtons.add(List.of(mixFlavorButton()));
 
         String message = handleBox(chatId, username);
 
         sendBotMessageService.hidePreviousButtons(update, chatId);
         sendBotMessageService.sendMessage(chatId, message, flavorButtons);
-    }
-
-    private void addMixFlavorButton(List<List<InlineKeyboardButton>> flavorButtons) {
-        addButton(flavorButtons, 3, mixFlavorButton());
     }
 
     private String handleBox(Long chatId, String username) {
@@ -67,10 +62,6 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
     private String handleNotEmptyBox(Cart cart) {
         Box boxInProgress = cart.getBoxInProgress();
         BoxSize boxSize = boxInProgress.getBoxSize();
-        List<FlavorQuantity> flavorQuantities = boxService.getFlavorQuantitiesForBox(boxInProgress.getId());
-
-        int occupiedNumber = flavorQuantities.stream().map(FlavorQuantity::getQuantity).reduce(Integer::sum).orElse(0);
-        int vacantNumber = boxSize.getCapacity() - occupiedNumber;
 
         int boxIndex = cartService.findCurrentBoxIndex(cart, boxSize);
         return String.format(IN_PROGRESS_BOX_MESSAGE, boxSize.name(), boxIndex);
@@ -79,8 +70,8 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
     private String handleEmptyBox(Cart cart) {
         BoxSize nextBoxSize = findNextSize(cart);
         cartService.createNewBoxInProgress(cart, nextBoxSize);
-        int boxIndex = cartService.findCurrentBoxIndex(cart, nextBoxSize);
 
+        int boxIndex = cartService.findCurrentBoxIndex(cart, nextBoxSize);
         return String.format(START_BOX_MESSAGE, nextBoxSize.name(), boxIndex);
     }
 
@@ -99,5 +90,11 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
             return BoxSize.L;
         }
         return null;
+    }
+
+    private List<List<InlineKeyboardButton>> generateFlavorButtons(List<Flavor> flavors) {
+        return flavors.stream()
+                .map(f -> List.of(plusFlavorIdButton(f.getId(), f.getName()), minusFlavorIdButton(f.getId())))
+                .collect(Collectors.toList());
     }
 }
