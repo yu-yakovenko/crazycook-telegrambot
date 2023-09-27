@@ -20,8 +20,10 @@ import static com.crazycook.tgbot.bot.Buttons.chooseFlavorsLongButton;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorForAllButton;
 import static com.crazycook.tgbot.bot.Buttons.promoCodeButton;
 import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
+import static com.crazycook.tgbot.bot.Messages.CART_CONFIRM_REQUIREMENT;
+import static com.crazycook.tgbot.bot.Messages.DELIVERY_NEEDED;
 import static com.crazycook.tgbot.bot.Messages.IN_YOUR_CART;
-import static com.crazycook.tgbot.bot.Messages.YOUR_CART_IS_EMPTY;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
 
 @AllArgsConstructor
 public class ShowCartCommand implements CrazyCookTGCommand {
@@ -39,10 +41,6 @@ public class ShowCartCommand implements CrazyCookTGCommand {
         StringBuilder message = new StringBuilder(IN_YOUR_CART);
         message.append(cartService.cartSummery(cart));
 
-        if (cart.getSNumber() + cart.getMNumber() + cart.getLNumber() == 0) {
-            message.append(YOUR_CART_IS_EMPTY);
-        }
-
         boolean emptyBoxes = cartService.containsEmptyBoxes(cart);
         boolean emptyCart = cart.getSNumber() + cart.getMNumber() + cart.getLNumber() == 0;
 
@@ -51,11 +49,14 @@ public class ShowCartCommand implements CrazyCookTGCommand {
             buttons.add(List.of(addMoreButton(), refreshCartButton()));
             buttons.add(List.of(chooseFlavorsLongButton()));
             buttons.add(List.of(mixFlavorForAllButton()));
+            message.append(LINE_END + LINE_END + CART_CONFIRM_REQUIREMENT);
         } else if (!emptyCart) {
             buttons.add(List.of(addMoreButton(), chooseDeliveryButton()));
             buttons.add(List.of(promoCodeButton(), refreshCartButton()));
+            message.append(LINE_END + LINE_END + DELIVERY_NEEDED);
         } else {
             buttons.add(List.of(addMoreButton()));
+            message.append(LINE_END + LINE_END + CART_CONFIRM_REQUIREMENT);
         }
 
 

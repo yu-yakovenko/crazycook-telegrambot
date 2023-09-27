@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Buttons {
 
@@ -55,14 +56,18 @@ public class Buttons {
         return inlineKeyboardButton;
     }
 
-    public static InlineKeyboardButton boxSizeButton(BoxSize size) {
-        return createButton(size.name() + " " + size.getCapacity() + " штук", CALLBACK_DATA_BOX_SIZE + " " + size.name());
+    public static InlineKeyboardButton plusBoxSizeButton(BoxSize size) {
+        return createButton(size.name() + " (" + size.getCapacity() + " макарон) " + PlUS_ONE, CALLBACK_DATA_BOX_SIZE + " " + size.name() + " " + PlUS_ONE);
     }
 
-    public static List<InlineKeyboardButton> boxSizeButtons() {
-        List<InlineKeyboardButton> buttonRow = new ArrayList<>();
-        Arrays.stream(BoxSize.values()).forEach(size -> buttonRow.add(boxSizeButton(size)));
-        return buttonRow;
+    public static InlineKeyboardButton minusBoxSizeButton(BoxSize size) {
+        return createButton(MINUS_ONE, CALLBACK_DATA_BOX_SIZE + " " + size.name() + " " + MINUS_ONE);
+    }
+
+    public static List<List<InlineKeyboardButton>> boxSizeButtons() {
+        return Arrays.stream(BoxSize.values())
+                .map(size -> List.of(plusBoxSizeButton(size), minusBoxSizeButton(size)))
+                .collect(Collectors.toList());
     }
 
     public static InlineKeyboardButton priceButton() {
@@ -100,7 +105,7 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton showCartButton() {
-        return createButton("\uD83D\uDED2 Покажи, що знаходиться в кошику", CALLBACK_DATA_SHOW_CART);
+        return createButton("\uD83D\uDED2 Відобразити кошик", CALLBACK_DATA_SHOW_CART);
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id, String callBack) {

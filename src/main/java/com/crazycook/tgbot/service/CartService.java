@@ -28,6 +28,7 @@ import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.ONE_SPACE;
 import static com.crazycook.tgbot.bot.Messages.OVERALL_PRICE;
 import static com.crazycook.tgbot.bot.Messages.PRICE_WITH_PROMO;
+import static com.crazycook.tgbot.bot.Messages.YOUR_CART_IS_EMPTY;
 import static com.crazycook.tgbot.entity.BoxSize.L;
 import static com.crazycook.tgbot.entity.BoxSize.M;
 import static com.crazycook.tgbot.entity.BoxSize.S;
@@ -113,9 +114,6 @@ public class CartService {
     }
 
     public Cart completeBoxInProgress(Cart cart) {
-        Set<Box> boxes = getBoxesForCart(cart.getId());
-        boxes.add(cart.getBoxInProgress());
-        cart.setBoxes(boxes);
         cart.setBoxInProgress(null);
         return save(cart);
     }
@@ -134,7 +132,8 @@ public class CartService {
         return flavorMixStr;
     }
 
-    public void delete(Cart cart) {
+    public void refresh(Long cartId) {
+        Cart cart = cartRepository.getById(cartId);
         cart.setStatus(CartStatus.IN_PROGRESS);
         cart.setSNumber(0);
         cart.setMNumber(0);
@@ -143,13 +142,9 @@ public class CartService {
         cart.setCurrentFlavor(null);
         cart.setDeliveryMethod(null);
         cart.setComment(null);
-        cart.setBoxes(null);
+        cart.getBoxes().clear();
         cart.setAddress(null);
         cart.setPromoCode(null);
-        getBoxesForCart(cart.getId()).forEach(box -> {
-            box.setCart(null);
-            boxService.save(box);
-        });
         cartRepository.save(cart);
     }
 
@@ -194,6 +189,11 @@ public class CartService {
         for (String s : flavorDescription) {
             sb.append(s);
         }
+
+        if (cart.getSNumber() + cart.getMNumber() + cart.getLNumber() == 0) {
+            sb.append(YOUR_CART_IS_EMPTY);
+        }
+
         return sb.toString();
     }
 

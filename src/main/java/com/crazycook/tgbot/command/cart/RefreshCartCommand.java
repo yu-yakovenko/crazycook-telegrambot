@@ -24,7 +24,7 @@ public class RefreshCartCommand implements CrazyCookTGCommand {
         String customerUsername = getUserName(update);
         Cart cart = cartService.createOrFind(customerChatId, customerUsername);
 
-        cartService.delete(cart);
+        cartService.refresh(cart.getId());
 
         sendBotMessageService.sendMessage(customerChatId, CART_WAS_REFRESH, customerMenuButtons());
     }

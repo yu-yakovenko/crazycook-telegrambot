@@ -24,10 +24,13 @@ import java.util.stream.Collectors;
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
 import static com.crazycook.tgbot.bot.Buttons.PlUS_ONE;
+import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.minusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Buttons.moreBoxesPossibleButtons;
 import static com.crazycook.tgbot.bot.Buttons.plusFlavorIdButton;
+import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
+import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
@@ -80,18 +83,16 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
             vacantNumber += 1;
         }
 
-        cart.setStatus(IN_PROGRESS);
-        cart.setCurrentFlavor(null);
-        boxInProgress.setFlavorQuantities(flavorQuantities);
-        cart.setBoxInProgress(boxService.save(boxInProgress));
-        cartService.save(cart);
-
         if (moreFlavorsPossible) {
             message += String.format(IN_PROGRESS_BOX_MESSAGE, boxSize.name(), boxIndex);
         } else {
-            cartService.completeBoxInProgress(cart);
+            cart.setBoxInProgress(null);
             message += String.format(BOX_COMPLETE, boxIndex, boxSize.name());
         }
+
+        cart.setStatus(IN_PROGRESS);
+        boxService.save(boxInProgress);
+        cartService.save(cart);
 
         message += LINE_END + boxService.flavorQuantitiesToString(boxInProgress);
 
@@ -107,7 +108,7 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         } else {
             //Показати кнопки "показати що в корзині", "додати ще бокси" та "вибрати спосіб доставки"
             message += CART_COMPLETE;
-            buttons = List.of(List.of(chooseDeliveryButton()));
+            buttons = List.of(List.of(chooseDeliveryButton()), List.of(addMoreButton()), List.of(showCartButton(), refreshCartButton()));
         }
 
         sendBotMessageService.editMessage(update.getCallbackQuery().getMessage().getMessageId(), chatId, message, buttons);
@@ -118,11 +119,8 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
         if (optFq.isPresent()) {
             FlavorQuantity fq = optFq.get();
             if (fq.getQuantity() <= 1) {
-                box.setFlavorQuantities(flavorQuantities.stream()
-                        .filter(f -> !f.getFlavor().getId().equals(flavor.getId()))
-                        .collect(Collectors.toList())
-                );
-                boxService.save(box);
+                flavorQuantities.remove(fq);
+                box.setFlavorQuantities(flavorQuantities);
             } else {
                 fq.setQuantity(fq.getQuantity() - 1);
                 flavorQuantityService.save(fq);
@@ -140,6 +138,7 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
             FlavorQuantity newFq = FlavorQuantity.builder().flavor(flavor).quantity(1).box(box).build();
             flavorQuantityService.save(newFq);
             flavorQuantities.add(newFq);
+            box.setFlavorQuantities(flavorQuantities);
         }
     }
 }

@@ -79,4 +79,8 @@ public class BoxService {
         return YELLOW_DIAMOND + BOLD_START + "Бокс " + box.getBoxSize() + ", що міcтить:" + BOLD_END + LINE_END
                 + flavorQuantitiesToString(box);
     }
+
+    public void delete(Box box) {
+        boxRepository.delete(box);
+    }
 }

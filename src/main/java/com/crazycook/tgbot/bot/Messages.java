@@ -22,7 +22,9 @@ public class Messages {
     public static final String IN_YOUR_CART = "В твоєму кошику зараз: \n";
     public static final String YOUR_CART_IS_EMPTY = "\uD83D\uDE32 Тут пуст! Жодного макарончика \uD83E\uDD37\u200D♂️";
     public final static String CART_WAS_REFRESH = "Кошик очищено, зараз в ньому нічого немає.";
-    public static final String CART_COMPLETE = "Кошик сформовано повністю. ";
+    public static final String DELIVERY_NEEDED = "Для того щоб підтвердити замовлення, необхідно вказати спосіб доставки і адресу(якщо доставка кур'єром).";
+    public static final String CART_CONFIRM_REQUIREMENT = "Для того, щоб розмістити замовлення необхідно і достатньо, щоб замовлення містило хочаби один бокс, всі бокси були повністю заповнені смаками, а також вибрано спосіб доставки. Додатково ти можеш додати коментар до замовлення та застосувати промокод.";
+    public static final String CART_COMPLETE = LINE_END + LINE_END + "Кошик сформовано, всі бокси, що зараз є у кошику заповнено повністю. " + DELIVERY_NEEDED;
     public static final String THANKS_MESSAGE = "Дякуємо за замовлення, наш менеджер скоро звяжеться з вами.";
 
     //order
@@ -37,11 +39,12 @@ public class Messages {
     public static final String BOX_COMPLETE_MIX = "Бокс заповнено міксом смаків. ";
     public static final String BOXES_COMPLETE = "Бокси заповнено міксом смаків. ";
     public static final String BOX_COMPLETE = "%d-й %s бокс заповнено.";
-    public static final String BOX_ADDED = "Супер, ми додали %s бокс до твого кошика. Клікай кнопки щоб додати ще бокси, або переходь до наповнення боксу смаками.";
-    public static final String ONE_MORE_BOX_ADDED = "Супер, ми додали ще один %s бокс до твого кошика. Клікай кнопки щоб додати ще бокси, або переходь до наповнення боксів смаками.";
-    public final static String CHOOSE_BOX = "Обери розмір боксу. Один клік по кнопці з розміром боксу додає до твого кошика один бокс такого розміру. \n";
+    public static final String BOX_ADDED = "Супер, ми додали %s бокс до твого кошика.  Клікай кнопки щоб додати чи прибрати ще бокси, або переходь до наповнення боксу смаками.";
+    public static final String ONE_MORE_BOX_ADDED = "Супер, ми додали ще один %s бокс до твого кошика. Клікай кнопки щоб додати чи прибрати ще бокси, або переходь до наповнення боксів смаками.";
+    public static final String ONE_MORE_BOX_REMOVED = "Ок, ми прибрали один %s бокс з твого кошика. Клікай кнопки щоб додати чи прибрати ще бокси, або переходь до наповнення боксів смаками.";
+    public final static String CHOOSE_BOX = "Обери розмір боксу. \n\nЗліва кнопки з розмірами боксів, клік по ним додає один бокс. Навпроти кожного розміру, справа є кнопка -1, яка прибере з твого кошика один такий бокс. \n";
     public final static String EMPTY_BOX = RED_DIAMOND + ONE_SPACE + BOLD_START + VALUE + " пустих " + VALUE + " боксів" + BOLD_END + LINE_END;
-    public final static String START_BOX_MESSAGE = "Починаємо збирати %s бокс номер %d. Один клік по кнопці із назвою смаку додає до цього боксу один такий макарон.\n\nТакож ти можеш нажати кнопку 'зберіть мені мікс' і ми зберемо тобі бокс з різними смаками. \n\nДодай смак до боксу:";
+    public final static String START_BOX_MESSAGE = "Починаємо збирати %s бокс номер %d. Зліва кнопки з назвою смаків, клік по ним додає до бокса один такий макарон. Справа нвпроти кожного смаку є кнопка ʼ-1ʼ яка прибирає один макарон. \n\nТакож ти можеш нажати кнопку 'зберіть мені мікс' і ми зберемо тобі бокс з різними смаками. \n\nДодай смак до боксу:";
     public final static String IN_PROGRESS_BOX_MESSAGE = "Продовжуємо збирати %s бокс номер %d. В боксі зараз: ";
 
     //flavor

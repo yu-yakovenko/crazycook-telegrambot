@@ -5,7 +5,6 @@ import com.crazycook.tgbot.entity.Box;
 import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Cart;
 import com.crazycook.tgbot.entity.Flavor;
-import com.crazycook.tgbot.service.BoxService;
 import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.FlavorService;
 import com.crazycook.tgbot.service.SendBotMessageService;
@@ -23,6 +22,7 @@ import static com.crazycook.tgbot.bot.Buttons.minusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Buttons.mixFlavorButton;
 import static com.crazycook.tgbot.bot.Buttons.plusFlavorIdButton;
 import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
+import static com.crazycook.tgbot.bot.Messages.LINE_END;
 import static com.crazycook.tgbot.bot.Messages.START_BOX_MESSAGE;
 
 @AllArgsConstructor
@@ -30,7 +30,6 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
     private final SendBotMessageService sendBotMessageService;
     private final FlavorService flavorService;
     private final CartService cartService;
-    private final BoxService boxService;
 
     @Override
     public void execute(Update update) {
@@ -52,9 +51,9 @@ public class ChooseFlavorsCommand implements CrazyCookTGCommand {
         Cart cart = cartService.findCart(chatId, username);
         String message;
         if (cart.getBoxInProgress() == null) {
-            message = handleEmptyBox(cart);
+            message = LINE_END + handleEmptyBox(cart);
         } else {
-            message = handleNotEmptyBox(cart);
+            message = LINE_END + handleNotEmptyBox(cart);
         }
         return message;
     }

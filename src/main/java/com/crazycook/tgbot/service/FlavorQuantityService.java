@@ -13,10 +13,13 @@ public class FlavorQuantityService {
 
     private final FlavorQuantityRepository flavorQuantityRepository;
 
-
     public void save(FlavorQuantity fq) {
         if (fq.getQuantity() > 0) {
             flavorQuantityRepository.save(fq);
         }
+    }
+
+    public void delete(FlavorQuantity fq) {
+        flavorQuantityRepository.delete(fq);
     }
 }

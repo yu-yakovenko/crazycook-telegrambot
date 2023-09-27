@@ -39,7 +39,6 @@ public class OrderService {
         Set<Box> boxes = cartService.getBoxesForCart(cart.getId());
         Order order = Order.builder()
                 .customer(cart.getCustomer())
-                .boxes(cartService.getBoxesForCart(cart.getId()))
                 .comment(cart.getComment())
                 .address(cart.getAddress())
                 .deliveryMethod(cart.getDeliveryMethod())
@@ -50,10 +49,10 @@ public class OrderService {
 
         for (Box box : boxes) {
             box.setOrder(order);
-            boxService.save(box);
         }
 
-        return order;
+        order.setBoxes(boxes);
+        return orderRepository.save(order);
     }
 
     public List<Order> findAllActiveOrders() {

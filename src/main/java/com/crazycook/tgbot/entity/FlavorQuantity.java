@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,10 +27,12 @@ public class FlavorQuantity {
 
     @ManyToOne
     @JoinColumn(name = "box_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Box box;
 
     @ManyToOne
     @JoinColumn(name = "flavor_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Flavor flavor;
 
     private Integer quantity;

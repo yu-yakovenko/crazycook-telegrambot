@@ -9,13 +9,17 @@ import com.crazycook.tgbot.service.CartService;
 import com.crazycook.tgbot.service.SendBotMessageService;
 import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
 import java.util.Set;
 
 import static com.crazycook.tgbot.Utils.getChatId;
 import static com.crazycook.tgbot.Utils.getUserName;
+import static com.crazycook.tgbot.bot.Buttons.addMoreButton;
 import static com.crazycook.tgbot.bot.Buttons.chooseDeliveryButton;
+import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
+import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 import static com.crazycook.tgbot.bot.Messages.BOXES_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 
@@ -44,7 +48,9 @@ public class MixForRestCommand implements CrazyCookTGCommand {
         String message = BOXES_COMPLETE + CART_COMPLETE;
 
         sendBotMessageService.hidePreviousButtons(update, chatId);
-        sendBotMessageService.sendMessage(chatId, message, List.of(List.of(chooseDeliveryButton())));
+        List<List<InlineKeyboardButton>> buttons = List.of(List.of(chooseDeliveryButton()), List.of(addMoreButton()), List.of(showCartButton(), refreshCartButton()));
+
+        sendBotMessageService.sendMessage(chatId, message, buttons);
     }
 
     private void createBoxesIfNeeded(int existsNumber, BoxSize boxSize, Cart cart, Set<Box> boxes) {

@@ -53,7 +53,7 @@ public class CompleteCartCommand implements CrazyCookTGCommand {
 
         //закрити корзину
         orderService.createOrder(cart);
-        cartService.delete(cart);
+        cartService.refresh(cart.getId());
 
         // повідомити адмінів
         sendMessageForAdmin(cartSummery + LINE_END, customer);

@@ -12,6 +12,7 @@ import static com.crazycook.tgbot.bot.Buttons.chooseBoxButton;
 import static com.crazycook.tgbot.bot.Buttons.deliveryButton;
 import static com.crazycook.tgbot.bot.Buttons.flavorsButton;
 import static com.crazycook.tgbot.bot.Buttons.priceButton;
+import static com.crazycook.tgbot.bot.Buttons.refreshCartButton;
 import static com.crazycook.tgbot.bot.Buttons.showCartButton;
 
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class UnknownCommand implements CrazyCookTGCommand {
     public void execute(Update update) {
         List<InlineKeyboardButton> buttonRow1 = List.of(flavorsButton(), chooseBoxButton());
         List<InlineKeyboardButton> buttonRow2 = List.of(priceButton(), deliveryButton());
-        List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton());
+        List<InlineKeyboardButton> buttonRow3 = List.of(showCartButton(), refreshCartButton());
 
         sendBotMessageService.sendMessage(getChatId(update), UNKNOWN_MESSAGE, List.of(buttonRow1, buttonRow2, buttonRow3));
     }

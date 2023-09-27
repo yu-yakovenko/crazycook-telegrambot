@@ -2,9 +2,11 @@ package com.crazycook.tgbot.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +20,8 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @Table(name = "user_order")
@@ -48,6 +51,6 @@ public class Order {
     private Promo promoCode;
 
     @Builder.Default
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = {CascadeType.ALL})
     private Set<Box> boxes = new HashSet<>();
 }
