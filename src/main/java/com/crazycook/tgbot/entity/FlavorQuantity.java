@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import static com.crazycook.tgbot.bot.Messages.macaronEnding;
+
 @Data
 @Entity
 @Builder
@@ -39,6 +41,6 @@ public class FlavorQuantity {
 
     @Override
     public String toString() {
-        return quantity + " макаронів зі смаком " + flavor.getName() + "; \n";
+        return macaronEnding(quantity) + " зі смаком " + flavor.getName() + "; \n";
     }
 }

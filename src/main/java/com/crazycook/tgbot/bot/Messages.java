@@ -24,7 +24,7 @@ public class Messages {
     public final static String CART_WAS_REFRESH = "Кошик очищено, зараз в ньому нічого немає.";
     public static final String DELIVERY_NEEDED = "Для того щоб підтвердити замовлення, необхідно вказати спосіб доставки і адресу(якщо доставка кур'єром).";
     public static final String CART_CONFIRM_REQUIREMENT = "Для того, щоб розмістити замовлення необхідно і достатньо, щоб замовлення містило хочаби один бокс, всі бокси були повністю заповнені смаками, а також вибрано спосіб доставки. Додатково ти можеш додати коментар до замовлення та застосувати промокод.";
-    public static final String CART_COMPLETE = LINE_END + LINE_END + "Кошик сформовано, всі бокси, що зараз є у кошику заповнено повністю. " + DELIVERY_NEEDED;
+    public static final String CART_COMPLETE = LINE_END + LINE_END + "Кошик сформовано, всі бокси, що зараз є у кошику заповнено смаками. " + DELIVERY_NEEDED;
     public static final String THANKS_MESSAGE = "Дякуємо за замовлення, наш менеджер скоро звяжеться з вами.";
 
     //order
@@ -49,12 +49,15 @@ public class Messages {
 
     //flavor
     public final static String FLAVOR_MESSAGE = BOLD_START + "Зараз в наявності є такі смаки: " + BOLD_END + LINE_END;
-    public static final String MORE_FLAVORS_POSSIBLE = "Ще можна додати %d макарон. Обери наступний смак:";
     public static final String NEW_FLAVOR_ADDED = "Новий смак '%s' створено, наявність автоматично встановлено 'в наявності'.";
     public static final String INPUT_NEW_FLAVOR = "Введи назву нового смаку";
     public static final String IN_STOCK_FLAVORS = "Це смаки які зараз <b>є в наявності</b>. Натисни кнопку, щоб поміняти статус цього смаку на 'немає в наявності'";
     public static final String NOT_IN_STOCK_FLAVORS = "Це смаки яких зараз <b>немає в наявності</b>. Натисни кнопку, щоб поміняти статус цього смаку на 'є в наявності'";
     public static final String IN_STOCK_WAS_CHANGED = "Статус смаку '%s' змінено на <b>%s</b>";
+
+    public static String moreFlavorsPossible(int number) {
+        return "Ще можна додати " + macaronEnding(number) + ". Обери наступний смак:";
+    }
 
     //contact
     public static final String REQUEST_CONTACT = "Будь ласка натисніть кнопку 'Поділитися контактом', щоб ми могли звязатися з вами для уточнення деталей доставки";
@@ -118,4 +121,29 @@ public class Messages {
     public static final String DATE_WRONG = "Формат вводу дати невірний. Я дозумію формат yyyy-mm-dd, тобто нарпиклад 1991-08-24  це валідний ввод дати";
     public static final String NEW_PROMO_ADDED = "Новий промокод '%s', що надає знижку у розмірі %s відсотків, та діє до %s, додано.";
     public static final String PROMO_ALREADY_EXISTS = "Промокод з такою назвою вже існує.";
+
+    public static String boxEnding(int number) {
+        return switch (number) {
+            case 1 -> "1 бокс";
+            case 2, 3, 4 -> number + " бокси";
+            default -> number + " боксів";
+        };
+    }
+
+    public static String macaronEnding(int number) {
+        return switch (number) {
+            case 1 -> "1 макарон";
+            case 2, 3, 4 -> number + " макарони";
+            default -> number + " макаронів";
+        };
+    }
+
+    public static String flavorMixStr(int number, String size) {
+        String contain = "містять";
+        if (number == 1) {
+            contain = "містить";
+        }
+        return BLUE_DIAMOND + BOLD_START + boxEnding(number) + " розміру " + size + ", що " + contain + " мікс смаків" + BOLD_END + LINE_END;
+    }
+
 }

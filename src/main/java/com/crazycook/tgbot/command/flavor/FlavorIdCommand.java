@@ -35,7 +35,7 @@ import static com.crazycook.tgbot.bot.Messages.BOX_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.CART_COMPLETE;
 import static com.crazycook.tgbot.bot.Messages.IN_PROGRESS_BOX_MESSAGE;
 import static com.crazycook.tgbot.bot.Messages.LINE_END;
-import static com.crazycook.tgbot.bot.Messages.MORE_FLAVORS_POSSIBLE;
+import static com.crazycook.tgbot.bot.Messages.moreFlavorsPossible;
 import static com.crazycook.tgbot.entity.CartStatus.IN_PROGRESS;
 
 @AllArgsConstructor
@@ -98,7 +98,7 @@ public class FlavorIdCommand implements CrazyCookTGCommand {
 
         List<List<InlineKeyboardButton>> buttons;
         if (moreFlavorsPossible) {
-            message += String.format(MORE_FLAVORS_POSSIBLE, vacantNumber);
+            message += moreFlavorsPossible(vacantNumber);
             buttons = flavorService.getAllInStock().stream()
                     .map(f -> List.of(plusFlavorIdButton(f.getId(), f.getName()), minusFlavorIdButton(f.getId())))
                     .collect(Collectors.toList());
