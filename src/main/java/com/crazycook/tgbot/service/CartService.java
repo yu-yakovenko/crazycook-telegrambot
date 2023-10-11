@@ -141,10 +141,15 @@ public class CartService {
         cart.setCurrentFlavor(null);
         cart.setDeliveryMethod(null);
         cart.setComment(null);
-        cart.getBoxes().clear();
         cart.setAddress(null);
         cart.setPromoCode(null);
         cartRepository.save(cart);
+
+        Set<Box> boxes = getBoxesForCart(cart.getId());
+        for (Box box : boxes) {
+            box.setCart(null);
+            boxService.save(box);
+        }
     }
 
     public BigDecimal countOverallPriceBeforePromo(Cart cart) {
