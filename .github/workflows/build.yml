@@ -16,6 +16,6 @@ jobs:
         distribution: 'adopt'
         cache: gradle
     - name: build with Gradle
-      run: |
-         ./gradlew wrapper --gradle-version=8.0
-         ./gradlew build
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: assemble
