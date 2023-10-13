@@ -15,4 +15,6 @@ jobs:
         java-version: 17
         distribution: 'adopt'
     - name: build with Gradle
-      run: gradle assemble
+      run: |
+         ./gradlew wrapper --gradle-version=8.0
+         ./gradlew build
