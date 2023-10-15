@@ -32,7 +32,7 @@ jobs:
     - name: SSH setup
       run: |
         mkdir ~/.ssh
-        ssh-agent -a
+        ssh-agent -s
         ssh-add private_key
         ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
         chmod 644 $HOME/.ssh/known_hosts
