@@ -2,7 +2,9 @@ name: build jar
 on:
   push:
     branches: [ "master" ]
-    
+env:
+  AWS_REGION: "eu-north-1"
+  
 jobs:
   ci-pipeline:
     runs-on: ubuntu-latest
@@ -19,3 +21,8 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: assemble
+    - name: Check connection
+      run: ssh -i ${{secrets.EC2_RSA_PRIVATE_KEY}} ubuntu@${{secrets.EC2_PUBLIC_DNS}}.${{env.AWS_REGION}}.compute.amazonaws.com
+    - name: copy jar to EC2 instance
+      run: echo here will be the next command soon 
+  
