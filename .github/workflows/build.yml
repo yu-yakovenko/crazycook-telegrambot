@@ -1,4 +1,4 @@
-name: build jar
+name: CI-CD-to-AWS
 on:
   push:
     branches: [ "master" ]
