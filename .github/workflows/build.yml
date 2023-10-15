@@ -39,6 +39,6 @@ jobs:
         chmod 644 ~/.ssh/known_hosts
   
     - name: copy jar to EC2 instance
-      run: scp -o StrictHostKeyChecking=no -i private_key ./build/libs/crazycook-telegrambot-1.0-SNAPSHOT.jar $SERVER_USER@$SERVER_IP:~
+      run: scp -i private_key ./build/libs/crazycook-telegrambot-1.0-SNAPSHOT.jar $SERVER_USER@$SERVER_IP:~
 
   
