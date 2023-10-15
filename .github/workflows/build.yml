@@ -28,13 +28,7 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key
         chmod 600 private_key
-    - name: Show what in falder
-      run: ls
-    - name: PWD
-      run: pwd
-    - name: Add known host
-      run: ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
     - name: copy jar to EC2 instance
-      run: scp -i private_key ./build/libs/crazycook-telegrambot-1.0-SNAPSHOT.jar $SERVER_USER@$SERVER_IP.$AWS_REGION.compute.amazonaws.com:~
+      run: scp -o StrictHostKeyChecking=no -i private_key ./build/libs/crazycook-telegrambot-1.0-SNAPSHOT.jar $SERVER_USER@$SERVER_IP.$AWS_REGION.compute.amazonaws.com:~
 
   
