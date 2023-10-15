@@ -8,6 +8,7 @@ env:
   SERVER_USER: ${{secrets.EC2_USERNAME}}
   SSH_AUTH_SOCK: /tmp/ssh_agent_${{ github.sha }}.sock
   APP_PROPERTIES: ${{secrets.APPLICATION_PROPERTIES}}
+  BOT_PROPERTIES: ${{secrets.BOT_PROPERTIES}}
   PRIVATE_KEY: ${{secrets.EC2_RSA_PRIVATE_KEY}}
 
 jobs:
@@ -23,8 +24,9 @@ jobs:
         distribution: 'adopt'
         cache: gradle
     - name: Prepare application properties
-      run: 
+      run: |
         echo "$APP_PROPERTIES" > src/main/resources/application.properties
+        echo "$BOT_PROPERTIES" > src/main/resources/bot.properties
     - name: build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
