@@ -28,6 +28,15 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key
         chmod 600 private_key
+
+    - name: SSH setup
+      run: |
+        mkdir ~/.ssh
+        ssh-agent -a
+        ssh-add private_key
+        ssh-keyscan -H $SERVER_IP >> $HOME/.ssh/known_hosts
+        chmod 644 $HOME/.ssh/known_hosts
+  
     - name: copy jar to EC2 instance
       run: scp -o StrictHostKeyChecking=no -i private_key ./build/libs/crazycook-telegrambot-1.0-SNAPSHOT.jar $SERVER_USER@$SERVER_IP.$AWS_REGION.compute.amazonaws.com:~
 
