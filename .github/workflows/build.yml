@@ -7,7 +7,9 @@ env:
   SERVER_IP: ${{secrets.EC2_SERVER}}
   SERVER_USER: ${{secrets.EC2_USERNAME}}
   SSH_AUTH_SOCK: /tmp/ssh_agent_${{ github.sha }}.sock
-  
+  APP_PROPERTIES: ${{secrets.APPLICATION_PROPERTIES}}
+  PRIVATE_KEY: ${{secrets.EC2_RSA_PRIVATE_KEY}}
+
 jobs:
   ci-cd-pipeline:
     runs-on: ubuntu-latest
@@ -20,13 +22,14 @@ jobs:
         java-version: 17
         distribution: 'adopt'
         cache: gradle
+    - name: Prepare application properties
+      run: 
+        echo "$APP_PROPERTIES" > src/main/resources/application.properties
     - name: build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
         arguments: assemble
     - name: create RSA private key file
-      env:
-        PRIVATE_KEY: ${{secrets.EC2_RSA_PRIVATE_KEY}}
       run: |
         echo "$PRIVATE_KEY" > private_key
         chmod 600 private_key
