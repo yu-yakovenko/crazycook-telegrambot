@@ -49,5 +49,5 @@ jobs:
     
     - name: restart application
       run: |
-        ssh -i private_key $SERVER_USER@$SERVER_IP 'bash -s' < start_crazycook.sh
+        ssh -i private_key $SERVER_USER@$SERVER_IP "./start_crazycook.sh"
 
