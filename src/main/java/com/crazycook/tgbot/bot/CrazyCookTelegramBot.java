@@ -74,26 +74,26 @@ public class CrazyCookTelegramBot extends TelegramLongPollingBot {
         String message = Utils.getMessage(update);
         Cart cart = cartService.createOrFind(chatId, username);
          if (update.getMessage() != null && update.getMessage().hasContact()) {
-             commandContainer.findCommand(CONTACT_COMMAND.getCommandName()).execute(update);
+             commandContainer.findCommand(CONTACT_COMMAND.getCallbackData()).execute(update);
          } else if (message.startsWith(COMMAND_PREFIX)) {
              String commandIdentifier = message.split(" ")[0].toLowerCase();
              commandContainer.findCommand(commandIdentifier.toLowerCase(Locale.ROOT)).execute(update);
          } else if (WAITING_FOR_PROMO.equals(cart.getStatus())) {
-             commandContainer.findCommand(PROMO_CODE.getCommandName()).execute(update);
+             commandContainer.findCommand(PROMO_CODE.getCallbackData()).execute(update);
          } else if (WAITING_FOR_ADDRESS.equals(cart.getStatus())) {
-             commandContainer.findCommand(ADDRESS.getCommandName()).execute(update);
+             commandContainer.findCommand(ADDRESS.getCallbackData()).execute(update);
          } else if (WAITING_FOR_COMMENT.equals(cart.getStatus())) {
-             commandContainer.findCommand(COMMENT.getCommandName()).execute(update);
+             commandContainer.findCommand(COMMENT.getCallbackData()).execute(update);
          } else if (message.matches(regExOnlyNumbers) && WAITING_BOX_NUMBER_STATUSES.contains(cart.getStatus())) {
-             commandContainer.findCommand(BOX_NUMBER_COMMAND.getCommandName()).execute(update);
+             commandContainer.findCommand(BOX_NUMBER_COMMAND.getCallbackData()).execute(update);
          } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_FLAVOR)) {
-             commandContainer.findCommand(ADD_NEW_FLAVOR.getCommandName()).execute(update);
+             commandContainer.findCommand(ADD_NEW_FLAVOR.getCallbackData()).execute(update);
          } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_PROMO)) {
-             commandContainer.findCommand(ADD_NEW_PROMO.getCommandName()).execute(update);
+             commandContainer.findCommand(ADD_NEW_PROMO.getCallbackData()).execute(update);
          } else if (isAdmin && adminService.isHasStatus(chatId, AdminStatus.WAITING_FOR_PRICE)) {
-             commandContainer.findCommand(CHANGE_PRICE.getCommandName()).execute(update);
+             commandContainer.findCommand(CHANGE_PRICE.getCallbackData()).execute(update);
          } else {
-             commandContainer.findCommand(UNKNOWN_COMMAND.getCommandName()).execute(update);
+             commandContainer.findCommand(UNKNOWN_COMMAND.getCallbackData()).execute(update);
          }
     }
 

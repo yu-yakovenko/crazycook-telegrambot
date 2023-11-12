@@ -48,13 +48,13 @@ public enum CommandName {
     UNKNOWN_COMMAND("/unknown_command");
 
 
-    private final String commandName;
+    private final String callbackData;
 
     CommandName(String commandName) {
-        this.commandName = commandName;
+        this.callbackData = commandName;
     }
 
-    public String getCommandName() {
-        return commandName;
+    public String getCallbackData() {
+        return callbackData;
     }
 }

@@ -2,7 +2,6 @@ package com.crazycook.tgbot.bot;
 
 import com.crazycook.tgbot.entity.BoxSize;
 import com.crazycook.tgbot.entity.Flavor;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
@@ -11,43 +10,42 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.crazycook.tgbot.command.CommandName.ADD_BOX;
+import static com.crazycook.tgbot.command.CommandName.ADD_MORE_BOXES;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_FLAVORS;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_FLAVOR_ID;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_PRICE_MENU;
+import static com.crazycook.tgbot.command.CommandName.CHANGE_PROMO_MENU;
+import static com.crazycook.tgbot.command.CommandName.CHOOSE_BOX;
+import static com.crazycook.tgbot.command.CommandName.CHOOSE_DELIVERY;
+import static com.crazycook.tgbot.command.CommandName.CHOOSE_FLAVORS;
+import static com.crazycook.tgbot.command.CommandName.COMPLETE_CART;
+import static com.crazycook.tgbot.command.CommandName.COURIER;
+import static com.crazycook.tgbot.command.CommandName.CUSTOMER_MENU;
+import static com.crazycook.tgbot.command.CommandName.DELIVERY;
+import static com.crazycook.tgbot.command.CommandName.FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.FLAVOR_ID;
+import static com.crazycook.tgbot.command.CommandName.HUMAN_SUPPORT;
+import static com.crazycook.tgbot.command.CommandName.MARK_ORDER_AS_DONE;
+import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.MIX_FLAVOR_FOR_REST;
+import static com.crazycook.tgbot.command.CommandName.PRICE;
+import static com.crazycook.tgbot.command.CommandName.REFRESH;
+import static com.crazycook.tgbot.command.CommandName.SELF_PICKUP;
+import static com.crazycook.tgbot.command.CommandName.SHOW_ACTIVE_ORDERS;
+import static com.crazycook.tgbot.command.CommandName.SHOW_CART;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_COMMENT;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_NEW_FLAVOR;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_NEW_PROMO;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_PRICE;
+import static com.crazycook.tgbot.command.CommandName.WAITING_FOR_PROMO_CODE;
+
 public class Buttons {
 
     public static final String HUMAN_SUPPORT_URL = "https://t.me/CrazyCookKyiv";
 
-    public static final String CALLBACK_DATA_BOX_SIZE = "/box";
-    public static final String CALLBACK_DATA_PRICE = "/Price";
-    public static final String CALLBACK_DATA_FLAVOR = "/flavor";
-    public static final String CALLBACK_DATA_FLAVOR_ID = "/flavor_id";
-    public static final String CALLBACK_DATA_CHANGE_FLAVOR_ID = "/change_flavor_id";
-    public static final String CALLBACK_DATA_MIX_FLAVOR = "/mix_flavor";
-    public static final String CALLBACK_DATA_MIX_FLAVOR_FOR_REST = "/mix_flavor_for_rest";
-    public static final String CALLBACK_DATA_MESSAGE = "/message";
-    public static final String CALLBACK_DATA_ADD_MORE_BOXES = "/add_more_boxes";
-    public static final String CALLBACK_DATA_CHOOSE_FLAVORS = "/choose_flavors";
-    public static final String CALLBACK_DATA_SHOW_CART = "/show_cart";
-    public static final String CALLBACK_DATA_CHOOSE_BOX = "/choose_box";
-    public static final String CALLBACK_DATA_DELIVERY = "/delivery";
-    public static final String CALLBACK_DATA_CHOOSE_DELIVERY = "/choose_delivery";
-    public static final String CALLBACK_DATA_SELF_PICKUP = "/self_pickup";
-    public static final String CALLBACK_DATA_COURIER = "/courier";
-    public static final String CALLBACK_DATA_WAITING_FOR_COMMENT = "/waiting_for_comment";
-    public static final String CALLBACK_DATA_COMPLETE_CART = "/complete_cart";
-    public static final String CALLBACK_DATA_REFRESH = "/refresh";
-    public static final String CALLBACK_DATA_PROMO_CODE = "/waiting_for_promo_code";
-    public static final String CALLBACK_DATA_ACTIVE_ORDERS = "/active_orders";
-    public static final String CALLBACK_DATA_CHANGE_PRICE = "/change_price";
-    public static final String CALLBACK_DATA_CHANGE_PRICE_ID = "/change_price_id";
-    public static final String CALLBACK_DATA_CHANGE_FLAVORS = "/change_flavors";
-    public static final String CALLBACK_DATA_CHANGE_PROMO = "/change_promo";
-    public static final String CALLBACK_DATA_ADD_FLAVOR = "/add_flavor";
-    public static final String CALLBACK_DATA_ADD_PROMO = "/add_promo";
-    public static final String CALLBACK_DATA_USER_MENU = "/user_menu";
-    public static final String CALLBACK_DATA_MARK_ORDER_AS_DONE = "/order_done";
     public static final String MINUS_ONE = "-1";
     public static final String PlUS_ONE = "+1";
-    public static final InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
 
     private static InlineKeyboardButton createButton(String text, String callbackData) {
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
@@ -57,11 +55,11 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton plusBoxSizeButton(BoxSize size) {
-        return createButton(size.name() + " (" + size.getCapacity() + " макарон) " + PlUS_ONE, CALLBACK_DATA_BOX_SIZE + " " + size.name() + " " + PlUS_ONE);
+        return createButton(size.name() + " (" + size.getCapacity() + " макарон) " + PlUS_ONE, ADD_BOX.getCallbackData() + " " + size.name() + " " + PlUS_ONE);
     }
 
     public static InlineKeyboardButton minusBoxSizeButton(BoxSize size) {
-        return createButton(MINUS_ONE, CALLBACK_DATA_BOX_SIZE + " " + size.name() + " " + MINUS_ONE);
+        return createButton(MINUS_ONE, ADD_BOX.getCallbackData() + " " + size.name() + " " + MINUS_ONE);
     }
 
     public static List<List<InlineKeyboardButton>> boxSizeButtons() {
@@ -71,41 +69,41 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton priceButton() {
-        return createButton("\uD83D\uDCB0 Бокси і ціни", CALLBACK_DATA_PRICE);
+        return createButton("\uD83D\uDCB0 Бокси і ціни", PRICE.getCallbackData());
     }
 
     public static InlineKeyboardButton flavorsButton() {
-        return createButton("\uD83D\uDE0B Смаки в наявності", CALLBACK_DATA_FLAVOR);
+        return createButton("\uD83D\uDE0B Смаки в наявності", FLAVOR.getCallbackData());
     }
 
     public static InlineKeyboardButton chooseBoxButton() {
-        return createButton("\uD83D\uDECD Замовити бокс", CALLBACK_DATA_CHOOSE_BOX);
+        return createButton("\uD83D\uDECD Замовити бокс", CHOOSE_BOX.getCallbackData());
     }
 
     public static InlineKeyboardButton humanSupportButton() {
-        InlineKeyboardButton button = createButton("\uD83E\uDDD1\u200D\uD83D\uDCBB Написати повідомлення менеджеру", CALLBACK_DATA_MESSAGE);
+        InlineKeyboardButton button = createButton("\uD83E\uDDD1\u200D\uD83D\uDCBB Написати повідомлення менеджеру", HUMAN_SUPPORT.getCallbackData());
         button.setUrl(HUMAN_SUPPORT_URL);
         return button;
     }
 
     public static InlineKeyboardButton deliveryButton() {
-        return createButton("\uD83D\uDE80 Способи доставки", CALLBACK_DATA_DELIVERY);
+        return createButton("\uD83D\uDE80 Способи доставки", DELIVERY.getCallbackData());
     }
 
     public static InlineKeyboardButton addMoreButton() {
-        return createButton("\uD83C\uDF81 Додати бокси", CALLBACK_DATA_ADD_MORE_BOXES);
+        return createButton("\uD83C\uDF81 Додати бокси", ADD_MORE_BOXES.getCallbackData());
     }
 
     public static InlineKeyboardButton chooseFlavorsButton() {
-        return createButton("\uD83C\uDF53\uD83C\uDF70\uD83C\uDF78 Додати смаки", CALLBACK_DATA_CHOOSE_FLAVORS);
+        return createButton("\uD83C\uDF53\uD83C\uDF70\uD83C\uDF78 Додати смаки", CHOOSE_FLAVORS.getCallbackData());
     }
 
     public static InlineKeyboardButton chooseFlavorsLongButton() {
-        return createButton("\uD83C\uDF53\uD83C\uDF70\uD83C\uDF78 Додати смаки до пустих боксів", CALLBACK_DATA_CHOOSE_FLAVORS);
+        return createButton("\uD83C\uDF53\uD83C\uDF70\uD83C\uDF78 Додати смаки до пустих боксів", CHOOSE_FLAVORS.getCallbackData());
     }
 
     public static InlineKeyboardButton showCartButton() {
-        return createButton("\uD83D\uDED2 Відобразити кошик", CALLBACK_DATA_SHOW_CART);
+        return createButton("\uD83D\uDED2 Відобразити кошик", SHOW_CART.getCallbackData());
     }
 
     public static InlineKeyboardButton flavorIdButton(String name, Long id, String callBack) {
@@ -113,35 +111,35 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton minusFlavorIdButton(Long id) {
-        return createButton(MINUS_ONE, CALLBACK_DATA_FLAVOR_ID + " " + id + " " + MINUS_ONE);
+        return createButton(MINUS_ONE, FLAVOR_ID.getCallbackData() + " " + id + " " + MINUS_ONE);
     }
 
     public static InlineKeyboardButton plusFlavorIdButton(Long id, String name) {
-        return createButton(name + " " + PlUS_ONE, CALLBACK_DATA_FLAVOR_ID + " " + id + " " + PlUS_ONE);
+        return createButton(name + " " + PlUS_ONE, FLAVOR_ID.getCallbackData() + " " + id + " " + PlUS_ONE);
     }
 
     public static InlineKeyboardButton mixFlavorButton() {
-        return createButton("Зберіть мені мікс.", CALLBACK_DATA_MIX_FLAVOR);
+        return createButton("Зберіть мені мікс.", MIX_FLAVOR.getCallbackData());
     }
 
     public static InlineKeyboardButton mixFlavorForAllButton() {
-        return createButton("Для всіх пустих боксів зробіть мікс смаків", CALLBACK_DATA_MIX_FLAVOR_FOR_REST);
+        return createButton("Для всіх пустих боксів зробіть мікс смаків", MIX_FLAVOR_FOR_REST.getCallbackData());
     }
 
     public static InlineKeyboardButton nextBoxButton() {
-        return createButton("Перейти до заповнення наступного боксу", CALLBACK_DATA_CHOOSE_FLAVORS);
+        return createButton("Перейти до заповнення наступного боксу", CHOOSE_FLAVORS.getCallbackData());
     }
 
     public static InlineKeyboardButton chooseDeliveryButton() {
-        return createButton("\uD83D\uDE80 Вибрати спосіб доставки", CALLBACK_DATA_CHOOSE_DELIVERY);
+        return createButton("\uD83D\uDE80 Вибрати спосіб доставки", CHOOSE_DELIVERY.getCallbackData());
     }
 
     public static InlineKeyboardButton selfPickupButton() {
-        return createButton("Самовивіз", CALLBACK_DATA_SELF_PICKUP);
+        return createButton("Самовивіз", SELF_PICKUP.getCallbackData());
     }
 
     public static InlineKeyboardButton courierButton() {
-        return createButton("Доставка кур'єром", CALLBACK_DATA_COURIER);
+        return createButton("Доставка кур'єром", COURIER.getCallbackData());
     }
 
     public static KeyboardButton requestContactButton() {
@@ -152,19 +150,19 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton commentButton() {
-        return createButton("\uD83D\uDDD2 Додати коментар до замовлення", CALLBACK_DATA_WAITING_FOR_COMMENT);
+        return createButton("\uD83D\uDDD2 Додати коментар до замовлення", WAITING_FOR_COMMENT.getCallbackData());
     }
 
     public static InlineKeyboardButton completeCartButton() {
-        return createButton("✅ Підтвердити замовлення", CALLBACK_DATA_COMPLETE_CART);
+        return createButton("✅ Підтвердити замовлення", COMPLETE_CART.getCallbackData());
     }
 
     public static InlineKeyboardButton refreshCartButton() {
-        return createButton("\uD83D\uDDD1 Очистити кошик", CALLBACK_DATA_REFRESH);
+        return createButton("\uD83D\uDDD1 Очистити кошик", REFRESH.getCallbackData());
     }
 
     public static InlineKeyboardButton promoCodeButton() {
-        return createButton("\uD83E\uDD11 Застосувати промокод", CALLBACK_DATA_PROMO_CODE);
+        return createButton("\uD83E\uDD11 Застосувати промокод", WAITING_FOR_PROMO_CODE.getCallbackData());
     }
 
     public static List<List<InlineKeyboardButton>> adminMainMenuButtons() {
@@ -177,39 +175,39 @@ public class Buttons {
     }
 
     public static InlineKeyboardButton showActiveOrdersButton() {
-        return createButton("Активні замовлення", CALLBACK_DATA_ACTIVE_ORDERS);
+        return createButton("Активні замовлення", SHOW_ACTIVE_ORDERS.getCallbackData());
     }
 
     public static InlineKeyboardButton changePriceButton() {
-        return createButton("Редагувати ціни", CALLBACK_DATA_CHANGE_PRICE);
+        return createButton("Редагувати ціни", CHANGE_PRICE_MENU.getCallbackData());
     }
 
     public static InlineKeyboardButton changePriceIdButton(String message, Long id) {
-        return createButton(message, CALLBACK_DATA_CHANGE_PRICE_ID + " " + id);
+        return createButton(message, WAITING_FOR_PRICE.getCallbackData() + " " + id);
     }
 
     public static InlineKeyboardButton changeFlavorButton() {
-        return createButton("Редагувати cмаки", CALLBACK_DATA_CHANGE_FLAVORS);
+        return createButton("Редагувати cмаки", CHANGE_FLAVORS.getCallbackData());
     }
 
     public static InlineKeyboardButton addFlavorButton() {
-        return createButton("Додати cмак", CALLBACK_DATA_ADD_FLAVOR);
+        return createButton("Додати cмак", WAITING_FOR_NEW_FLAVOR.getCallbackData());
     }
 
     public static InlineKeyboardButton changePromoButton() {
-        return createButton("Редагувати промокоди", CALLBACK_DATA_CHANGE_PROMO);
+        return createButton("Редагувати промокоди", CHANGE_PROMO_MENU.getCallbackData());
     }
 
     public static InlineKeyboardButton addPromoButton() {
-        return createButton("Додати промокод", CALLBACK_DATA_ADD_PROMO);
+        return createButton("Додати промокод", WAITING_FOR_NEW_PROMO.getCallbackData());
     }
 
     public static InlineKeyboardButton userMenuButton() {
-        return createButton("Перейти в меню користувачів", CALLBACK_DATA_USER_MENU);
+        return createButton("Перейти в меню користувачів", CUSTOMER_MENU.getCallbackData());
     }
 
     public static InlineKeyboardButton setOrderAsDoneButton(Long id) {
-        return createButton("Відмітити як виконаний", CALLBACK_DATA_MARK_ORDER_AS_DONE + " " + id);
+        return createButton("Відмітити як виконаний", MARK_ORDER_AS_DONE.getCallbackData() + " " + id);
     }
 
     public static List<List<InlineKeyboardButton>> customerMenuButtons() {
@@ -255,7 +253,7 @@ public class Buttons {
 
             for (int j = 0; j < 3 && flavorIndex < flavors.size(); j++, flavorIndex++) {
                 Flavor flavor = flavors.get(flavorIndex);
-                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId(), CALLBACK_DATA_CHANGE_FLAVOR_ID));
+                buttonRow.add(flavorIdButton(flavor.getName(), flavor.getId(), CHANGE_FLAVOR_ID.getCallbackData()));
             }
 
             buttons.add(buttonRow);
